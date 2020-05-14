@@ -4,6 +4,7 @@
 {% block body %}
 {% set difference = date("now").diff(date(stagiaire.birth)) %}
 <div class="stagiaire">
+    <a href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
     <h1><i class="fas fa-user"></i> Fiche stagiaire</h1>
     <h2>{{stagiaire.prenom}} {{stagiaire.nom}}</h2>
     {% if stagiaire.sexe == 1 %}

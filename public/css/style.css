@@ -15,6 +15,10 @@
     max-width: 50%;
     margin: auto;
     padding: 1em;
+    margin-top: 3em;
+}
+.stagiaire a{
+    color:white;
 }
 .title_cat{
     background: #aaa;

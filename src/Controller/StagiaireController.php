@@ -34,9 +34,10 @@ class StagiaireController extends AbstractController
             'stagiaire' => $stagiaire,
         ]);
     }
-     /**
-     * @Route("/addStagiaire", name="addStagiaire")
-     */
+    /**
+    * @Route("/updateStagiaire/{id}", name="updateStagiaire")
+    * @Route("/addStagiaire", name="addStagiaire")
+    */
     public function addStagiaire(Request $request,SessionRepository $sessionRep,Stagiaire $stagiaire = null,StagiaireType $form,StagiaireRepository $stagiaireRep)
     {
         if(!$stagiaire){
