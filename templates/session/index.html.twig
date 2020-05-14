@@ -32,5 +32,25 @@
         </tbody>
     </thead>
 </table>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <td colspan="2">
+                <h2>Stagiaires participants</h2>
+            </td>
+        </tr>
+        <th scope="col">Nom</th>
+        <th scope="col">Prenom</th>
+        <tbody>
+            {% for stagiaire in session.stagiaires %}
+            <tr>
+                <td>{{stagiaire.nom}}</td>
+                <td>{{stagiaire.prenom}}</td>
+            </tr>                
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
 <a href="{{path('CreaProgramme',{id:session.id})}}">Créer un programme de formation</a>
+<a href="{{path('addStagiaireSess',{id:session.id})}}">Ajouter un stagiaire</a>
 {% endblock %}

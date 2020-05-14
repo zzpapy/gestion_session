@@ -69,12 +69,14 @@ class AppFixtures extends Fixture
         $prog1 = new Programme();
 
         $progmod1 = $prog1->setModule($mod1);
+        $progmod1 = $prog1->setDuree("2 jours");
         $progsess1 = $prog1->setSession($sess1);
 
         $manager->persist($prog1);
 
         $prog2 = new Programme();
         $progmod2 = $prog2->setModule($mod2);
+        $progmod2 = $prog2->setDuree("1 jour");
         $progsess2 = $prog2->setSession($sess1);
 
         $manager->persist($prog2);

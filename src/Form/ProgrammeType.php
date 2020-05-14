@@ -19,7 +19,7 @@ class ProgrammeType extends AbstractType
             ->add('module', EntityType::class, [
                 'class' =>Module::class,
                 'choice_label' => 'nom',
-                'multiple' =>true,
+                'multiple' =>false,
                 'expanded' =>true,
                 "by_reference" => false
             ])
