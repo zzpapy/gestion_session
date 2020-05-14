@@ -2,9 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Categorie;
 use App\Entity\Module;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ModuleType extends AbstractType
@@ -13,7 +16,14 @@ class ModuleType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('categorie')
+            ->add('categorie', EntityType::class, [
+                'class' =>Categorie::class,
+                'choice_label' => 'nom',
+                'multiple' =>true,
+                'expanded' =>true,
+                "by_reference" => false
+            ])
+            ->add('submit',SubmitType::class)
         ;
     }
 

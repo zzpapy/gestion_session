@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Module;
 use App\Entity\Session;
+use App\Form\ModuleType;
 use App\Entity\Programme;
 use App\Form\SessionType;
 use App\Form\ProgrammeType;
@@ -53,7 +55,7 @@ class SessionController extends AbstractController
     /**
      * @Route("/session/CreaProgramme/{id}", name="CreaProgramme")
      */
-    public function CreaProgramme(Request $request,Programme $programme = null,Session $session, SessionRepository $sessRep)
+    public function CreaProgramme(Request $request,Module $module = null,Programme $programme = null,Session $session, SessionRepository $sessRep)
     {
         $session = $sessRep->findOneBy(["id"=> $session->getId()]);
         $programmes = $session->getProgrammes();
@@ -67,11 +69,22 @@ class SessionController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($programme);
             $stagiare = $em->flush();
-            $this->addFlash('success', 'session ajouté avec succés');
-            return $this->redirectToRoute('home');
+        }
+        if(!$module){
+            $module = new Module();
+        }
+        $formModule = $this->createForm(ModuleType::class, $module);
+        
+        $formModule->handleRequest($request);
+        if($formModule->isSubmitted() && $formModule->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($module);
+            $stagiare = $em->flush();
         }
         return $this->render('session/CreaProgramme.html.twig', [
             'session' => $session,
+            'formProgramme' => $formProgramme->createView(),
+            'formModule' => $formModule->createView()
         ]);
     }
 }
