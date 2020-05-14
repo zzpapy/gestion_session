@@ -22,7 +22,7 @@ class SessionController extends AbstractController
             $session = new session();
         }
         $form = $this->createForm(SessionType::class, $session);
-        // dump($form->handleRequest($request));die;
+        
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
@@ -41,28 +41,37 @@ class SessionController extends AbstractController
     /**
      * @Route("/session/{id}", name="programme")
      */
-    public function index(Programme $programme = null,Request $request,Session $session, SessionRepository $sessRep)
+    public function index(Session $session, SessionRepository $sessRep)
+    {
+        $session = $sessRep->findOneBy(["id"=> $session->getId()]);
+        $programmes = $session->getProgrammes();
+        // dump($programmes);die;
+        return $this->render('session/index.html.twig', [
+            'session' => $session,
+        ]);
+    }
+    /**
+     * @Route("/session/CreaProgramme/{id}", name="CreaProgramme")
+     */
+    public function CreaProgramme(Request $request,Programme $programme = null,Session $session, SessionRepository $sessRep)
     {
         $session = $sessRep->findOneBy(["id"=> $session->getId()]);
         $programmes = $session->getProgrammes();
         if(!$programme){
             $programme = new programme();
         }
-        $form = $this->createForm(ProgrammeType::class, $programme);
-        // dump($form->handleRequest($request));die;
-        $form->handleRequest($request);
-        $programme->setSession($session);
-        if($form->isSubmitted() && $form->isValid()){
+        $formProgramme = $this->createForm(ProgrammeType::class, $programme);
+        
+        $formProgramme->handleRequest($request);
+        if($formProgramme->isSubmitted() && $formProgramme->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($programme);
             $stagiare = $em->flush();
-            $this->addFlash('success', 'programme ajouté avec succés');
-            return $this->redirectToRoute('home');            
+            $this->addFlash('success', 'session ajouté avec succés');
+            return $this->redirectToRoute('home');
         }
-        // dump($programmes);die;
-        return $this->render('session/index.html.twig', [
+        return $this->render('session/CreaProgramme.html.twig', [
             'session' => $session,
-            'form' => $form->createView()
         ]);
     }
 }
