@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StagiaireController!{% endblock %}
+
+{% block body %}
+<table class="table">
+    <thead>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Détail</th>
+        <tbody>
+            {% for stagiaire in stagiaires %}
+                <tr>
+                    <td>{{stagiaire.nom}}</td>
+                    <td>{{stagiaire.prenom}}</td>
+                    <td><a href="{{path('detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
+<a href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
+{% endblock %}

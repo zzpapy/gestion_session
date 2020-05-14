@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SessionController!{% endblock %}
+
+{% block body %}
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <td colspan="2">
+                <h1>{{session.nom}}</h1>
+            </td>
+        </tr>
+        <th scope="col">Module</th>
+        <th scope="col">Duree</th>
+        {% set catNom = "" %}
+        <tbody>
+            {% for programme in session.programmes %}
+            {# {% set catNom = programme.module.categorie.nom %} #}
+            {% if catNom != programme.module.categorie.nom %}
+            {% set catNom = programme.module.categorie.nom %}
+                <tr class="title_cat">
+                    <td colspan="2">
+                        {{programme.module.categorie.nom}}
+                    </td>
+                </tr>                
+            {% endif %}
+            <tr>
+                <td>{{programme.module.nom}}</td>
+                <td>{{programme.duree}}</td>
+            </tr>                
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
+{{form(form)}}
+{% endblock %}

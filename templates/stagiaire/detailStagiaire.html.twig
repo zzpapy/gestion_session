@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StagiaireController!{% endblock %}
+
+{% block body %}
+<div class="stagiaire">
+    <h1><i class="fas fa-user"></i> Fiche stagiaire</h1>
+    <h2>{{stagiaire.prenom}} {{stagiaire.nom}}</h2>
+    {% if stagiaire.sexe == 1 %}
+        {% set sexe = "M"  %}
+    {% else %}
+        {% set sexe = "F" %}
+    {% endif %}
+    <p>sexe : {{sexe}}</p>
+    <p>Date de naissance : {{stagiaire.birth | date("d/m/Y")}}</p>
+    <p>ville : {{stagiaire.ville}}</p>
+    <p>courriel : {{stagiaire.email}}</p>
+    <p>Téléphone : {{stagiaire.phone}}</p>
+    <h2>Session prévues</h2>
+    <ul>
+        {% for session in stagiaire.sessions %}
+        <li>
+            
+            <td><a href="{{path('programme',{id:session.id})}}">{{session.nom}}</i></a></td>
+        </li>
+            
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

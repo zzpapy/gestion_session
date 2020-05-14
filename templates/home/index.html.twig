@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <h1></h1><td colspan="7">liste des sessions</td></tr></h1>
+        </tr>
+        <th scope="col">Intitulé session</th>
+        <th scope="col">Date de début</th>
+        <th scope="col">Date de fin</th>
+        <th scope="col">Nb places</th>
+        <th scope="col">Nb places réservées</th>
+        <th scope="col">places restantes</th>
+        <th scope="col">Détail programme</th>
+    </thead>
+    <tbody>
+    {% for session in sessions %}
+        <tr>
+            <td>{{session.nom}}</td>
+            <td>{{session.dateDebut | date("d/m/Y")}}</td>
+            <td>{{session.dateFin | date("d/m/Y")}}</td>
+            <td>{{session.nbPlaces}}</td>
+            <td>{{session.reserves}}</td>
+            <td>{{session.nbPlaces - session.reserves}}</td>
+            <td><a href="{{path('programme',{id:session.id})}}"><i class="fas fa-clipboard"></i></a></td>   
+        </tr>
+        {% endfor %}
+    </tbody>       
+</table>
+<a href="{{path('createSession')}}">Créer une session</a>
+{% endblock %}
