@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello StagiaireController!{% endblock %}
-
+{% block nav %}
+{{parent()}}
+<a href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
+{% endblock %}
 {% block body %}
 <table class="table">
     <thead>
@@ -19,5 +22,5 @@
         </tbody>
     </thead>
 </table>
-<a href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
+
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Entity\Stagiaire;
 use App\Form\StagiaireType;
+use App\Form\AddStagiaireType;
 use App\Repository\SessionRepository;
 use App\Repository\StagiaireRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,12 +60,27 @@ class StagiaireController extends AbstractController
     /**
      * @Route("/addStagiaireSess/{id}", name="addStagiaireSess")
      */
-    public function addStagiaireSess(Session $session,SessionRepository $sessionRep,StagiaireRepository $stagiaireRep)
+    public function addStagiaireSess(Request $request,Stagiaire $stagiaire = null,Session $session,SessionRepository $sessionRep,StagiaireRepository $stagiaireRep)
     {
         $stagiaires = $stagiaireRep->findAll();
-        dump($stagiaires);die;
+        // if(!$stagiaire){
+        //     $stagiaire = new Stagiaire();
+        // }
+        $form = $this->createForm(AddStagiaireType::class,$session);
+        $sessionId = $session->getId();
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            
+            // $session->addStagiaire($stagiaire);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($session);
+            $em->flush();
+
+            return $this->redirectToRoute('programme',["id" => $session->getId()]);
+            
+        }
         return $this->render('session/addStagiaireSess.html.twig', [
-            'stagiaires' => $stagiaires,
+            'form' => $form->createView(),
         ]);
     }
 }

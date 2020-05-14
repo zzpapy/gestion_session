@@ -48,6 +48,8 @@ class SessionController extends AbstractController
     public function index(Session $session, SessionRepository $sessRep)
     {
         $session = $sessRep->findOneBy(["id"=> $session->getId()]);
+        
+        // dump($session->getStagiaires());die;
         $programmes = $session->getProgrammes();
         // dump($programmes);die;
         return $this->render('session/index.html.twig', [

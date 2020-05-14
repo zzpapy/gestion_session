@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello HomeController!{% endblock %}
-
+{% block nav %}
+    {{parent()}}
+    <a href="{{path('createSession')}}">Créer une session</a>
+{% endblock %}
 {% block body %}
 <table class="table">
     <thead class="thead-light">
@@ -30,5 +33,5 @@
         {% endfor %}
     </tbody>       
 </table>
-<a href="{{path('createSession')}}">Créer une session</a>
+
 {% endblock %}
