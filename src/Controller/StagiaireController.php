@@ -41,7 +41,7 @@ class StagiaireController extends AbstractController
     public function addStagiaire(Request $request,SessionRepository $sessionRep,Stagiaire $stagiaire = null,StagiaireType $form,StagiaireRepository $stagiaireRep)
     {
         if(!$stagiaire){
-            $stagiaire = new Stagiaire();
+            $stagiaire = new Stagiaire(); 
         }
         $form = $this->createForm(StagiaireType::class, $stagiaire);
         

@@ -16,10 +16,10 @@ class HomeController extends AbstractController
         $sessions = $session->findAll();
         foreach ($sessions as  $session) {
             foreach ($session->getStagiaires() as  $stagiaire) {
-                dump($stagiaire);
+                // dump($stagiaire);
             }
         }
-        // die;
+        // dump(count($session->getStagiaires()));die;
         return $this->render('home/index.html.twig', [
             'sessions' => $sessions,
         ]);

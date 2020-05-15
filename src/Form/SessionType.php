@@ -27,7 +27,7 @@ class SessionType extends AbstractType
                 "data" => new \DateTime()
             ])
             ->add('nb_places')
-            ->add('reserves')
+            // ->add('reserves')
             // ->add('stagiaires')
             ->add('stagiaires', EntityType::class, [
                 'class' =>Stagiaire::class,

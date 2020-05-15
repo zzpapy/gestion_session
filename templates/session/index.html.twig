@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SessionController!{% endblock %}
+{% block title %}Détail session{% endblock %}
 {% block nav %}
 {{parent()}}
 <a href="{{path('CreaProgramme',{id:session.id})}}">Créer un programme de formation</a>
-<a href="{{path('addStagiaireSess',{id:session.id})}}">Ajouter un stagiaire</a>
 {% endblock %}
 {% block body %}
 <table class="table">
     <thead class="thead-light">
         <tr>
             <td colspan="2">
-                <h1>{{session.nom}}</h1>
+                <h1>{{session.nom}}</h1><span>nb places : {{session.nbPlaces}} - places restantes : {{session.nbPlaces - session.stagiaires | length}} </span>
             </td>
         </tr>
         <th scope="col">Module</th>
         <th scope="col">Duree</th>
+        <th scope="col">Modifier</th>
         {% set catNom = "" %}
         <tbody>
             {% for programme in session.programmes %}
@@ -23,7 +23,7 @@
             {% if catNom != programme.module.categorie.nom %}
             {% set catNom = programme.module.categorie.nom %}
                 <tr class="title_cat">
-                    <td colspan="2">
+                    <td colspan="3">
                         {{programme.module.categorie.nom}}
                     </td>
                 </tr>                
@@ -31,6 +31,7 @@
             <tr>
                 <td>{{programme.module.nom}}</td>
                 <td>{{programme.duree}}</td>
+                <td><a href="{{path('ModifProgramme',{id:programme.id})}}"><i class="far fa-edit"></i></a></td>
             </tr>                
             {% endfor %}
         </tbody>
@@ -40,7 +41,12 @@
     <thead class="thead-light">
         <tr>
             <td colspan="2">
-                <h2>Stagiaires participants</h2>
+                <h2>Stagiaires participants </h2><span>
+                {% if session.nbPlaces - session.stagiaires | length > 0 %}
+                <a href="{{path('addStagiaireSess',{id:session.id})}}">Ajouter un stagiaire</a></span> 
+                {% else %}
+                <a href="{{path('addStagiaireSess',{id:session.id})}}">Supprimer un stagiaire</a></span>             
+                {% endif %}
             </td>
         </tr>
         <th scope="col">Nom</th>

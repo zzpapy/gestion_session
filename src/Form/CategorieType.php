@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
 class CategorieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -22,6 +23,7 @@ class CategorieType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Categorie::class,
+            
         ]);
     }
 }

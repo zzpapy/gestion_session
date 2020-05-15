@@ -49,10 +49,7 @@ class Session
      */
     private $programmes;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $reserves;
+   
 
     public function __construct()
     {
@@ -172,15 +169,5 @@ class Session
         return $this;
     }
 
-    public function getReserves(): ?float
-    {
-        return $this->reserves;
-    }
-
-    public function setReserves(float $reserves): self
-    {
-        $this->reserves = $reserves;
-
-        return $this;
-    }
+    
 }
