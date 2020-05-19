@@ -6,21 +6,21 @@
 
 {% endblock %}
 {% block body %}
+<div class="flex">
+    <div>
+        <div colspan="2">
+            <h1>{{session.nom}}</h1><span>nb places : {{session.nbPlaces}} - places restantes : {{session.nbPlaces - session.stagiaires | length}} </span>
+            {% if session.programmes | length == 0 %}
+            <a href="{{path('CreaProgramme',{id:session.id})}}">Créer un programme de formation</a>
+            {% else %}
+            <a href="{{path('CreaProgramme',{id:session.id})}}">Ajouter un module</a>
+            {% endif %}
+        </div>
 <table class="table">
     <thead class="thead-light">
-        <tr>
-            <td colspan="2">
-                <h1>{{session.nom}}</h1><span>nb places : {{session.nbPlaces}} - places restantes : {{session.nbPlaces - session.stagiaires | length}} </span>
-                {% if session.programmes | length == 0 %}
-                <a href="{{path('CreaProgramme',{id:session.id})}}">Créer un programme de formation</a>
-                {% else %}
-                <a href="{{path('CreaProgramme',{id:session.id})}}">Ajouter un module</a>
-                {% endif %}
-            </td>
-        </tr>
         <th scope="col">Module</th>
         <th scope="col">Duree</th>
-        <th scope="col">Modifier</th>
+        <th scope="col"></th>
         {% set catNom = "" %}
         <tbody>
             {% for programme in session.programmes %}
@@ -36,35 +36,37 @@
             <tr>
                 <td>{{programme.module.nom}}</td>
                 <td>{{programme.duree}}</td>
-                <td><a href="{{path('ModifProgramme',{id:programme.id})}}"><i class="far fa-edit"></i></a></td>
+                <td><a href="{{path('programme_delete',{id:programme.id,id_session:session.id})}}"><i class="far fa-trash-alt"></i></a></td>
             </tr>                
             {% endfor %}
         </tbody>
     </thead>
 </table>
+</div>
+<div>
+    <div colspan="2">
+        <h2>Stagiaires participants </h2><span>
+        {% if session.nbPlaces - session.stagiaires | length > 0 %}
+        <a href="{{path('addStagiaireSess',{id:session.id})}}">Ajouter/supprimer un stagiaire</a></span> 
+        {% else %}
+        <a href="{{path('addStagiaireSess',{id:session.id})}}">Supprimer un stagiaire</a></span>             
+        {% endif %}
+    </div>
 <table class="table">
     <thead class="thead-light">
-        <tr>
-            <td colspan="2">
-                <h2>Stagiaires participants </h2><span>
-                {% if session.nbPlaces - session.stagiaires | length > 0 %}
-                <a href="{{path('addStagiaireSess',{id:session.id})}}">Ajouter un stagiaire</a></span> 
-                {% else %}
-                <a href="{{path('addStagiaireSess',{id:session.id})}}">Supprimer un stagiaire</a></span>             
-                {% endif %}
-            </td>
-        </tr>
         <th scope="col">Nom</th>
         <th scope="col">Prenom</th>
         <tbody>
             {% for stagiaire in session.stagiaires %}
             <tr>
-                <td>{{stagiaire.nom}}</td>
-                <td>{{stagiaire.prenom}}</td>
+                <td>{{stagiaire.nom|capitalize}}</td>
+                <td>{{stagiaire.prenom|capitalize}}</td>
+                <td><a href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a></td>
             </tr>                
             {% endfor %}
         </tbody>
     </thead>
 </table>
-
+</div>
+</div>
 {% endblock %}

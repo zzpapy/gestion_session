@@ -59,7 +59,6 @@ class AppFixtures extends Fixture
         $debSess1 = $sess1->setDateDebut(new \DateTime("01/01/2020"));
         $finSess1 = $sess1->setDateFin(new \DateTime("01/03/2020"));
         $places1 = $sess1->setNbPlaces(12);
-        $reseve1 = $sess1->setReserves(8);
 
         $user1->addSession($sess1);
         $user2->addSession($sess1);

@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Liste des sessions{% endblock %}
 {% block nav %}
     {{parent()}}
-    <a href="{{path('createSession')}}">Créer une session</a>
+    
 {% endblock %}
 {% block body %}
 <table class="table">
     <thead class="thead-light">
         <tr>
-            <h1></h1><td colspan="7">liste des sessions</td></tr></h1>
+            <td colspan="7">liste des sessions - <a href="{{path('createSession')}}">Créer une session</a></td>
         </tr>
         <th scope="col">Intitulé session</th>
         <th scope="col">Date de début</th>
@@ -17,8 +17,9 @@
         <th scope="col">Nb places</th>
         <th scope="col">Nb places réservées</th>
         <th scope="col">places restantes</th>
-        <th scope="col">Détail programme</th>
-        <th scope="col">Modifier</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th></th>
     </thead>
     <tbody>
     {% for session in sessions %}
@@ -30,7 +31,8 @@
             <td>{{session.stagiaires | length}}</td>
             <td>{{session.nbPlaces - session.stagiaires | length}}</td>
             <td><a href="{{path('programme',{id:session.id})}}"><i class="fas fa-clipboard"></i></a></td>
-            <td><a href="{{path('ModifSession',{id:session.id})}}"><i class="far fa-edit"></i></a></td>   
+            <td><a href="{{path('ModifSession',{id:session.id})}}"><i class="far fa-edit"></i></a></td>
+            <td><a href="{{path('session_delete',{id:session.id})}}"><i class="far fa-trash-alt"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>       

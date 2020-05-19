@@ -26,8 +26,10 @@ class Module
 
     /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="modules")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
+     * cascade={"persist"}
      */
+   
     private $categorie;
 
     /**
@@ -98,5 +100,10 @@ class Module
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getCategorie()->getNom();
     }
 }

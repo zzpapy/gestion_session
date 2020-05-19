@@ -1,13 +1,17 @@
 *{
     box-sizing: border-box;
+}.flex{
+    display: flex;
+    justify-content: space-around;
 }
 .wrapper{
     max-width: 75%;
     margin: auto;
 }
 .table{
-    max-width: 75%;
+    /* max-width: 75%; */
     margin: auto;
+    margin-top: 3em;
 }
 .stagiaire{
     background: blue;

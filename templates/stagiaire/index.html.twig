@@ -16,7 +16,7 @@
                 <tr>
                     <td>{{stagiaire.nom}}</td>
                     <td>{{stagiaire.prenom}}</td>
-                    <td><a href="{{path('detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a></td>
+                    <td><a href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a></td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -25,7 +25,7 @@ class Programme
 
     /**
      * @ORM\ManyToOne(targetEntity=Session::class, inversedBy="programmes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $session;
 

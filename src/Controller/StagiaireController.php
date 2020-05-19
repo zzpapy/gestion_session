@@ -25,10 +25,11 @@ class StagiaireController extends AbstractController
         ]);
     }
     /**
-     * @Route("/detailStagiaire/{id}", name="detailStagiaire")
+     * @Route("/stagiaire/detailStagiaire/{id}", name="/stagiaire/detailStagiaire")
      */
     public function detailStagiaire(Stagiaire $stagiaire,StagiaireRepository $stagiaireRep)
     {
+        // dump($stagiaire);die;
         $stagiaires = $stagiaireRep->findAll();
         return $this->render('stagiaire/detailStagiaire.html.twig', [
             'stagiaire' => $stagiaire,
