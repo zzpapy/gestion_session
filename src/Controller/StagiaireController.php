@@ -47,12 +47,13 @@ class StagiaireController extends AbstractController
         $form = $this->createForm(StagiaireType::class, $stagiaire);
         
         $form->handleRequest($request);
+        // dump($form["photo"]);die;
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($stagiaire);
             $stagiare = $em->flush();
             $this->addFlash('success', 'stagiaire ajouté avec succés');
-            return $this->redirectToRoute('detailStagiaire',array("id" => $stagiaire->getId()));
+            return $this->redirectToRoute('/stagiaire/detailStagiaire',array("id" => $stagiaire->getId()));
             
         }
         return $this->render('stagiaire/addStagiaire.html.twig', [

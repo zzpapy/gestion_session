@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StagiaireController!{% endblock %}
+{% block title %}Détail stagiaire{% endblock %}
 {% block body %}
 {% set difference = date("now").diff(date(stagiaire.birth)) %}
 <div class="stagiaire">
@@ -17,7 +17,7 @@
     <p>ville : {{stagiaire.ville}}</p>
     <p>courriel : {{stagiaire.email}}</p>
     <p>Téléphone : {{stagiaire.phone}}</p>
-    <h2>Session prévues</h2>
+    <h2>Sessions prévues</h2>
     <ul>
         {% for session in stagiaire.sessions %}
         <li>
