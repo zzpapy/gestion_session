@@ -17,6 +17,7 @@ class AddStagiaireType extends AbstractType
         $builder
         ->add('stagiaires', EntityType::class, [
             'class' =>Stagiaire::class,
+            'label' => '',
             'choice_label' => 'nom',
             'multiple' =>true,
             'expanded' =>true,

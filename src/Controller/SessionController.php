@@ -10,6 +10,7 @@ use App\Entity\Programme;
 use App\Form\SessionType;
 use App\Form\CategorieType;
 use App\Form\ProgrammeType;
+use App\Form\AddStagiaireType;
 use Doctrine\ORM\EntityManager;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,15 +51,29 @@ class SessionController extends AbstractController
     /**
      * @Route("/session/{id}", name="programme")
      */
-    public function index(Session $session, SessionRepository $sessRep)
+    public function index(Session $session, SessionRepository $sessRep,Request $request)
     {
         $session = $sessRep->findOneBy(["id"=> $session->getId()]);
         
         // dump($session->getStagiaires());die;
         $programmes = $session->getProgrammes();
+        $form = $this->createForm(AddStagiaireType::class,$session);
+        $sessionId = $session->getId();
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            
+            // $session->addStagiaire($stagiaire);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($session);
+            $em->flush();
+
+            return $this->redirectToRoute('programme',["id" => $session->getId()]);
+            
+        }
         // dump($programmes);die;
         return $this->render('session/index.html.twig', [
             'session' => $session,
+            'form'    => $form->createView()
         ]);
     }
     /**

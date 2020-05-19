@@ -43,19 +43,20 @@
     </thead>
 </table>
 </div>
-<div>
+<div style="flex:1">
     <div colspan="2">
         <h2>Stagiaires participants </h2><span>
-        {% if session.nbPlaces - session.stagiaires | length > 0 %}
+        {# {% if session.nbPlaces - session.stagiaires | length > 0 %}
         <a href="{{path('addStagiaireSess',{id:session.id})}}">Ajouter/supprimer un stagiaire</a></span> 
         {% else %}
         <a href="{{path('addStagiaireSess',{id:session.id})}}">Supprimer un stagiaire</a></span>             
-        {% endif %}
+        {% endif %} #}
     </div>
 <table class="table">
     <thead class="thead-light">
         <th scope="col">Nom</th>
         <th scope="col">Prenom</th>
+        <th width="5%" scope="col">Détail</th>
         <tbody>
             {% for stagiaire in session.stagiaires %}
             <tr>
@@ -68,5 +69,7 @@
     </thead>
 </table>
 </div>
+<p>Ajouter ou supprimer un stagiaire de la formation</p>
+{{form(form)}}
 </div>
 {% endblock %}
