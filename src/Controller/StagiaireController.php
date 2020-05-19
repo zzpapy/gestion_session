@@ -10,7 +10,9 @@ use App\Repository\SessionRepository;
 use App\Repository\StagiaireRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class StagiaireController extends AbstractController
 {
@@ -39,7 +41,7 @@ class StagiaireController extends AbstractController
     * @Route("/updateStagiaire/{id}", name="updateStagiaire")
     * @Route("/addStagiaire", name="addStagiaire")
     */
-    public function addStagiaire(Request $request,SessionRepository $sessionRep,Stagiaire $stagiaire = null,StagiaireType $form,StagiaireRepository $stagiaireRep)
+    public function addStagiaire(Request $request,SessionRepository $sessionRep,Stagiaire $stagiaire = null,StagiaireType $form,StagiaireRepository $stagiaireRep,SluggerInterface $slugger)
     {
         if(!$stagiaire){
             $stagiaire = new Stagiaire(); 
@@ -47,8 +49,30 @@ class StagiaireController extends AbstractController
         $form = $this->createForm(StagiaireType::class, $stagiaire);
         
         $form->handleRequest($request);
-        // dump($form["photo"]);die;
         if($form->isSubmitted() && $form->isValid()){
+            
+            $photo = $form->get('photo')->getData();
+            if ($photo) {
+                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photo->move(
+                        $this->getParameter('img'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'photoname' property to store the PDF file name
+                // instead of its contents
+                $stagiaire->setPhoto($newFilename);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($stagiaire);
             $stagiare = $em->flush();
