@@ -3,9 +3,9 @@
 {% block title %}Détail stagiaire{% endblock %}
 {% block body %}
 {% set difference = date("now").diff(date(stagiaire.birth)) %}
-<div class="stagiaire">
+<div class="stagiaire mt-3 w-50">
     <a href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
-    <h1><span class="avatar">
+    <h1><span class="avatar  mr-5">
         <img src="{{asset('img/'~stagiaire.photo)}}" alt="">
     </span><span>Fiche stagiaire</span></h1>
     <h2>{{stagiaire.prenom}} {{stagiaire.nom}}</h2>

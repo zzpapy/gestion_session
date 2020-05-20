@@ -40,7 +40,7 @@
                                 {% set difference = date("now").diff(date(stagiaire.birth)) %}
                                 <div class="stagiaire">
                                     <a href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
-                                    <h1><span class="avatar">
+                                    <h1><span class="avatar mr-5">
                                         <img src="{{asset('img/'~stagiaire.photo)}}" alt="">
                                     </span><span>Fiche stagiaire</span></h1>
                                     <h2>{{stagiaire.prenom}} {{stagiaire.nom}}</h2>

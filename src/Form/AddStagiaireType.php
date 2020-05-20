@@ -18,7 +18,10 @@ class AddStagiaireType extends AbstractType
         ->add('stagiaires', EntityType::class, [
             'class' =>Stagiaire::class,
             'label' => 'Ajouter ou supprimer un stagiaire de la formation',
-            'choice_label' => 'nom',
+            'choice_label' => function ($choice, $key, $value) {               
+                $nom = $choice->getNom();
+                return ucfirst($nom);
+            },
             'multiple' =>true,
             'expanded' =>true,
             "by_reference" => false

@@ -15,7 +15,7 @@
             {% else %}
              - <a href="{{path('CreaProgramme',{id:session.id})}}">Ajouter un module</a>
             {% endif %}
-            <a href="{{path('trombi',{id:session.id})}}">trombi</a>
+             - <a href="{{path('trombi',{id:session.id})}}">trombi</a>
         </div>
         
         <table class="table">
@@ -70,7 +70,12 @@
                 </tbody>
             </thead>
         </table>
-    {{form(form)}}
+        {{ form_start(form) }}
+            {% for stagiaire in form.stagiaires %}
+                {{ form_row(stagiaire) }}            
+            {% endfor %}
+            {{ form_row(form.submit) }}
+        {{ form_end(form) }}
     </div>
 </div>
 {% endblock %}

@@ -22,7 +22,7 @@ img{
     /* max-width: 50%; */
     margin: auto;
     padding: 1em;
-    margin-top: 3em;
+    /* margin-top: 3em; */
 }
 .stagiaire a{
     color:white;
@@ -52,6 +52,7 @@ img{
 .trombi{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
 }
 .trombiStag{
     width: 25%;

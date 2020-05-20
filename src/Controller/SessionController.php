@@ -64,24 +64,24 @@ class SessionController extends AbstractController
         $sessionId = $session->getId();
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $email = (new TemplatedEmail())
-                ->from('zzpapy666@gmail.com')
-                ->to('gregory.pace@hotmail.fr')
-                ->subject('test mail')
-                ->text('ceci est un test de mail symfony')
-                ->htmlTemplate('home/mail.html.twig', 'r')
-                ->context([
-                    'expiration_date' => new \DateTime('+7 days'),
-                    'username' => 'foo',
-                ]);
-                $email->SMTPOptions = array(
-                    'ssl' => array(
-                        'verify_peer' => false,
-                        'verify_peer_name' => false,
-                        'allow_self_signed' => true
-                    )
-                );
-            $mailer->send($email);
+            // $email = (new TemplatedEmail())
+            //     ->from('zzpapy666@gmail.com')
+            //     ->to('gregory.pace@hotmail.fr')
+            //     ->subject('test mail')
+            //     ->text('ceci est un test de mail symfony')
+            //     ->htmlTemplate('home/mail.html.twig', 'r')
+            //     ->context([
+            //         'expiration_date' => new \DateTime('+7 days'),
+            //         'username' => 'foo',
+            //     ]);
+            //     $email->SMTPOptions = array(
+            //         'ssl' => array(
+            //             'verify_peer' => false,
+            //             'verify_peer_name' => false,
+            //             'allow_self_signed' => true
+            //         )
+            //     );
+            // $mailer->send($email);
             $em = $this->getDoctrine()->getManager();
             $em->persist($session);
             $em->flush();
