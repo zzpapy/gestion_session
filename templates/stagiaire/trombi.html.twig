@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des stagiaires{% endblock %}
+{% block nav %}
+{{parent()}}
+<a href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
+{% endblock %}
+{% block body %}
+
+            {% set photo = "" %}
+            <div class="trombi">
+            {% for stagiaire in stagiaires %} 
+            {% if stagiaire.photo != null %}
+                {% set photo = asset('img/'~stagiaire.photo) %}
+            {% else %}
+                {% set photo = asset('img/avatar.jpg') %}
+            {% endif %}           
+            <div class="trombiStag">
+                <p>{{stagiaire.nom}} {{stagiaire.prenom}}</p>
+                <img src="{{photo}}" alt="">
+            </div>            
+            {% endfor %}
+        </div>
+            
+       
+
+{% endblock %}

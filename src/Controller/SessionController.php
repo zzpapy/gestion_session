@@ -7,19 +7,21 @@ use App\Entity\Session;
 use App\Form\ModuleType;
 use App\Entity\Categorie;
 use App\Entity\Programme;
+use App\Entity\Stagiaire;
 use App\Form\SessionType;
 use App\Form\CategorieType;
 use App\Form\ProgrammeType;
 use App\Form\AddStagiaireType;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Mime\Email;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 class SessionController extends AbstractController
 {
@@ -53,32 +55,33 @@ class SessionController extends AbstractController
     /**
      * @Route("/session/{id}", name="programme")
      */
-    public function index(MailerInterface $mailer, Session $session, SessionRepository $sessRep,Request $request)
+    public function index(Stagiaire $stagiaire = null,MailerInterface $mailer, Session $session, SessionRepository $sessRep,Request $request)
     {
         $session = $sessRep->findOneBy(["id"=> $session->getId()]);
         
-        // $email = (new Email())
-        // ->from('zzpapy666@gmail.com')
-        // ->to('gregory.pace@hotmail.fr')
-        // ->subject('test mail')
-        // ->text('ceci est un test de mail symfony');
-        // $email->SMTPOptions = array(
-        //     'ssl' => array(
-        //         'verify_peer' => false,
-        //         'verify_peer_name' => false,
-        //         'allow_self_signed' => true
-        //     )
-        // );
-
-        // $mailer->send($email);
-        // dump($session->getStagiaires());die;
         $programmes = $session->getProgrammes();
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            
-            // $session->addStagiaire($stagiaire);
+            $email = (new TemplatedEmail())
+                ->from('zzpapy666@gmail.com')
+                ->to('gregory.pace@hotmail.fr')
+                ->subject('test mail')
+                ->text('ceci est un test de mail symfony')
+                ->htmlTemplate('home/mail.html.twig', 'r')
+                ->context([
+                    'expiration_date' => new \DateTime('+7 days'),
+                    'username' => 'foo',
+                ]);
+                $email->SMTPOptions = array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    )
+                );
+            $mailer->send($email);
             $em = $this->getDoctrine()->getManager();
             $em->persist($session);
             $em->flush();

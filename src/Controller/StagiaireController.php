@@ -102,12 +102,24 @@ class StagiaireController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($session);
             $em->flush();
+            
 
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
             
         }
         return $this->render('session/addStagiaireSess.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/stagiaire/trombi/{id}", name="trombi")
+     */
+    public function trombi(Session $session,StagiaireRepository $stagiaireRep)
+    {
+        // dump($session->getStagiaires());die;
+        $stagiaires = $session->getStagiaires();
+        return $this->render('stagiaire/trombi.html.twig', [
+            'stagiaires' => $stagiaires,
         ]);
     }
 }

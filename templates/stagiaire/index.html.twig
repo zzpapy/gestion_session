@@ -13,19 +13,70 @@
         <th>Prénom</th>
         <th>Détail</th>
         <tbody>
+            {% set photo = "" %}
             {% for stagiaire in stagiaires %}
-                <tr>
-                    {% if stagiaire.photo != null %}
-                        {% set photo = asset('img/'~stagiaire.photo) %}
-                    {% else %}
-                        {% set photo = asset('img/avatar.jpg') %}
-                    {% endif %}
-                    <td class="photo"><img src="{{photo}}" alt=""></td>
+                {% if stagiaire.photo != null %}
+                    {% set photo = asset('img/'~stagiaire.photo) %}
+                {% else %}
+                    {% set photo = asset('img/avatar.jpg') %}
+                {% endif %}
+                <tr>                    
+                    <td class="photo">
+                        <button type="button" class="modalButton" data-toggle="modal" data-target="#exampleModalCenter{{stagiaire.id}}">
+                            <img src="{{photo}}" alt="">
+                        </button>
+                        <!-- Modal -->
+                        
+                        <div class="modal fade" id="exampleModalCenter{{stagiaire.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">{{stagiaire.nom}} {{stagiaire.prenom}}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                {% set difference = date("now").diff(date(stagiaire.birth)) %}
+                                <div class="stagiaire">
+                                    <a href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
+                                    <h1><span class="avatar">
+                                        <img src="{{asset('img/'~stagiaire.photo)}}" alt="">
+                                    </span><span>Fiche stagiaire</span></h1>
+                                    <h2>{{stagiaire.prenom}} {{stagiaire.nom}}</h2>
+                                    {% if stagiaire.photo != null %}
+                                         
+                                    {% endif %}
+                                    {% if stagiaire.sexe == 1 %}
+                                        {% set sexe = "M"  %}
+                                    {% else %}
+                                        {% set sexe = "F" %}
+                                    {% endif %}
+                                    <p>sexe : {{sexe}}</p>
+                                    <p>Date de naissance : {{stagiaire.birth | date("d/m/Y")}} ({{difference.y}} ans)</p>
+                                    <p>ville : {{stagiaire.ville}}</p>
+                                    <p>courriel : {{stagiaire.email}}</p>
+                                    <p>Téléphone : {{stagiaire.phone}}</p>
+                                    <h2>Sessions prévues</h2>
+                                    <p>
+                                        {% for session in stagiaire.sessions %}
+                                            <span><a href="{{path('programme',{id:session.id})}}">{{session.nom}}</i></a></span>
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </td>
                     <td>{{stagiaire.nom}}</td>
                     <td>{{stagiaire.prenom}}</td>
                     <td><a href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a></td>
                 </tr>
+                
+                
             {% endfor %}
+            
         </tbody>
     </thead>
 </table>

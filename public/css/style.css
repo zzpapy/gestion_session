@@ -19,7 +19,7 @@ img{
 .stagiaire{
     background: blue;
     color: white;
-    max-width: 50%;
+    /* max-width: 50%; */
     margin: auto;
     padding: 1em;
     margin-top: 3em;
@@ -44,4 +44,15 @@ img{
 }
 .prog div:nth-child(2){
     flex:0;
+}
+.modalButton{
+    border: none;
+    background: transparent;
+}
+.trombi{
+    display: flex;
+    flex-wrap: wrap;
+}
+.trombiStag{
+    width: 25%;
 }
