@@ -1,5 +1,34 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-{{form(form)}}
-    
+{{ form_start(form) }}
+    {{ form_row(form.nom) }} 
+    {{ form_row(form.prenom) }}
+    {{ form_row(form.sexe) }} 
+    {{ form_row(form.birth) }} 
+    {{ form_row(form.ville) }} 
+    {{ form_row(form.email) }} 
+    {{ form_row(form.phone) }} 
+    {{ form_row(form.sessions) }}
+    <div class="prev">
+        <img id="blah" src="" alt="">
+    </div>
+    {{ form_row(form.photo,{ 'attr': {'onchange': 'readURL(this);'} }) }} 
+    {{ form_row(form.submit) }}
+{{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+        function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader()
+  
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result)
+        }
+  
+        reader.readAsDataURL(input.files[0])
+    }
+  }
+    </script>
 {% endblock %}

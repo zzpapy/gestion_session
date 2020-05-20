@@ -122,4 +122,15 @@ class StagiaireController extends AbstractController
             'stagiaires' => $stagiaires,
         ]);
     }
+     /**
+     * @Route("/stagiaire_delete/{id}<\d+>", name="stagiaire_delete", methods={"GET"})
+     */
+    public function deleteSession( Stagiaire $stagiaire)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($stagiaire);
+        $entityManager->flush();        
+       
+        return $this->redirectToRoute('stagiaire');
+    }
 }
