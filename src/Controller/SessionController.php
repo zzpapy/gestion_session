@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class SessionController extends AbstractController
 {
@@ -51,10 +53,24 @@ class SessionController extends AbstractController
     /**
      * @Route("/session/{id}", name="programme")
      */
-    public function index(Session $session, SessionRepository $sessRep,Request $request)
+    public function index(MailerInterface $mailer, Session $session, SessionRepository $sessRep,Request $request)
     {
         $session = $sessRep->findOneBy(["id"=> $session->getId()]);
         
+        // $email = (new Email())
+        // ->from('zzpapy666@gmail.com')
+        // ->to('gregory.pace@hotmail.fr')
+        // ->subject('test mail')
+        // ->text('ceci est un test de mail symfony');
+        // $email->SMTPOptions = array(
+        //     'ssl' => array(
+        //         'verify_peer' => false,
+        //         'verify_peer_name' => false,
+        //         'allow_self_signed' => true
+        //     )
+        // );
+
+        // $mailer->send($email);
         // dump($session->getStagiaires());die;
         $programmes = $session->getProgrammes();
         $form = $this->createForm(AddStagiaireType::class,$session);

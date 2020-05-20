@@ -5,12 +5,12 @@
 {% set difference = date("now").diff(date(stagiaire.birth)) %}
 <div class="stagiaire">
     <a href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
-    <h1><i class="fas fa-user"></i> Fiche stagiaire</h1>
+    <h1><span class="avatar">
+        <img src="{{asset('img/'~stagiaire.photo)}}" alt="">
+    </span><span>Fiche stagiaire</span></h1>
     <h2>{{stagiaire.prenom}} {{stagiaire.nom}}</h2>
     {% if stagiaire.photo != null %}
-    <div class="avatar">
-        <img src="{{asset('img/'~stagiaire.photo)}}" alt="">
-    </div>        
+         
     {% endif %}
     {% if stagiaire.sexe == 1 %}
         {% set sexe = "M"  %}

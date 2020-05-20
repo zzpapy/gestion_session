@@ -8,12 +8,19 @@
 {% block body %}
 <table class="table">
     <thead>
+        <th>Photo</th>
         <th>Nom</th>
         <th>Prénom</th>
         <th>Détail</th>
         <tbody>
             {% for stagiaire in stagiaires %}
                 <tr>
+                    {% if stagiaire.photo != null %}
+                        {% set photo = asset('img/'~stagiaire.photo) %}
+                    {% else %}
+                        {% set photo = asset('img/avatar.jpg') %}
+                    {% endif %}
+                    <td class="photo"><img src="{{photo}}" alt=""></td>
                     <td>{{stagiaire.nom}}</td>
                     <td>{{stagiaire.prenom}}</td>
                     <td><a href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a></td>
