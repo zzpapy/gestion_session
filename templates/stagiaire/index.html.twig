@@ -3,7 +3,7 @@
 {% block title %}Liste des stagiaires{% endblock %}
 {% block nav %}
 {{parent()}}
-<a href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
+<a class="rounded p-3 mb-2 bg-light text-dark"href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
 {% endblock %}
 {% block body %}
 <table class="table">
@@ -21,7 +21,7 @@
                     {% set photo = asset('img/avatar.jpg') %}
                 {% endif %}
                 <tr>                    
-                    <td class="photo">
+                    <td class="align-middle photo">
                         <button type="button" class="modalButton" data-toggle="modal" data-target="#exampleModalCenter{{stagiaire.id}}">
                             <img src="{{photo}}" alt="">
                         </button>
@@ -39,7 +39,7 @@
                               <div class="modal-body">
                                 {% set difference = date("now").diff(date(stagiaire.birth)) %}
                                 <div class="stagiaire">
-                                    <a href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
+                                    <a class="rounded d-inline-block p-3 mt-1 mb-2 bg-light text-dark" href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
                                     <h1><span class="avatar mr-5">
                                         <img src="{{asset('img/'~stagiaire.photo)}}" alt="">
                                     </span><span>Fiche stagiaire</span></h1>
@@ -69,11 +69,11 @@
                           </div>
                         </div>
                     </td>
-                    <td>{{stagiaire.nom|capitalize}}</td>
-                    <td>{{stagiaire.prenom|capitalize}}</td>
-                    <td>
-                        <a href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a>
-                        <a href="{{path('stagiaire_delete',{id:stagiaire.id})}}"><i class="far fa-trash-alt"></i></a>
+                    <td class="align-middle">{{stagiaire.nom|capitalize}}</td>
+                    <td class="align-middle">{{stagiaire.prenom|capitalize}}</td>
+                    <td class="align-middle" width="15%">
+                        <a class="rounded d-inline-block p-3 mt-1 mb-2 bg-light text-dark" href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a>
+                        <a class="rounded d-inline-block p-3 mt-1 mb-2 bg-light text-dark" href="{{path('stagiaire_delete',{id:stagiaire.id})}}"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 

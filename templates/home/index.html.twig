@@ -3,10 +3,10 @@
 {% block title %}Liste des sessions{% endblock %}
 {% block nav %}
     {{parent()}}
-    
+    <a  class="rounded p-3 mb-2 bg-light text-dark" href="{{path('createSession')}}">Créer une session</a>
 {% endblock %}
 {% block body %}
-<table class="table">
+<!-- <table class="table">
     <thead class="thead-light">
         <tr>
             <td colspan="7">liste des sessions - <a href="{{path('createSession')}}">Créer une session</a></td>
@@ -20,22 +20,20 @@
         <th scope="col"></th>
         <th scope="col"></th>
         <th></th>
-    </thead>
-    <tbody>
+    </thead> -->
+    <div class="flex mt-4">
     {% for session in sessions %}
-        <tr>
-            <td>{{session.nom}}</td>
-            <td>{{session.dateDebut | date("d/m/Y")}}</td>
-            <td>{{session.dateFin | date("d/m/Y")}}</td>
-            <td>{{session.nbPlaces}}</td>
-            <td>{{session.stagiaires | length}}</td>
-            <td>{{session.nbPlaces - session.stagiaires | length}}</td>
-            <td><a href="{{path('programme',{id:session.id})}}"><i class="fas fa-clipboard"></i></a></td>
-            <td><a href="{{path('ModifSession',{id:session.id})}}"><i class="far fa-edit"></i></a></td>
-            <td><a href="{{path('session_delete',{id:session.id})}}"><i class="far fa-trash-alt"></i></a></td>
-        </tr>
+        <div class="alert alert-dark">
+            <p><a class="alert-link" href="{{path('programme',{id:session.id})}}"><i class="fas fa-clipboard"></i></a> 
+                - <a class="alert-link" href="{{path('ModifSession',{id:session.id})}}"><i class="far fa-edit"></i></a> 
+                - <a class="alert-link" href="{{path('session_delete',{id:session.id})}}"><i class="far fa-trash-alt"></i></a></p>
+            <p><h4>{{session.nom}}</h4> du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}}</p>
+            <p>Places disponibles : {{session.nbPlaces}}</p>
+            <p>Place réservées : {{session.stagiaires | length}}</p>
+            <p>Places restantes : {{session.nbPlaces - session.stagiaires | length}}</p>
+        </div>
         {% endfor %}
-    </tbody>       
+    </div>       
 </table>
 
 {% endblock %}

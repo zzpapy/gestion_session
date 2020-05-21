@@ -1,14 +1,20 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 {{ form_start(form) }}
-    {{ form_row(form.nom) }} 
-    {{ form_row(form.prenom) }}
-    {{ form_row(form.sexe) }} 
-    {{ form_row(form.birth) }} 
-    {{ form_row(form.ville) }} 
-    {{ form_row(form.email) }} 
-    {{ form_row(form.phone) }} 
-    {{ form_row(form.sessions) }}
+<div class="flex flex_form">
+    <div>
+        {{ form_row(form.nom) }} 
+        {{ form_row(form.prenom) }}
+        {{ form_row(form.sexe) }} 
+        {{ form_row(form.birth) }}
+    </div>
+    <div>
+        {{ form_row(form.ville) }} 
+        {{ form_row(form.email) }} 
+        {{ form_row(form.phone) }} 
+        {{ form_row(form.sessions) }}
+    </div>
+</div>
     <div class="prev">
         <img id="blah" src="" alt="">
     </div>
