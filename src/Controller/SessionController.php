@@ -60,6 +60,16 @@ class SessionController extends AbstractController
         $session = $sessRep->findOneBy(["id"=> $session->getId()]);
         
         $programmes = $session->getProgrammes();
+        $tab=[];
+        foreach ($programmes as $key => $programme) {
+            if(array_key_exists($programme->getModule()->getCategorie()->getNom(),$tab)){
+                array_push($tab[$programme->getModule()->getCategorie()->getNom()],$programme);
+            }
+            else{
+                $tab[$programme->getModule()->getCategorie()->getNom()] = [$programme];
+            }
+        }
+        // dump($tab);die;
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
         $form->handleRequest($request);
@@ -92,6 +102,7 @@ class SessionController extends AbstractController
         // dump($programmes);die;
         return $this->render('session/index.html.twig', [
             'session' => $session,
+            'tab'     => $tab,  
             'form'    => $form->createView()
         ]);
     }

@@ -61,3 +61,14 @@ img{
     width: 100px;
     margin: auto;
 }
+.mg_tab{
+    margin-top: 4.25em;
+    margin-left: 1em;
+}
+.liststag{
+    margin-left: 1em;
+}
+.list_stag{
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

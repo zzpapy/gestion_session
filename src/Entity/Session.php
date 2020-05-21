@@ -140,6 +140,7 @@ class Session
 
     /**
      * @return Collection|Programme[]
+     * 
      */
     public function getProgrammes(): Collection
     {
