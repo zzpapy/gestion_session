@@ -10,14 +10,16 @@
     <div>
         <div colspan="2">
             <h1>{{session.nom}}</h1>
+            {% set difference = session.dateDebut.diff(session.dateFin) %}
             <div class="mt-4">
-                <span >nb places : {{session.nbPlaces}} - places restantes : {{session.nbPlaces - session.stagiaires | length}} </span>
+                <p class="text-center alert alert-dark">Du {{session.dateDebut| date("d/m/Y")}} au {{session.dateFin| date("d/m/Y")}} soit  {{difference.m}} mois et {{difference.d}} jours</p>
+                <span class="alert alert-dark">nb places : {{session.nbPlaces}} - places restantes : {{session.nbPlaces - session.stagiaires | length}} </span>
                 {% if session.programmes | length == 0 %}
-                <a class="rounded ml-4 p-3 mb-2 bg-dark text-white" href="{{path('CreaProgramme',{id:session.id})}}">Créer un programme de formation</a>
+                <a class="rounded ml-4 p-2 mb-2 bg-dark text-white" href="{{path('CreaProgramme',{id:session.id})}}">Créer un programme de formation</a>
                 {% else %}
-                <a class="rounded ml-4 p-3 mb-2 bg-dark text-white" href="{{path('CreaProgramme',{id:session.id})}}">Ajouter un module</a>
+                <a class="rounded ml-4 p-2 mb-2 bg-dark text-white" href="{{path('CreaProgramme',{id:session.id})}}">Ajouter un module</a>
                 {% endif %}
-                <a class="rounded ml-4 p-3 mb-2 bg-dark text-white" href="{{path('trombi',{id:session.id})}}">trombi</a>
+                <a class="rounded ml-4 p-2 mb-2 bg-dark text-white" href="{{path('trombi',{id:session.id})}}">Trombinoscope</a>
             </div>
         </div>
         <table class="table">
@@ -25,23 +27,20 @@
                 <th scope="col">Module</th>
                 <th scope="col">Duree</th>
                 <th scope="col"></th>
-                {% set catNom = "" %}
-                <tbody>
-                    
+                <tbody>                    
                     {% for  key,cat in tab  %}
                     <tr class="title_cat">
                         <td colspan="3">
                             {{key}}
                         </td>
                     </tr>   
-                    {% for programme in cat  %}
-                    <tr>
-                        <td>{{programme.module.nom}}</td>
-                        <td>{{programme.duree}}</td>
-                        <td width="15%"><a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme_delete',{id:programme.id,id_session:session.id})}}"><i class="far fa-trash-alt"></i></a></td>
-                    </tr>
-                        {% endfor %}
-                    
+                        {% for programme in cat  %}
+                        <tr>
+                            <td>{{programme.module.nom}}</td>
+                            <td>{{programme.duree}}</td>
+                            <td width="15%"><a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme_delete',{id:programme.id,id_session:session.id})}}"><i class="far fa-trash-alt"></i></a></td>
+                        </tr>
+                        {% endfor %}                    
                     {% endfor %}
                 </tbody>
             </thead>

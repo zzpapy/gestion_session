@@ -24,7 +24,7 @@ class ProgrammeType extends AbstractType
                 "by_reference" => false
             ])
             
-            ->add('submit',SubmitType::class)
+            // ->add('submit',SubmitType::class)
         ;
     }
 

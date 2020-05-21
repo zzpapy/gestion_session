@@ -14,10 +14,11 @@
     <body>
         <div class="wrapper">
             <header>
-                <nav class="navbar navbar-dark bg-dark" style="background-color: #e3f2fd;">
+                <nav class="navbar navbar-dark bg-dark p-3" style="background-color: #e3f2fd;">
                     {% block nav %}
-                    <a class="p-1 mb-2 bg-light text-dark rounded" href="{{path('home')}}">Liste des sessions</a>
-                    <a class="p-1 mb-2 bg-light text-dark rounded" href="{{path('stagiaire')}}">Liste des stagiaires</a>
+                    <a class="p-1 bg-light text-dark rounded" href="{{path('home')}}">Liste des sessions</a>
+                    <a class="p-1 bg-light text-dark rounded" href="{{path('stagiaire')}}">Liste des stagiaires</a>
+                    <a class="rounded p-1 bg-light text-dark"href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
                     {% endblock %}
                 </nav>
                     
