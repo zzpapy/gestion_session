@@ -2,8 +2,8 @@
 
 {% block title %}Liste des sessions{% endblock %}
 {% block nav %}
-    {{parent()}}
     <a  class="rounded p-1 bg-light text-dark" href="{{path('createSession')}}">Créer une session</a>
+    {{parent()}}
 {% endblock %}
 {% block body %}
 <!-- <table class="table">

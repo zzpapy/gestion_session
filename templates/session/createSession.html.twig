@@ -4,13 +4,19 @@
 
 {% block body %}
 {# {{form(form)}} #}
-{{ form_start(form) }}
+<div class="flex prog">
+    <div>
+        {{ form_start(form) }}
         {{ form_row(form.nom) }}
         {{ form_row(form.date_debut) }}
         {{ form_row(form.date_fin) }}
+    </div>
+    <div>
         {{ form_row(form.nb_places) }}
         {{ form_row(form.stagiaires) }}
+    </div>
+</div>
+<button class="btn btn-primary">créer</button>
+{{ form_end(form) }}
 
-        <button class="btn btn-primary">créer</button>
-    {{ form_end(form) }}
 {% endblock %}

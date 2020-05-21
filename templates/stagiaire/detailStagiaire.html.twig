@@ -3,8 +3,8 @@
 {% block title %}Détail stagiaire{% endblock %}
 {% block body %}
 {% set difference = date("now").diff(date(stagiaire.birth)) %}
-<div class="stagiaire mt-3 w-50">
-    <a href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
+<div class="rounded p-1 bg-light text-dark stagiaire mt-3 w-50">
+    <a class="rounded d-inline-block p-1 mt-1 mb-2 bg-dark text-white" href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
     <h1><span class="avatar  mr-5">
         <img src="{{asset('img/'~stagiaire.photo)}}" alt="">
     </span><span>Fiche stagiaire</span></h1>
@@ -27,7 +27,7 @@
         {% for session in stagiaire.sessions %}
         <li>
             
-            <td><a href="{{path('programme',{id:session.id})}}">{{session.nom}}</i></a></td>
+            <td><a class="text-dark" href="{{path('programme',{id:session.id})}}">{{session.nom}}</i></a></td>
         </li>
             
         {% endfor %}
