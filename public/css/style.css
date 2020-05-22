@@ -56,15 +56,17 @@ body{
     margin-left:0 0.5em;
 }
 #slide{
-    max-width: 75%;
-    position: sticky;
+    max-width: 10%;
+    position: fixed;
+    left: 0;
     margin: auto;
     z-index: 1;
+    top: 0;
     top: 0;
 }
 nav{
     display: flex;
-    
+    height: 100vh;
     justify-content: space-around;
 }
 .flex{
@@ -87,7 +89,7 @@ img{
     background:rgb(220,220,220,0.8);
 }
 .stagiaire{
-    background: blue;
+    background: rgb(220,220,220,0.8) !important;
     color: white;
     /* max-width: 50%; */
     margin: auto;
@@ -108,9 +110,6 @@ img{
     display: inline-block;
     width: 100px;
 }
-.prog{
-    justify-content: space-around;
-}
 .prog div:first-child{
     flex:1;
     max-width: 800px;
@@ -129,9 +128,14 @@ img{
 }
 .trombiStag{
     width: 25%;
+    margin: 0.5em;
+    background:rgb(220,220,220,0.8);
+    padding: 1em;
 }
 .prev{
-    width: 100px;
+    width: 35%;
+    height: 280px;
+    overflow: hidden;
     margin: auto;
 }
 .liststag{
