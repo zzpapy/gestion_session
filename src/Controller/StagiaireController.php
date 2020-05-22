@@ -96,6 +96,7 @@ class StagiaireController extends AbstractController
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
         $form->handleRequest($request);
+        dump($session->getStagiaires());die;
         if($form->isSubmitted() && $form->isValid()){
             
             // $session->addStagiaire($stagiaire);

@@ -70,10 +70,14 @@ class SessionController extends AbstractController
             }
         }
         // dump($tab);die;
+        
+        // dump($session->getNbPlaces() - count($session->getStagiaires()) == 0);die;
+
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            if(count($session->getStagiaires()) >= $session->getNbPlaces()){}
             // $email = (new TemplatedEmail())
             //     ->from('zzpapy666@gmail.com')
             //     ->to('gregory.pace@hotmail.fr')
