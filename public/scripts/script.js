@@ -12,8 +12,12 @@ function readURL(input) {
   $(".modileMenu").on("click",function(e){    
     e.stopPropagation()
     console.log("toto")
-    $( ".slide" ).slideDown( 500 );
+    $("nav").addClass("flex")
+    $( "#slide" ).slideDown( 500 );
 })
-$("nav").on("click",function(){
-    $( ".slide" ).slideUp( 500 );
-})
+var windowWidth = window.innerWidth;
+if(windowWidth<=640){
+    $("nav").on("click",function(){
+        $( "#slide" ).slideUp( 500 );
+    })
+}

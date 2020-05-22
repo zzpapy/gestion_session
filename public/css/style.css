@@ -1,6 +1,14 @@
 *{
     box-sizing: border-box;
 }
+body{
+    background-image: url("../img/back4.jpg");
+    /* height: 500px; */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
 @media screen and (max-width: 640px) {
     .flex {
       flex-direction: column;
@@ -12,19 +20,19 @@
         margin: 0 !important;
         margin-bottom: 0.5em !important;
     }
-    .slide{
+    #slide{
         display: none;
-        position: absolute;
-        left: 0;
+        position: fixed !important;
+        left: 12.5%;
         top: 5em;
         z-index: 2; 
         width: 100%;
     }
-    header nav{
+    nav{
         
         flex-direction: column;
     }
-    header nav a{
+    nav a{
         width: 80%;
         margin-bottom: 1em;
     }
@@ -42,14 +50,27 @@
   }
   .modileMenu {
       display: none;
+      color: white;
   }
+.alert{
+    margin-left:0 0.5em;
+}
+#slide{
+    max-width: 75%;
+    position: sticky;
+    margin: auto;
+    z-index: 1;
+    top: 0;
+}
 nav{
     display: flex;
+    
     justify-content: space-around;
 }
 .flex{
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 img{
     max-width: 100%;
@@ -57,11 +78,13 @@ img{
 .wrapper{
     max-width: 75%;
     margin: auto;
+    
 }
 .table{
     /* max-width: 75%; */
     margin: auto;
     margin-top: 1em;
+    background:rgb(220,220,220,0.8);
 }
 .stagiaire{
     background: blue;

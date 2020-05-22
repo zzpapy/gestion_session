@@ -12,18 +12,18 @@
         {% endblock %}
     </head>
     <body>
+        <div id="slide">
+            <nav class="navbar navbar-dark bg-dark p-3" style="background-color: #e3f2fd;">
+                {% block nav %}
+                <a class="p-1 bg-light text-dark rounded" href="{{path('home')}}">Liste des sessions</a>
+                <a class="p-1 bg-light text-dark rounded" href="{{path('stagiaire')}}">Liste des stagiaires</a>
+                <a class="rounded p-1 bg-light text-dark"href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
+                {% endblock %}
+            </nav>
+        </div>                    
         <div class="wrapper">
             <header>
                 <i class="modileMenu fas fa-bars"></i>
-                <div class="slide">
-                    <nav class="navbar navbar-dark bg-dark p-3" style="background-color: #e3f2fd;">
-                        {% block nav %}
-                        <a class="p-1 bg-light text-dark rounded" href="{{path('home')}}">Liste des sessions</a>
-                        <a class="p-1 bg-light text-dark rounded" href="{{path('stagiaire')}}">Liste des stagiaires</a>
-                        <a class="rounded p-1 bg-light text-dark"href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
-                        {% endblock %}
-                    </nav>
-                </div>                    
             </header>
             {% block body %}{% endblock %}
 
