@@ -1,6 +1,53 @@
 *{
     box-sizing: border-box;
-}.flex{
+}
+@media screen and (max-width: 640px) {
+    .flex {
+      flex-direction: column;
+    }
+    .list_stag{
+        flex-direction: row;
+    }
+    .crea_sess{
+        margin: 0 !important;
+        margin-bottom: 0.5em !important;
+    }
+    .slide{
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 5em;
+        z-index: 2; 
+        width: 100%;
+    }
+    header nav{
+        
+        flex-direction: column;
+    }
+    header nav a{
+        width: 80%;
+        margin-bottom: 1em;
+    }
+    header .modileMenu {
+        display: block;
+        position: fixed;
+        right: 1em;
+        font-size: 2em;
+        z-index: 2;
+    }
+    .stagiaire{
+        width: 100% !important;
+        margin: 0;
+    }
+  }
+  .modileMenu {
+      display: none;
+  }
+nav{
+    display: flex;
+    justify-content: space-around;
+}
+.flex{
     display: flex;
     justify-content: space-between;
 }

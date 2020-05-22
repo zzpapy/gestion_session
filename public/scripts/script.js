@@ -9,3 +9,11 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0])
     }
   }
+  $(".modileMenu").on("click",function(e){    
+    e.stopPropagation()
+    console.log("toto")
+    $( ".slide" ).slideDown( 500 );
+})
+$("nav").on("click",function(){
+    $( ".slide" ).slideUp( 500 );
+})

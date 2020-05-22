@@ -13,13 +13,15 @@
             {% set difference = session.dateDebut.diff(session.dateFin) %}
             <div class="mt-4">
                 <p class="text-center alert alert-dark">Du {{session.dateDebut| date("d/m/Y")}} au {{session.dateFin| date("d/m/Y")}} soit  {{difference.m}} mois et {{difference.d}} jours</p>
-                <span class="alert alert-dark">nb places : {{session.nbPlaces}} - places restantes : {{session.nbPlaces - session.stagiaires | length}} </span>
-                {% if session.programmes | length == 0 %}
-                <a class="rounded ml-4 p-2 mb-2 bg-dark text-white" href="{{path('CreaProgramme',{id:session.id})}}">Créer un programme de formation</a>
-                {% else %}
-                <a class="rounded ml-4 p-2 mb-2 bg-dark text-white" href="{{path('CreaProgramme',{id:session.id})}}">Ajouter un module</a>
-                {% endif %}
-                <a class="rounded ml-4 p-2 mb-2 bg-dark text-white" href="{{path('trombi',{id:session.id})}}">Trombinoscope</a>
+                <div class="flex">
+                    <span class="alert alert-dark">nb places : {{session.nbPlaces}} - places restantes : {{session.nbPlaces - session.stagiaires | length}} </span>
+                    {% if session.programmes | length == 0 %}
+                    <a class="crea_sess rounded ml-4 p-2 mb-2 bg-dark text-white" href="{{path('CreaProgramme',{id:session.id})}}">Créer un programme de formation</a>
+                    {% else %}
+                    <a class="crea_sess rounded ml-4 p-2 mb-2 bg-dark text-white" href="{{path('CreaProgramme',{id:session.id})}}">Ajouter un module</a>
+                    {% endif %}
+                    <a class="crea_sess rounded ml-4 p-2 mb-2 bg-dark text-white" href="{{path('trombi',{id:session.id})}}">Trombinoscope</a>
+                </div>
             </div>
         </div>
         <table class="table">

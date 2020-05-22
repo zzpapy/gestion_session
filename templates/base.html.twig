@@ -5,7 +5,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="shortcut icon" type="image/png" href="../logo.png"/>
         {% block stylesheets %}
-        <!-- Bootstrap CSS -->
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -14,14 +14,16 @@
     <body>
         <div class="wrapper">
             <header>
-                <nav class="navbar navbar-dark bg-dark p-3" style="background-color: #e3f2fd;">
-                    {% block nav %}
-                    <a class="p-1 bg-light text-dark rounded" href="{{path('home')}}">Liste des sessions</a>
-                    <a class="p-1 bg-light text-dark rounded" href="{{path('stagiaire')}}">Liste des stagiaires</a>
-                    <a class="rounded p-1 bg-light text-dark"href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
-                    {% endblock %}
-                </nav>
-                    
+                <i class="modileMenu fas fa-bars"></i>
+                <div class="slide">
+                    <nav class="navbar navbar-dark bg-dark p-3" style="background-color: #e3f2fd;">
+                        {% block nav %}
+                        <a class="p-1 bg-light text-dark rounded" href="{{path('home')}}">Liste des sessions</a>
+                        <a class="p-1 bg-light text-dark rounded" href="{{path('stagiaire')}}">Liste des stagiaires</a>
+                        <a class="rounded p-1 bg-light text-dark"href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
+                        {% endblock %}
+                    </nav>
+                </div>                    
             </header>
             {% block body %}{% endblock %}
 
