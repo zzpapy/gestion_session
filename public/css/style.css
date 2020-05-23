@@ -118,7 +118,7 @@ img{
     max-width: 800px;
 }
 .prog>div:nth-child(2){
-    width: 20%;
+    width: 25%;
 }
 .modalButton{
     border: none;
@@ -142,12 +142,16 @@ img{
     margin: auto;
 }
 .liststag{
-    margin-left: 1em;
+    padding: 0.5em;
+
 }
 .list_stag{
     justify-content: space-between;
     flex-wrap: wrap;
 }
+/* .list_stag .form-group{
+    width: 33.3% !important;
+} */
 .mod_list{
     flex-wrap: wrap;
     flex: 0;
@@ -185,4 +189,7 @@ img{
 }
 form[name="session"]{
     width: 30%;
+}
+form[name="add_stagiaire"]{
+    background:rgb(220,220,220,0.8);
 }
