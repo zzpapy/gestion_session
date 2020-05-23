@@ -69,18 +69,18 @@ class SessionController extends AbstractController
                 $tab[$programme->getModule()->getCategorie()->getNom()] = [$programme];
             }
         }
-        // dump($tab);die;
-        
-        // dump($session->getNbPlaces() - count($session->getStagiaires()) == 0);die;
-        // dump(count($request->request->get("add_stagiaire")["stagiaires"]));die;
+
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
         $nbStagiaires = count($session->getStagiaires());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            if(count($request->request->get("add_stagiaire")["stagiaires"])>$session->getNbPlaces()){
-                $this->addFlash('error', 'vous avez séléctionné trop de stagiares');
-                return $this->redirectToRoute('programme',["id" => $session->getId()]);
+            // dump(isset($request->request->get("add_stagiaire")["stagiaires"]),$request->request->get("add_stagiaire"));die;
+            if(isset($request->request->get("add_stagiaire")["stagiaires"])){
+                if(count($request->request->get("add_stagiaire")["stagiaires"])>$session->getNbPlaces()){
+                    $this->addFlash('error', 'vous avez séléctionné trop de stagiares');
+                    return $this->redirectToRoute('programme',["id" => $session->getId()]);
+                }
             }
             if(count($session->getStagiaires()) >= $session->getNbPlaces()){}
             // $email = (new TemplatedEmail())
@@ -105,12 +105,11 @@ class SessionController extends AbstractController
             $em->persist($session);
             $em->flush();
             $nbStagiairesAfter = count($session->getStagiaires());
-            // dump($nbStagiaires,$nbStagiairesAfter);die;
             if($nbStagiairesAfter < $nbStagiaires){
-                $this->addFlash('success', 'stagiaire retiré avec succés');
+                $this->addFlash('success', 'stagiaire(s) retiré(s) avec succés');
             }
             else{
-                $this->addFlash('success', 'stagiaire ajouté avec succés');
+                $this->addFlash('success', 'stagiaire(s) ajouté(s) avec succés');
             }
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
             

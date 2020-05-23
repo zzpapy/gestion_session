@@ -110,12 +110,15 @@ img{
     display: inline-block;
     width: 100px;
 }
+.prog{
+    margin-top: 4em;
+}
 .prog div:first-child{
     flex:1;
     max-width: 800px;
 }
-.prog div:nth-child(2){
-    flex:0;
+.prog>div:nth-child(2){
+    width: 20%;
 }
 .modalButton{
     border: none;
@@ -174,4 +177,6 @@ img{
 .reste,.success{
     color : rgb(0,255,0);
 }
-
+form[name="session"]{
+    width: 30%;
+}

@@ -31,7 +31,10 @@ class SessionType extends AbstractType
             // ->add('stagiaires')
             ->add('stagiaires', EntityType::class, [
                 'class' =>Stagiaire::class,
-                'choice_label' => 'nom',
+                'choice_label' => function ($choice, $key, $value) {               
+                    $nom = $choice->getNom();
+                    return ucfirst($nom);
+                },
                 'multiple' =>true,
                 'expanded' =>true,
                 "by_reference" => false

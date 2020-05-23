@@ -13,7 +13,11 @@
     </div>
     <div>
         {{ form_row(form.nb_places) }}
-        {{ form_row(form.stagiaires) }}
+        <div class="flex list_stag">
+            {% for stagiaire in form.stagiaires %}             
+                    {{ form_row(stagiaire) }}
+            {% endfor %}
+        </div>
     </div>
 </div>
 <button class="btn btn-primary">créer</button>
