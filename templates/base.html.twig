@@ -20,7 +20,13 @@
                 <a class="rounded p-1 mb-4 bg-light text-dark"href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
                 {% endblock %}
             </nav>
-        </div>                    
+        </div> 
+        {% set session = app.session.get('sessions') %}
+        
+        <h4 style="text-align: right;">
+            Actuellement {{ session|length }} {% if session|length >0 %}sessions {% else %}session{% endif %}
+            en cours.
+        </h4>
         <div class="wrapper">
             <div id="errors">
                 {% for message in app.flashes('error') %}

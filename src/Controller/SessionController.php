@@ -36,7 +36,13 @@ class SessionController extends AbstractController
             $session = new session();
         }
         $form = $this->createForm(SessionType::class, $session);
-        
+        if(isset($request->request->get("session")["stagiaires"])){
+            if(count($request->request->get("session")["stagiaires"])>$request->request->get("session")["nb_places"]){
+                // dump($request->request->get("session"));die;
+                $this->addFlash('error', 'vous avez séléctionné trop de stagiares');
+                return $this->redirectToRoute('home');
+            }
+        }
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
