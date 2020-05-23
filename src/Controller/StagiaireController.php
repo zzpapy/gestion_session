@@ -72,7 +72,8 @@ class StagiaireController extends AbstractController
                 // instead of its contents
                 $stagiaire->setPhoto($newFilename);
             }
-
+            $date = new \DateTime();
+            $stagiaire->setcreateDate($date);
             $em = $this->getDoctrine()->getManager();
             $em->persist($stagiaire);
             $stagiare = $em->flush();

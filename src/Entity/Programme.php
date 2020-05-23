@@ -31,6 +31,7 @@ class Programme
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $duree;
 

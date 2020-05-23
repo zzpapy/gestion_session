@@ -23,11 +23,12 @@
         </div> 
         {% set session = app.session.get('sessions') %}
         
-        <h4 style="text-align: right;">
+        <h4 style="text-align: right;padding:0 1em;">
             Actuellement {{ session|length }} {% if session|length >0 %}sessions {% else %}session{% endif %}
             en cours.
         </h4>
         <div class="wrapper">
+            <h4 style="position: fixed; top:0">{{ "now"|date("d/m/Y") }}</h4>
             <div id="errors">
                 {% for message in app.flashes('error') %}
                     <p class="errors">{{ message }}</p>

@@ -120,9 +120,10 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
             
         }
-        // dump($programmes);die;
+        // dump($session);die;
+        $toto= $session;
         return $this->render('session/index.html.twig', [
-            'session' => $session,
+            'thisSession' => $session,
             'tab'     => $tab,  
             'form'    => $form->createView()
         ]);

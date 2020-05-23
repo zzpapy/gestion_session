@@ -64,6 +64,11 @@ class Stagiaire
      */
     private $photo;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $create_date;
+
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
@@ -192,6 +197,18 @@ class Stagiaire
     public function setPhoto(?string $photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getcreateDate(): ?\DateTimeInterface
+    {
+        return $this->create_date;
+    }
+
+    public function setcreateDate(\DateTimeInterface $create_date): self
+    {
+        $this->create_date = $create_date;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détail session{% endblock %}
+{% block title %}Détail thisSession{% endblock %}
 {% block nav %}
 {{parent()}}
 
@@ -9,18 +9,19 @@
 <div class="flex prog">
     <div>
         <div>
-            <h1>{{session.nom}}</h1>
-            {% set difference = session.dateDebut.diff(session.dateFin) %}
+            
+            <h1>{{thisSession.nom}}</h1>
+            {% set difference = thisSession.dateDebut.diff(thisSession.dateFin) %}
             <div class="mt-4">
-                <p class="text-center alert alert-dark">Du {{session.dateDebut| date("d/m/Y")}} au {{session.dateFin| date("d/m/Y")}} soit  {{difference.m}} mois et {{difference.d}} jours</p>
+                <p class="text-center alert alert-dark">Du {{thisSession.dateDebut| date("d/m/Y")}} au {{thisSession.dateFin| date("d/m/Y")}} soit  {{difference.m}} mois et {{difference.d}} jours</p>
                 <div class="flex align-middle" >
-                    <span class="alert alert-dark">nb places : {{session.nbPlaces}} - places restantes : {{session.nbPlaces - session.stagiaires | length}} </span>
-                    {% if session.programmes | length == 0 %}
-                    <a class="text-center alert alert-dark" href="{{path('CreaProgramme',{id:session.id})}}">Créer un programme de formation</a>
+                    <span class="alert alert-dark">nb places : {{thisSession.nbPlaces}} - places restantes : {{thisSession.nbPlaces - thisSession.stagiaires | length}} </span>
+                    {% if thisSession.programmes | length == 0 %}
+                    <a class="text-center alert alert-dark" href="{{path('CreaProgramme',{id:thisSession.id})}}">Créer un programme de formation</a>
                     {% else %}
-                    <a class="text-center alert alert-dark" href="{{path('CreaProgramme',{id:session.id})}}">Ajouter un module</a>
+                    <a class="text-center alert alert-dark" href="{{path('CreaProgramme',{id:thisSession.id})}}">Ajouter un module</a>
                     {% endif %}
-                    <a class="text-center alert alert-dark" href="{{path('trombi',{id:session.id})}}">Trombinoscope</a>
+                    <a class="text-center alert alert-dark" href="{{path('trombi',{id:thisSession.id})}}">Trombinoscope</a>
                 </div>
             </div>
         </div>
@@ -40,7 +41,7 @@
                         <tr>
                             <td>{{programme.module.nom}}</td>
                             <td>{{programme.duree}}</td>
-                            <td width="15%"><a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme_delete',{id:programme.id,id_session:session.id})}}"><i class="far fa-trash-alt"></i></a></td>
+                            <td width="15%"><a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme_delete',{id:programme.id,id_session:thisSession.id})}}"><i class="far fa-trash-alt"></i></a></td>
                         </tr>
                         {% endfor %}                    
                     {% endfor %}
@@ -49,19 +50,19 @@
         </table>
     </div>
     <div>
-        {% if session.stagiaires|length != 0 %}
+        {% if thisSession.stagiaires|length != 0 %}
             <div colspan="2">
                 <h2>Stagiaires</h2><span>
-                    {% if session.nbPlaces - session.stagiaires| length <= 0 %}
+                    {% if thisSession.nbPlaces - thisSession.stagiaires| length <= 0 %}
                      <p class="complet">la formation est complète</p>
                     {% else %}
-                        <p class="reste">vous pouvez ajouter encore {{session.nbPlaces - session.stagiaires| length}} stagiaire(s)</p>
+                        <p class="reste">vous pouvez ajouter encore {{thisSession.nbPlaces - thisSession.stagiaires| length}} stagiaire(s)</p>
                     {% endif %}
                     
-                {# {% if session.nbPlaces - session.stagiaires | length > 0 %}
-                <a href="{{path('addStagiaireSess',{id:session.id})}}">Ajouter/supprimer un stagiaire</a></span> 
+                {# {% if thisSession.nbPlaces - thisSession.stagiaires | length > 0 %}
+                <a href="{{path('addStagiaireSess',{id:thisSession.id})}}">Ajouter/supprimer un stagiaire</a></span> 
                 {% else %}
-                <a href="{{path('addStagiaireSess',{id:session.id})}}">Supprimer un stagiaire</a></span>             
+                <a href="{{path('addStagiaireSess',{id:thisSession.id})}}">Supprimer un stagiaire</a></span>             
                 {% endif %} #}
             </div>
         <table class="table mg_tab">
@@ -70,7 +71,7 @@
                 <th scope="col">Prenom</th>
                 <th width="5%" scope="col">Détail</th>
                 <tbody>
-                    {% for stagiaire in session.stagiaires %}
+                    {% for stagiaire in thisSession.stagiaires %}
                     <tr>
                         <td>{{stagiaire.nom|capitalize}}</td>
                         <td>{{stagiaire.prenom|capitalize}}</td>
@@ -87,7 +88,7 @@
         <div class="liststag">
             <div class="flex list_stag">
                 {% for stagiaire in form.stagiaires %}
-                {% if session.nbPlaces - session.stagiaires| length <= 0 %}
+                {% if thisSession.nbPlaces - thisSession.stagiaires| length <= 0 %}
                     {% if stagiaire.vars.checked == true %}
                         {{ form_widget(stagiaire) }}
                     {% else %}
