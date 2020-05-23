@@ -165,3 +165,6 @@ img{
 .between{
     justify-content: space-between;
 }
+.hidden-row{
+    display: none;
+}

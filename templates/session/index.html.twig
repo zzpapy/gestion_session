@@ -52,6 +52,10 @@
         {% if session.stagiaires|length != 0 %}
             <div colspan="2">
                 <h2>Stagiaires</h2><span>
+                    {% if session.nbPlaces - session.stagiaires| length == 0 %}
+                     <p>la formation est complète</p>
+                    {% endif %}
+                    
                 {# {% if session.nbPlaces - session.stagiaires | length > 0 %}
                 <a href="{{path('addStagiaireSess',{id:session.id})}}">Ajouter/supprimer un stagiaire</a></span> 
                 {% else %}
@@ -81,7 +85,17 @@
         <div class="liststag">
             <div class="flex list_stag">
                 {% for stagiaire in form.stagiaires %}
-                    {{ form_row(stagiaire) }}            
+                {% if session.nbPlaces - session.stagiaires| length == 0 %}
+                    {% if stagiaire.vars.checked == true %}
+                        {{ form_widget(stagiaire) }}
+                    {% else %}
+                        {{ form_row(stagiaire, { 'attr': {'class': 'hidden-row'},'label':false}) }}
+                        
+                    {% endif %}
+                {% else %}                    
+                    {{ form_row(stagiaire) }}
+                {% endif %}
+                               
                 {% endfor %}
             </div>
             <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
