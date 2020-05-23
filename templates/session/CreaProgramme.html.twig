@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+<h1> {{thisSession.nom}} </h1>
 <div class="flex between">
     <div>
         <h4>crea Categorie</h4>
@@ -8,6 +9,15 @@
         <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
         {{ form_end(formCategorie) }}
     </div>
+    {% if thisSession.programmes|length != 0 %}
+    <div class="listMod">
+        <h4>Modules déja présents</h4>
+        {% for programme in thisSession.programmes %}
+            <div> {{programme.module.nom}} </div>
+            
+        {% endfor %}
+    </div>
+    {% endif %}
     <div>
         <h4>crea module</h4>
         {{ form_start(formModule) }}
@@ -17,10 +27,10 @@
     </div>
 </div>
 <div class="crea_prog">
-    {{ form_start(formModule) }}
+    {{ form_start(formProgramme) }}
     <h4>crea programme</h4>
     {{form_widget(formProgramme)}}
     <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
-    {{ form_end(formModule) }}
+    {{ form_end(formProgramme) }}
 </div>
 {% endblock %}

@@ -69,12 +69,15 @@
             <thead class="thead-light">
                 <th scope="col">Nom</th>
                 <th scope="col">Prenom</th>
+                <th scope="col">Age</th>
                 <th width="5%" scope="col">Détail</th>
                 <tbody>
                     {% for stagiaire in thisSession.stagiaires %}
                     <tr>
                         <td>{{stagiaire.nom|capitalize}}</td>
                         <td>{{stagiaire.prenom|capitalize}}</td>
+                        {% set difference = date("now").diff(date(stagiaire.birth)) %}
+                        <td>{{difference.y}} ans</td>
                         <td><a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a></td>
                     </tr>                
                     {% endfor %}

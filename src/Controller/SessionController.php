@@ -40,7 +40,12 @@ class SessionController extends AbstractController
             if(count($request->request->get("session")["stagiaires"])>$request->request->get("session")["nb_places"]){
                 // dump($request->request->get("session"));die;
                 $this->addFlash('error', 'vous avez séléctionné trop de stagiares');
-                return $this->redirectToRoute('home');
+                if($session->getId() != null){
+                    return $this->redirectToRoute('ModifSession',["id" => $session->getId()]);
+                }
+                else{
+                    return $this->redirectToRoute('home');
+                }
             }
         }
         $form->handleRequest($request);
@@ -55,8 +60,6 @@ class SessionController extends AbstractController
         return $this->render('session/createSession.html.twig', [
             'form' => $form->createView(),
         ]);
-        
-        // return $this->render('session/createSession.html.twig');
     }
     /**
      * @Route("/session/{id}", name="programme")
@@ -88,7 +91,6 @@ class SessionController extends AbstractController
                     return $this->redirectToRoute('programme',["id" => $session->getId()]);
                 }
             }
-            if(count($session->getStagiaires()) >= $session->getNbPlaces()){}
             // $email = (new TemplatedEmail())
             //     ->from('zzpapy666@gmail.com')
             //     ->to('gregory.pace@hotmail.fr')
@@ -120,7 +122,6 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
             
         }
-        // dump($session);die;
         $toto= $session;
         return $this->render('session/index.html.twig', [
             'thisSession' => $session,
@@ -174,7 +175,7 @@ class SessionController extends AbstractController
         }
         
         return $this->render('session/CreaProgramme.html.twig', [
-            'session' => $session,
+            'thisSession' => $session,
             'formProgramme' => $formProgramme->createView(),
             'formModule' => $formModule->createView(),
             'formCategorie' => $formCategorie->createView()

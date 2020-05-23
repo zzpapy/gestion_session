@@ -154,8 +154,10 @@ img{
     justify-content: space-between;
 }
 .crea_prog{
-    width: 50%;
-    /* margin: auto; */
+    background: rgb(220,220,220,0.8);
+    padding: 1em;
+    margin: auto;
+    margin-top: 1em;
 }
 #programme_module,#module_categorie{
     display: flex;
@@ -168,6 +170,10 @@ img{
 .between{
     justify-content: space-between;
 }
+.between >div{
+    background: rgb(220,220,220,0.8);
+    padding: 1em;
+}
 .hidden-row{
     display: none;
 }
@@ -175,7 +181,7 @@ img{
     color: red;
 }
 .reste,.success{
-    color : rgb(0,255,0);
+    color : rgb(0,180,0);
 }
 form[name="session"]{
     width: 30%;
