@@ -72,11 +72,16 @@ class SessionController extends AbstractController
         // dump($tab);die;
         
         // dump($session->getNbPlaces() - count($session->getStagiaires()) == 0);die;
-
+        // dump(count($request->request->get("add_stagiaire")["stagiaires"]));die;
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
+        $nbStagiaires = count($session->getStagiaires());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            if(count($request->request->get("add_stagiaire")["stagiaires"])>$session->getNbPlaces()){
+                $this->addFlash('error', 'vous avez séléctionné trop de stagiares');
+                return $this->redirectToRoute('programme',["id" => $session->getId()]);
+            }
             if(count($session->getStagiaires()) >= $session->getNbPlaces()){}
             // $email = (new TemplatedEmail())
             //     ->from('zzpapy666@gmail.com')
@@ -99,7 +104,14 @@ class SessionController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($session);
             $em->flush();
-
+            $nbStagiairesAfter = count($session->getStagiaires());
+            // dump($nbStagiaires,$nbStagiairesAfter);die;
+            if($nbStagiairesAfter < $nbStagiaires){
+                $this->addFlash('success', 'stagiaire retiré avec succés');
+            }
+            else{
+                $this->addFlash('success', 'stagiaire ajouté avec succés');
+            }
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
             
         }

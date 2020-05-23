@@ -168,3 +168,10 @@ img{
 .hidden-row{
     display: none;
 }
+.complet,.errors{
+    color: red;
+}
+.reste,.success{
+    color : rgb(0,255,0);
+}
+

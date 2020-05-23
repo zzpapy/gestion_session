@@ -52,8 +52,10 @@
         {% if session.stagiaires|length != 0 %}
             <div colspan="2">
                 <h2>Stagiaires</h2><span>
-                    {% if session.nbPlaces - session.stagiaires| length == 0 %}
-                     <p>la formation est complète</p>
+                    {% if session.nbPlaces - session.stagiaires| length <= 0 %}
+                     <p class="complet">la formation est complète</p>
+                    {% else %}
+                        <p class="reste">vous pouvez ajouter encore {{session.nbPlaces - session.stagiaires| length}} stagiaire(s)</p>
                     {% endif %}
                     
                 {# {% if session.nbPlaces - session.stagiaires | length > 0 %}
@@ -85,7 +87,7 @@
         <div class="liststag">
             <div class="flex list_stag">
                 {% for stagiaire in form.stagiaires %}
-                {% if session.nbPlaces - session.stagiaires| length == 0 %}
+                {% if session.nbPlaces - session.stagiaires| length <= 0 %}
                     {% if stagiaire.vars.checked == true %}
                         {{ form_widget(stagiaire) }}
                     {% else %}
