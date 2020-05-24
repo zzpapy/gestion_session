@@ -9,45 +9,7 @@ body{
     background-repeat: no-repeat;
     background-size: contain;
 }
-@media screen and (max-width: 640px) {
-    .flex {
-      flex-direction: column;
-    }
-    .list_stag{
-        flex-direction: row;
-    }
-    .crea_sess{
-        margin: 0 !important;
-        margin-bottom: 0.5em !important;
-    }
-    #slide{
-        display: none;
-        position: fixed !important;
-        left: 12.5%;
-        top: 5em;
-        z-index: 2; 
-        width: 100%;
-    }
-    nav{
-        
-        flex-direction: column;
-    }
-    nav a{
-        width: 80%;
-        margin-bottom: 1em;
-    }
-    header .modileMenu {
-        display: block;
-        position: fixed;
-        right: 1em;
-        font-size: 2em;
-        z-index: 2;
-    }
-    .stagiaire{
-        width: 100% !important;
-        margin: 0;
-    }
-  }
+
   .modileMenu {
       display: none;
       color: white;
@@ -193,3 +155,46 @@ form[name="session"]{
 form[name="add_stagiaire"]{
     background:rgb(220,220,220,0.8);
 }
+@media screen and (max-width: 640px) {
+    .flex {
+      flex-direction: column;
+    }
+    .list_stag{
+        flex-direction: row;
+    }
+    .crea_sess{
+        margin: 0 !important;
+        margin-bottom: 0.5em !important;
+    }
+    #slide{
+        display: none;
+        max-width: 500px ;
+        right: 0;
+        top: 5em;
+        z-index: 2; 
+    }
+    .flex_form{
+        color: white;
+    }
+    nav{        
+        flex-direction: column;
+        height: auto;
+    }
+    nav a{
+        width: 80%;
+        margin-bottom: 1em;
+        margin: auto;
+        height: auto;
+    }
+    header .modileMenu {
+        display: block;
+        position: fixed;
+        right: 1em;
+        font-size: 2em;
+        z-index: 2;
+    }
+    .stagiaire{
+        width: 100% !important;
+        margin: 0;
+    }
+  }
