@@ -83,6 +83,7 @@ class ProgrammeController extends AbstractController
      */
     public function delete(Request $request, Programme $programme): Response
     {
+       
         if ($this->isCsrfTokenValid('delete'.$programme->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($programme);

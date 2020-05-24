@@ -15,6 +15,7 @@ use App\Form\AddStagiaireType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Mime\Email;
 use App\Repository\SessionRepository;
+use App\Repository\ProgrammeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -184,16 +185,19 @@ class SessionController extends AbstractController
         ]);
     }
      /**
-     * @Route("/{id}<\d+>/{id_session}<\d+>", name="programme_delete", methods={"GET"})
+     * @Route("programme_delete", name="programme_delete", methods={"GET"})
      */
-    public function delete(Request $request, Programme $programme, SessionRepository $sessionRep): Response
+    public function delete(Request $request, ProgrammeRepository $programmeRep, SessionRepository $sessionRep): Response
     {
+        $id = $request->get("data");
+        $sessionId = $request->get("session");
+        $programme = $programmeRep->findOneBy(["id" => $id]);
        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($programme);
         $entityManager->flush();
         
         $session = $sessionRep->findOneBy(["id" => $request->get("id_session")]);
-        return $this->redirectToRoute('programme',["id" => $session->getId()]);
+        return $this->redirectToRoute('programme',["id" => $sessionId]);
     }
     
      /**

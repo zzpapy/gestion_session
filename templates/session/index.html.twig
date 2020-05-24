@@ -45,10 +45,10 @@
                         </td>
                     </tr>   
                         {% for programme in cat  %}
-                        <tr>
+                        <tr id="programme_{{programme.id}}">
                             <td>{{programme.module.nom}}</td>
                             <td>{{programme.duree}}</td>
-                            <td width="15%"><a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme_delete',{id:programme.id,id_session:thisSession.id})}}"><i class="far fa-trash-alt"></i></a></td>
+                            <td width="15%"><a data-id="{{programme.id}}" data-session="{{thisSession.id}}" class="delProgramme border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme_delete')}}"><i class="far fa-trash-alt"></i></a></td>
                         </tr>
                         {% endfor %}                    
                     {% endfor %}
