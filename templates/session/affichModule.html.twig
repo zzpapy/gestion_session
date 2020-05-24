@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<table class="table">
+    <thead class="thead-light">
+        <th scope="col">Catégorie</th>
+        <th scope="col">Module</th>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>{{categorie.nom}}
+                    <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifCategorie',{id:categorie.id})}}"><i class="far fa-edit"></i></a> 
+                </td>
+                <td></td>
+            </tr>
+            {% for module in categorie.modules  %}
+            <tr>
+                <td></td>
+                <td>{{module.nom}}</td>
+                <td>
+                    <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifModule',{id:module.id})}}"><i class="far fa-edit"></i></a> 
+                </td>
+            </tr>
+                
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </thead>
+</table>
+    
+    
+{% endblock %}

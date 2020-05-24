@@ -14,7 +14,9 @@ use App\Form\ProgrammeType;
 use App\Form\AddStagiaireType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Mime\Email;
+use App\Repository\ModuleRepository;
 use App\Repository\SessionRepository;
+use App\Repository\CategorieRepository;
 use App\Repository\ProgrammeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -212,5 +214,78 @@ class SessionController extends AbstractController
         $entityManager->flush();        
        
         return $this->redirectToRoute('home');
+    }
+
+     /**
+     * @Route("/affich_module", name="affich_module", methods={"GET"})
+     */
+    public function affichModule(Request $request,ModuleRepository $moduleRep,CategorieRepository $catRep,Module $module = null)
+    {
+        $id = $request->get("data");
+       
+        $modules = $moduleRep->findAll();
+        $categories = $catRep->findAll();
+        // dump($categories);die;
+        // $entityManager = $this->getDoctrine()->getManager();
+        // $entityManager->remove($session);
+        // $entityManager->flush();        
+       
+        return $this->render('session/affichModule.html.twig', [
+            'modules' => $modules,
+            "categories" => $categories
+        ]);
+    }
+     /**
+      * @Route("/session/ModifModule/{id}", name="ModifModule"))
+     */
+    public function mofifModule(Request $request,ModuleRepository $moduleRep,CategorieRepository $catRep,Module $module = null)
+    {
+        $id = $request->get("data");
+        $nom = $module->getNom();
+        
+        if(!$module){
+        $module = new Module();
+        }
+        // dump($cat);die;
+        $formModule = $this->createForm(ModuleType::class, $module);
+        $formModule->remove("categorie");
+        $formModule->handleRequest($request);
+        if($formModule->isSubmitted() && $formModule->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($module);
+            $em->flush();
+            return $this->redirectToRoute('affich_module');
+        }
+       
+       
+        return $this->render('session/modifModule.html.twig', [
+            'formModule' => $formModule->createView()
+        ]);
+    }
+    /**
+      * @Route("/session/ModifCategorie/{id}", name="ModifCategorie"))
+     */
+    public function mofifCategorie(Request $request,Categorie $categorie = null)
+    {
+       
+        
+        if(!$categorie){
+        $categorie = new categorie();
+        }
+        // dump($cat);die;
+        $formCategorie = $this->createForm(CategorieType::class, $categorie);
+        $formCategorie->remove("categorie");
+        $formCategorie->handleRequest($request);
+        if($formCategorie->isSubmitted() && $formCategorie->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($categorie);
+            $em->flush();
+            return $this->redirectToRoute('affich_module');
+        }
+       
+       
+        return $this->render('session/modifCategorie.html.twig', [
+            'formCategorie' => $formCategorie->createView()
+        ]);
     }
 }
