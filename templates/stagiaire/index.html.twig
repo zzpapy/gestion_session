@@ -19,7 +19,7 @@
                 {% else %}
                     {% set photo = asset('img/avatar.jpg') %}
                 {% endif %}
-                <tr>                    
+                <tr id="stagiaire_{{stagiaire.id}}">                    
                     <td class="align-middle photo">
                         <button type="button" class="modalButton" data-toggle="modal" data-target="#exampleModalCenter{{stagiaire.id}}">
                             <img src="{{photo}}" alt="">
@@ -39,6 +39,8 @@
                                 {% set difference = date("now").diff(date(stagiaire.birth)) %}
                                 <div class="rounded p-1 bg-light text-dark stagiaire">
                                     <a class="rounded d-inline-block p-1 mt-1 mb-2 bg-dark text-white" href="{{path('updateStagiaire',{id:stagiaire.id})}}">Modifier</a>
+                                    {% set dateCrea = stagiaire.createdate|date("d/m/Y") %}
+                                    <span>Inscrit le : {{dateCrea}}</span>
                                     <h1><span class="avatar mr-5">
                                         <img src="{{asset('img/'~stagiaire.photo)}}" alt="">
                                     </span><span>Fiche stagiaire</span></h1>
@@ -72,7 +74,7 @@
                     <td class="align-middle">{{stagiaire.prenom|capitalize}}</td>
                     <td class="align-middle" width="15%">
                         <a class="border rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a>
-                        <a class="border rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('stagiaire_delete',{id:stagiaire.id})}}"><i class="far fa-trash-alt"></i></a>
+                        <a data-id="{{stagiaire.id}}" class="delStagiaire border rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('stagiaire_delete')}}"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 

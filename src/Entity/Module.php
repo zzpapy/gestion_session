@@ -27,13 +27,13 @@ class Module
     /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="modules")
      * @ORM\JoinColumn(nullable=true)
-     * cascade={"persist"}
      */
    
     private $categorie;
 
     /**
      * @ORM\OneToMany(targetEntity=Programme::class, mappedBy="module")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $programmes;
 
@@ -58,6 +58,7 @@ class Module
 
         return $this;
     }
+    
 
     public function getCategorie(): ?Categorie
     {

@@ -24,8 +24,8 @@
     <div class="flex home mt-1">
     {% for session in sessions %}
     {% set difference = session.dateDebut.diff(session.dateFin) %}
-        <div class="alert alert-dark">
-            <p><h4>{{session.nom}}</h4> du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}} soit  {{difference.m}} mois et {{difference.d}} jours</p>
+        <div id="session_{{session.id}}"class="alert alert-dark">
+            <p><h4>{{session.nom}}</h4> du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}} soit {{difference.y}} ans  {{difference.m}} mois et {{difference.d}} jours</p>
             <p>Places disponibles : {{session.nbPlaces}}</p>
             <p>Place réservées : {{session.stagiaires | length}}</p>
             {% set places = session.nbPlaces - session.stagiaires | length %}
@@ -39,7 +39,7 @@
             <p class="d-flex p-2 justify-content-between">
                 <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme',{id:session.id})}}"><i class="fas fa-clipboard"></i></a> 
                 <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifSession',{id:session.id})}}"><i class="far fa-edit"></i></a> 
-                <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('session_delete',{id:session.id})}}"><i class="far fa-trash-alt"></i></a>
+                <a data-id="{{session.id}}" class="delSession border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('session_delete')}}"><i class="far fa-trash-alt"></i></a>
             </p>
         </div>
         {% endfor %}

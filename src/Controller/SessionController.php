@@ -136,6 +136,18 @@ class SessionController extends AbstractController
     {
         $session = $sessRep->findOneBy(["id"=> $session->getId()]);
         $programmes = $session->getProgrammes();
+        if(!$categorie){
+            $categorie = new categorie();
+        }
+        $formCategorie = $this->createForm(CategorieType::class, $categorie);
+        
+        $formCategorie->handleRequest($request);
+        if($formCategorie->isSubmitted() && $formCategorie->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($categorie);
+            $em->flush();
+            return $this->redirectToRoute('CreaProgramme',["id" => $session->getId()]);
+        }
         if(!$programme){
             $programme = new programme();
         }
@@ -149,9 +161,10 @@ class SessionController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
         }
-        if(!$module){
+        // if(!$module){
             $module = new Module();
-        }
+        // }
+        // dump($module);die;
         $formModule = $this->createForm(ModuleType::class, $module);
         
         $formModule->handleRequest($request);
@@ -161,18 +174,7 @@ class SessionController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('CreaProgramme',["id" => $session->getId()]);
         }
-        // if(!$categorie){
-            $categorie = new categorie();
-        // }
-        $formCategorie = $this->createForm(CategorieType::class, $categorie);
-        
-        $formCategorie->handleRequest($request);
-        if($formCategorie->isSubmitted() && $formCategorie->isValid()){
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($categorie);
-            $em->flush();
-            return $this->redirectToRoute('CreaProgramme',["id" => $session->getId()]);
-        }
+       
         
         return $this->render('session/CreaProgramme.html.twig', [
             'thisSession' => $session,
@@ -195,10 +197,12 @@ class SessionController extends AbstractController
     }
     
      /**
-     * @Route("/{id}<\d+>", name="session_delete", methods={"GET"})
+     * @Route("/delete_session", name="session_delete", methods={"GET"})
      */
-    public function deleteSession( Session $session)
+    public function deleteSession(Request $request,SessionRepository $sessionRep)
     {
+        $id = $request->get("data");
+        $session = $sessionRep->findOneBy(["id" => $id]);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($session);
         $entityManager->flush();        

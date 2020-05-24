@@ -125,10 +125,12 @@ class StagiaireController extends AbstractController
         ]);
     }
      /**
-     * @Route("/stagiaire_delete/{id}<\d+>", name="stagiaire_delete", methods={"GET"})
+     * @Route("/stagiaire_delete", name="stagiaire_delete", methods={"GET"})
      */
-    public function deleteSession( Stagiaire $stagiaire)
+    public function deleteSession(Request $request,StagiaireRepository $stagiaireRep)
     {
+        // dump($request->get("data"));die;
+        $stagiaire = $stagiaireRep->findOneBy(["id" => $request->get("data") ]);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($stagiaire);
         $entityManager->flush();        

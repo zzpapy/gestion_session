@@ -25,7 +25,7 @@ class Categorie
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="categorie")
+     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="categorie", cascade={"persist"})
      */
     private $modules;
 
@@ -80,5 +80,10 @@ class Categorie
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getNom();
     }
 }
