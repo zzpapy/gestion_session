@@ -194,6 +194,9 @@ form[name="add_stagiaire"]{
   }
   
 @media screen and (max-width: 640px) {
+    .modules_tab{
+        max-width: 100%;
+    }
     .flex {
       flex-direction: column;
     }

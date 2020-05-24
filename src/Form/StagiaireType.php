@@ -40,13 +40,13 @@ class StagiaireType extends AbstractType
             ->add('ville')
             ->add('email')
             ->add('phone')
-            ->add('sessions', EntityType::class, [
-                'class' => Session::class,
-                'choice_label' => 'nom',
-                'multiple' =>true,
-                'expanded' =>true,
-                "by_reference" => false
-            ])
+            // ->add('sessions', EntityType::class, [
+            //     'class' => Session::class,
+            //     'choice_label' => 'nom',
+            //     'multiple' =>true,
+            //     'expanded' =>true,
+            //     "by_reference" => false
+            // ])
             ->add('photo', FileType::class, [
                 'label' => 'photo (JPG/PNG....)',
 

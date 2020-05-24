@@ -20,7 +20,7 @@
                     {% set places = 'formation complète' %}
                     
                 {% endif %}
-                <p class="text-center alert alert-dark">Du {{thisSession.dateDebut| date("d/m/Y")}} au {{thisSession.dateFin| date("d/m/Y")}} soit  {{difference.m}} mois et {{difference.d}} jours</p>
+                <p class="text-center alert alert-dark">Du {{thisSession.dateDebut| date("d/m/Y")}} au {{thisSession.dateFin| date("d/m/Y")}} soit {{difference.y}} ans {{difference.m}} mois et {{difference.d}} jours</p>
                 <div class="flex align-middle" >
                     <span class="alert alert-dark">nb places : {{thisSession.nbPlaces}} - places restantes :<span class={{comp}}> {{places}} </span></span>
                     {% if thisSession.programmes | length == 0 %}

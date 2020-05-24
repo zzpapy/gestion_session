@@ -13,13 +13,13 @@
                     <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
                     {{ form_end(formCategorie) }}
                 </td>
+                <!-- <td></td> -->
                 <td>
                     {{ form_start(formModule) }}
                     {{form_widget(formModule)}}
                     <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
                     {{ form_end(formModule) }}
                 </td>
-                <td></td>
             </tr>
         {% for categorie in categories %}
             <tr class="cat_title">
