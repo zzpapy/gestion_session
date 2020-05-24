@@ -186,6 +186,12 @@ form[name="add_stagiaire"]{
       transform: rotate(1800deg);
     }
   }
+  .modules_tab{
+      max-width: 50%;
+  }
+  .cat_title{
+      background: #aaa;
+  }
   
 @media screen and (max-width: 640px) {
     .flex {

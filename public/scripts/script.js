@@ -75,3 +75,20 @@ $(".delProgramme").on("click",function(e){
         alert("supression annulée");
     }
 })
+$(".delModule").on("click",function(e){
+    e.preventDefault()
+    if(confirm("Etes vous sûre de vouloir supprimer ce module ?")){
+        let url = $(this).attr("href")
+        let data = $(this).data("id")
+        $("#module_"+data).prepend('<div class="lds-hourglass"></div>')
+        $.get(url,{        
+              data: data      
+          }).then(function(response){
+             console.log('toto')
+             $("#module_"+data).remove()               
+        })
+    }
+    else{
+        alert("supression annulée");
+    }
+})

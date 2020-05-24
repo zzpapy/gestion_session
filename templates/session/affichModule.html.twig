@@ -1,23 +1,43 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<table class="table">
+<table class="table modules_tab">
     <thead class="thead-light">
         <th scope="col">Catégorie</th>
         <th scope="col">Module</th>
+        <th scope="col"></th>
         <tbody>
-        {% for categorie in categories %}
             <tr>
-                <td>{{categorie.nom}}
-                    <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifCategorie',{id:categorie.id})}}"><i class="far fa-edit"></i></a> 
+                <td> 
+                    {{ form_start(formCategorie) }}
+                    {{form_widget(formCategorie)}}
+                    <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
+                    {{ form_end(formCategorie) }}
+                </td>
+                <td>
+                    {{ form_start(formModule) }}
+                    {{form_widget(formModule)}}
+                    <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
+                    {{ form_end(formModule) }}
                 </td>
                 <td></td>
             </tr>
+        {% for categorie in categories %}
+            <tr class="cat_title">
+                <td>{{categorie.nom}}
+                </td>
+                <td></td>
+                <td>
+                    <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifCategorie',{id:categorie.id})}}"><i class="far fa-edit"></i></a> 
+                </td>
+            </tr>
             {% for module in categorie.modules  %}
-            <tr>
+            <tr id="module_{{module.id}}">
                 <td></td>
                 <td>{{module.nom}}</td>
                 <td>
                     <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifModule',{id:module.id})}}"><i class="far fa-edit"></i></a> 
+                    
+                    <a data-id="{{module.id}}" class="delModule border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('module_delete')}}"><i class="far fa-trash-alt"></i></a>
                 </td>
             </tr>
                 

@@ -217,7 +217,7 @@ class SessionController extends AbstractController
     }
 
      /**
-     * @Route("/affich_module", name="affich_module", methods={"GET"})
+     * @Route("/affich_module", name="affich_module")
      */
     public function affichModule(Request $request,ModuleRepository $moduleRep,CategorieRepository $catRep,Module $module = null)
     {
@@ -225,14 +225,37 @@ class SessionController extends AbstractController
        
         $modules = $moduleRep->findAll();
         $categories = $catRep->findAll();
-        // dump($categories);die;
-        // $entityManager = $this->getDoctrine()->getManager();
-        // $entityManager->remove($session);
-        // $entityManager->flush();        
+        
+       
+            $module = new Module();
+            // dump($cat);die;
+            $formModule = $this->createForm(ModuleType::class, $module);
+            $formModule->handleRequest($request);
+            if($formModule->isSubmitted() && $formModule->isValid()){
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($module);
+                $em->flush();
+                return $this->redirectToRoute('affich_module');
+            }
+
+      
+            $categorie = new categorie();
+            // dump($cat);die;
+            $formCategorie = $this->createForm(CategorieType::class, $categorie);
+            $formCategorie->handleRequest($request);
+            if($formCategorie->isSubmitted() && $formCategorie->isValid()){
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($categorie);
+                $em->flush();
+                return $this->redirectToRoute('affich_module');
+            }
+           
        
         return $this->render('session/affichModule.html.twig', [
             'modules' => $modules,
-            "categories" => $categories
+            "categories" => $categories,
+            "formCategorie" => $formCategorie->createView(),
+            "formModule" => $formModule->createView()
         ]);
     }
      /**
@@ -287,5 +310,18 @@ class SessionController extends AbstractController
         return $this->render('session/modifCategorie.html.twig', [
             'formCategorie' => $formCategorie->createView()
         ]);
+    }
+     /**
+     * @Route("/delete_module", name="module_delete", methods={"GET"})
+     */
+    public function deleteModule(Request $request,ModuleRepository $moduleRep)
+    {
+        $id = $request->get("data");
+        $module = $moduleRep->findOneBy(["id" => $id]);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($module);
+        $entityManager->flush();        
+       
+        return $this->redirectToRoute('home');
     }
 }
