@@ -49,6 +49,9 @@ class StagiaireType extends AbstractType
             // ])
             ->add('photo', FileType::class, [
                 'label' => 'photo (JPG/PNG....)',
+                'attr'  => [
+                    "class" => 'photo_input'
+                ],
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Module;
 use App\Entity\Session;
 use App\Form\ModuleType;
@@ -18,6 +20,7 @@ use App\Repository\ModuleRepository;
 use App\Repository\SessionRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\ProgrammeRepository;
+use App\Repository\StagiaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +68,7 @@ class SessionController extends AbstractController
         ]);
     }
     /**
-     * @Route("/session/{id}", name="programme")
+     * @Route("/session/{id<\d+>}", name="programme")
      */
     public function index(Stagiaire $stagiaire = null,MailerInterface $mailer, Session $session, SessionRepository $sessRep,Request $request)
     {
@@ -323,5 +326,46 @@ class SessionController extends AbstractController
         $entityManager->flush();        
        
         return $this->redirectToRoute('home');
+    }
+     /**
+     * Export to PDF
+     * 
+     * @Route("/session/pdf/{id<\d+>}/{id_stagiaire<\d+>}", name="acme_demo_pdf")
+     */
+    public function pdfAction(Request $request,Session $session = null,StagiaireRepository $stagiaireRep )
+    {
+
+        $options = new Options();
+        $options->set('defaultFont', 'Roboto');
+        $stagiaire = $stagiaireRep->findOneBy(["id" =>$request->get("id_stagiaire")]);
+        $programmes = $session->getProgrammes();
+        $tab=[];
+        foreach ($programmes as $key => $programme) {
+            if(array_key_exists($programme->getModule()->getCategorie()->getNom(),$tab)){
+                array_push($tab[$programme->getModule()->getCategorie()->getNom()],$programme);
+            }
+            else{
+                $tab[$programme->getModule()->getCategorie()->getNom()] = [$programme];
+            }
+        }
+    
+        $dompdf = new Dompdf($options);
+        $data = array(
+        'title' => 'my headline'
+        );
+        $html = $this->renderView('session/pdf.html.twig', [
+            'title' => "Attestation de formation",
+            'session' => $session,
+            'stagiaire' => $stagiaire,
+            'tab' => $tab
+        ]);
+        
+    
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("attestation_".$stagiaire->getNom().".pdf", [
+            "Attachment" => false
+        ]);
     }
 }

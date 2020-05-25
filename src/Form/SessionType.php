@@ -24,7 +24,6 @@ class SessionType extends AbstractType
             ->add('date_fin',DateType::class, [
                 'format' => 'dd-MM-yyyy ',
                 'html5'  => false,
-                "data" => new \DateTime()
             ])
             ->add('nb_places')
             // ->add('reserves')

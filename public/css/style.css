@@ -192,6 +192,19 @@ form[name="add_stagiaire"]{
   .cat_title{
       background: #aaa;
   }
+  .photo_input{
+      width: 20%;
+  }
+  .custom-file-label{
+    width: 0%;
+  }
+  .custom-file{
+    /* width: 20%; */
+  }
+  form[name="stagiaire"]{
+      background: rgb(220,220,220,0.8);
+      padding: 1em;
+  }
   
 @media screen and (max-width: 640px) {
     .modules_tab{
