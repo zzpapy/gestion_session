@@ -336,8 +336,13 @@ class SessionController extends AbstractController
     {
 
         $options = new Options();
-        $options->set('defaultFont', 'Roboto');
+        $options->set('defaultFont', 'Arial');
+        $options->setIsRemoteEnabled(true);
         $stagiaire = $stagiaireRep->findOneBy(["id" =>$request->get("id_stagiaire")]);
+        $path = '../public/img/'.$stagiaire->getPhoto();
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
         $programmes = $session->getProgrammes();
         $tab=[];
         foreach ($programmes as $key => $programme) {
@@ -357,7 +362,8 @@ class SessionController extends AbstractController
             'title' => "Attestation de formation",
             'session' => $session,
             'stagiaire' => $stagiaire,
-            'tab' => $tab
+            'tab' => $tab,
+            'photo' => $base64
         ]);
         
     

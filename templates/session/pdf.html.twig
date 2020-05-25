@@ -3,17 +3,16 @@
 {% block test %}{% endblock %}
 {% block body %}
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Title of the PDF</title>
-    </head>
-    <body>
-        <h4 style="text-align: center;margin-top:4em;">{{ title }}</h4>
-        <p style="text-align: center;">Nous attestons par la présente attestation que :</p>
-        <p style="text-align: center;">{{stagiaire.nom|capitalize}} {{stagiaire.prenom|capitalize}}</p>
-        <p style="text-align: center;"> est {% if stagiaire.sexe == 1 %}inscrit {% else %} inscrite {% endif %}</p>
-        <p style="text-align: center;">à la formation {{session.nom}}</p>
-        <p style="text-align: center;">qui aura lieu du {{session.dateDebut | date('d/m/Y')}} au {{session.dateFin | date('d/m/Y')}} </p>
+    <body style="font-family: sans-serif;">
+        <h1 style="text-align: center;margin-top:4em;">{{ title }}</h1>
+        <p >Nous attestons par la présente que :</p>
+        <p style="text-align: center;">
+        <span >
+            <img style="width:200px" src="{{photo}}" alt="">
+        </span>{{stagiaire.nom|capitalize}} {{stagiaire.prenom|capitalize}}</p>
+        <p > est {% if stagiaire.sexe == 1 %}inscrit {% else %} inscrite {% endif %} à la formation</p>
+        <h4 style="text-align: center;"> {{session.nom}}</h4>
+        <p >qui aura lieu du {{session.dateDebut | date('d/m/Y')}} au {{session.dateFin | date('d/m/Y')}} </p>
         <p>Modules abordés : </p>
         <table class="table">
             <thead class="thead-light">
@@ -38,7 +37,8 @@
                     {% endfor %}                    
                 {% endfor %}
             </tbody>
-        <p >Fait le {{ "now"|date("d/m/Y") }} à Strasbourg</p>
+            <p>signature : ............</p>
+        <p>Fait le {{ "now"|date("d/m/Y") }} à Strasbourg </p>
     </body>
 </html>
     
