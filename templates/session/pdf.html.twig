@@ -7,9 +7,9 @@
         <h1 style="text-align: center;margin-top:4em;">{{ title }}</h1>
         <p >Nous attestons par la présente que :</p>
         <p style="text-align: center;">
-        <span >
-            <img style="width:200px" src="{{photo}}" alt="">
-        </span>{{stagiaire.nom|capitalize}} {{stagiaire.prenom|capitalize}}</p>
+            {{stagiaire.nom|capitalize}} {{stagiaire.prenom|capitalize}}
+            <img style="width:200px; border-radius:100%;" src="{{photo}}" alt="">
+        </p>
         <p > est {% if stagiaire.sexe == 1 %}inscrit {% else %} inscrite {% endif %} à la formation</p>
         <h4 style="text-align: center;"> {{session.nom}}</h4>
         <p >qui aura lieu du {{session.dateDebut | date('d/m/Y')}} au {{session.dateFin | date('d/m/Y')}} </p>

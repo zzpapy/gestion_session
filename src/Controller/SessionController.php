@@ -45,13 +45,15 @@ class SessionController extends AbstractController
         if(isset($request->request->get("session")["stagiaires"])){
             if(count($request->request->get("session")["stagiaires"])>$request->request->get("session")["nb_places"]){
                 // dump($request->request->get("session"));die;
-                $this->addFlash('error', 'vous avez séléctionné trop de stagiares');
+                $this->addFlash('error', 'vous avez séléctionné trop de stagiaires');
+                $form->remove("stagiaires");
+                $form->add("stagiaires");
                 if($session->getId() != null){
                     return $this->redirectToRoute('ModifSession',["id" => $session->getId()]);
                 }
-                else{
-                    return $this->redirectToRoute('home');
-                }
+                // else{
+                //     return $this->redirectToRoute('home');
+                // }
             }
         }
         $form->handleRequest($request);
@@ -68,11 +70,36 @@ class SessionController extends AbstractController
         ]);
     }
     /**
+     * @Route("/session/addStagiaireSess", name="/session/addStagiaireSess", methods={"GET"})
      * @Route("/session/{id<\d+>}", name="programme")
      */
-    public function index(Stagiaire $stagiaire = null,MailerInterface $mailer, Session $session, SessionRepository $sessRep,Request $request)
+    public function index(StagiaireRepository $stagiaireRep, Stagiaire $stagiaire = null,MailerInterface $mailer, Session $session = null, SessionRepository $sessRep,Request $request)
     {
-        $session = $sessRep->findOneBy(["id"=> $session->getId()]);
+        if($request->get("data") != null){
+            $session = $sessRep->findOneBy(["id"=> $request->get("id")]);
+            $stagiaire = $stagiaireRep->findOneBy(["id"=> $request->get("data")]);
+            if($session->getStagiaires()->contains($stagiaire)){
+                $session->removestagiaire($stagiaire);
+                // dump($session->getStagiaires()->contains($stagiaire));die;
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($session);
+                $em->flush();
+                return  new Response( "false" );
+            }
+            else{
+                $session->addStagiaire($stagiaire);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($session);
+                $em->flush();
+                $session->addStagiaire($stagiaire);
+                return  new Response( "true" );
+            }
+            
+            
+        }
+        $stagiaire = $stagiaireRep->findOneBy(["id" => 10]);
+        // dump($stagiaire,$session);die;
+        // dump($session->getStagiaires()->contains($stagiaire));die;
         
         $programmes = $session->getProgrammes();
         $tab=[];
@@ -339,10 +366,15 @@ class SessionController extends AbstractController
         $options->set('defaultFont', 'Arial');
         $options->setIsRemoteEnabled(true);
         $stagiaire = $stagiaireRep->findOneBy(["id" =>$request->get("id_stagiaire")]);
-        $path = '../public/img/'.$stagiaire->getPhoto();
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        if($stagiaire->getPhoto() != null){
+            $path = '../public/img/'.$stagiaire->getPhoto();
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        }
+        else{
+            $base64 = "";
+        }
         $programmes = $session->getProgrammes();
         $tab=[];
         foreach ($programmes as $key => $programme) {

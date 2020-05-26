@@ -75,12 +75,8 @@ img{
 .prog{
     margin-top: 4em;
 }
-.prog div:first-child{
-    flex:1;
-    max-width: 800px;
-}
 .prog>div:nth-child(2){
-    width: 25%;
+    /* width: 25%; */
 }
 .modalButton{
     border: none;
@@ -105,6 +101,7 @@ img{
 }
 .liststag{
     padding: 0.5em;
+    width: 100%;
 
 }
 .list_stag{

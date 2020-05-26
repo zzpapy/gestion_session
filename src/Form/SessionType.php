@@ -19,15 +19,13 @@ class SessionType extends AbstractType
             ->add('date_debut',DateType::class, [
                 'format' => 'dd-MM-yyyy ',
                 'html5'  => false,
-                "data" => new \DateTime()
+                // "data" => new \DateTime()
             ])
             ->add('date_fin',DateType::class, [
                 'format' => 'dd-MM-yyyy ',
                 'html5'  => false,
             ])
             ->add('nb_places')
-            // ->add('reserves')
-            // ->add('stagiaires')
             ->add('stagiaires', EntityType::class, [
                 'class' =>Stagiaire::class,
                 'choice_label' => function ($choice, $key, $value) {               

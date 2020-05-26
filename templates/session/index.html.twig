@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détail thisSession{% endblock %}
+{% block title %}Détail {{thisSession.nom}}{% endblock %}
 {% block nav %}
 {{parent()}}
 
@@ -11,6 +11,7 @@
         <div>
             
             <h1>{{thisSession.nom}}</h1>
+            <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="far fa-edit"></i></a>
             {% set difference = thisSession.dateDebut.diff(thisSession.dateFin) %}
             <div class="mt-4">
                 {% set comp = ""  %}
@@ -48,7 +49,10 @@
                         <tr id="programme_{{programme.id}}">
                             <td>{{programme.module.nom}}</td>
                             <td>{{programme.duree}}</td>
-                            <td width="15%"><a data-id="{{programme.id}}" data-session="{{thisSession.id}}" class="delProgramme border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme_delete')}}"><i class="far fa-trash-alt"></i></a></td>
+                            <td width="15%">
+                                <a data-id="{{programme.id}}" data-session="{{thisSession.id}}" class="delProgramme border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme_delete')}}"><i class="far fa-trash-alt"></i></a>
+                                <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifModule',{id:programme.module.id})}}"><i class="far fa-edit"></i></a>
+                            </td>
                         </tr>
                         {% endfor %}                    
                     {% endfor %}
@@ -56,64 +60,75 @@
             </thead>
         </table>
     </div>
-    <div>
-        {% if thisSession.stagiaires|length != 0 %}
-            <div colspan="2">
-                <h2>Stagiaires</h2><span>
-                    {% if thisSession.nbPlaces - thisSession.stagiaires| length <= 0 %}
-                     <p class="complet">la formation est complète</p>
-                    {% else %}
-                        <p class="reste">vous pouvez ajouter encore {{thisSession.nbPlaces - thisSession.stagiaires| length}} stagiaire(s)</p>
-                    {% endif %}
-                    
-                {# {% if thisSession.nbPlaces - thisSession.stagiaires | length > 0 %}
-                <a href="{{path('addStagiaireSess',{id:thisSession.id})}}">Ajouter/supprimer un stagiaire</a></span> 
-                {% else %}
-                <a href="{{path('addStagiaireSess',{id:thisSession.id})}}">Supprimer un stagiaire</a></span>             
-                {% endif %} #}
-            </div>
-        <table class="table mg_tab">
-            <thead class="thead-light">
-                <th scope="col">Nom</th>
-                <th scope="col">Prenom</th>
-                <th scope="col">Age</th>
-                <th width="5%" scope="col">Détail</th>
-                <tbody>
-                    {% for stagiaire in thisSession.stagiaires %}
-                    <tr>
-                        <td>{{stagiaire.nom|capitalize}}</td>
-                        <td>{{stagiaire.prenom|capitalize}}</td>
-                        {% set difference = date("now").diff(date(stagiaire.birth)) %}
-                        <td>{{difference.y}} ans</td>
-                        <td><a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a></td>
-                    </tr>                
-                    {% endfor %}
-                </tbody>
-            </thead>
-        </table> 
-        {% else %}
-        <h2>Ajouter stagiaire </h2><span>    
-        {% endif %}
-        {{ form_start(form) }}
-        <div class="liststag">
-            <h4>Ajouter ou supprimer satgiaire</h4>
-            <div class="flex list_stag">
-                {% for stagiaire in form.stagiaires %}
-                {% if thisSession.nbPlaces - thisSession.stagiaires| length <= 0 %}
-                    {% if stagiaire.vars.checked == true %}
-                        {{ form_widget(stagiaire) }}
-                    {% else %}
-                        {{ form_row(stagiaire, { 'attr': {'class': 'hidden-row'},'label':false}) }}
-                        
-                    {% endif %}
-                {% else %}                    
-                    {{ form_row(stagiaire) }}
-                {% endif %}
-                               
+   
+        <!-- {{ form_start(form) }} -->
+        {% set inscrit = [] %}
+        {% set nonInscrit = [] %}
+        {% for stagiaire in form.stagiaires %}
+            
+            {% if stagiaire.vars.checked == 1 %}
+            {% set inscrit = inscrit | merge([stagiaire]) %}
+            {% else %}
+            {% set nonInscrit = nonInscrit | merge([stagiaire]) %}
+            {% endif %}
+        {% endfor %}
+        <div>
+            <h4>Stagiaire inscrits</h4>
+        <table class="table ">
+            <thead>
+                <th>Nom</th>
+                <th>prenom</th>
+                <th>age</th>
+                <th>inscrit</th>
+                <th></th>
+            </thead>            
+            {{form_start(form)}}
+            <tbody id="inscrit">
+            {% for stagiaire in inscrit %}
+            {% set index  = stagiaire.vars.value %}    
+            {% set entity = form.stagiaires.vars.choices[index].data %}
+            {% set difference = date("now").diff(date(entity.birth)) %}
+                <tr id="{{entity.id}}">
+                    <td>{{entity.nom}}</td>
+                    <td>{{entity.prenom}}</td>
+                    <td>{{difference.y}}</td>
+                    <td> {{form_row(stagiaire,{ 'attr': {'data-session': thisSession.id,'data-stagiaire':entity.id}})}}</td>
+                    <td></td>
+                </tr>
                 {% endfor %}
-            </div>
-            <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
-            {{ form_end(form) }}
+            </tbody>
+            
+        </table>
+        <h4>Stagiaire non inscrits</h4>
+        <table class="table ">
+            <thead>
+                <th>Nom</th>
+                <th>prenom</th>
+                <th>age</th>
+                <th>inscrit</th>
+                <th></th>
+            </thead>            
+            <tbody id="nonInscrit">
+            {% for stagiaire in nonInscrit %}
+            {% set index  = stagiaire.vars.value %}    
+            {% set entity = form.stagiaires.vars.choices[index].data %}
+            {% set difference = date("now").diff(date(entity.birth)) %}
+                <tr id="{{entity.id}}">
+                    <td>{{entity.nom}}</td>
+                    <td>{{entity.prenom}}</td>
+                    <td>{{difference.y}}</td>
+                    <td> {{form_row(stagiaire,{ 'attr': {'data-session': thisSession.id,'data-stagiaire':entity.id}})}}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+                <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
+                
+            </tbody>
+        </table>
+        {{form_end(form)}}
+        <!-- </div> -->
+        <!-- -->
+    </div>
         </div>
     </div>
 </div>

@@ -60,6 +60,7 @@ $(".delProgramme").on("click",function(e){
     e.preventDefault()
     if(confirm("Etes vous sûre de vouloir supprimer ce module ?")){
         let url = $(this).attr("href")
+        console.log(url)
         let data = $(this).data("id")
         let session = $(this).data("session")
         $("#programme_"+data).prepend('<div class="lds-hourglass"></div>')
@@ -80,15 +81,40 @@ $(".delModule").on("click",function(e){
     if(confirm("Etes vous sûre de vouloir supprimer ce module ?")){
         let url = $(this).attr("href")
         let data = $(this).data("id")
+        
         $("#module_"+data).prepend('<div class="lds-hourglass"></div>')
         $.get(url,{        
               data: data      
           }).then(function(response){
              console.log('toto')
+            
              $("#module_"+data).remove()               
         })
     }
     else{
         alert("supression annulée");
     }
+})
+$("input[type='checkbox']").on("click",function(){
+    data = $(this).val()
+    session = $(this).data('session')
+    stagiaire = $(this).data('stagiaire')
+    text = $("#"+stagiaire).html()
+    console.log(text)
+    $("#"+stagiaire).prepend('<div class="lds-hourglass"></div>')
+    $.get('/session/addStagiaireSess',{        
+        id: session ,    
+        data: data,
+    }).then(function(response){
+        console.log(response)
+        if(response === true){
+            $("#inscrit").append("<tr>"+text+"</tr>")
+        }
+        if(response === false) {
+            $("#nonInscrit").append("<tr>"+text+"</tr>")
+            console.log(response)
+        }
+        $("#"+stagiaire).remove()
+                    
+  })
 })

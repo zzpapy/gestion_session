@@ -20,7 +20,7 @@ class AddStagiaireType extends AbstractType
             'label' => 'Ajouter ou supprimer un stagiaire de la formation',
             'choice_label' => function ($choice, $key, $value) {               
                 $nom = $choice->getNom();
-                return ucfirst($nom);
+                return false;
             },
             'multiple' =>true,
             'expanded' =>true,
