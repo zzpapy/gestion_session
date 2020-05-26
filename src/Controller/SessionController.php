@@ -222,7 +222,7 @@ class SessionController extends AbstractController
         $id = $request->get("data");
         $sessionId = $request->get("session");
         $programme = $programmeRep->findOneBy(["id" => $id]);
-       $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($programme);
         $entityManager->flush();
         
@@ -230,6 +230,30 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('programme',["id" => $sessionId]);
     }
     
+     /**
+     * @Route("ModifDuree/{id<\d+>}/{id_session<\d+>}", name="ModifDuree")
+     */
+    public function modif(Request $request, Programme $programme = null,SessionRepository $sessionRep): Response
+    {
+        if(!$programme){
+            $programme = new programme();
+        }
+        // dump($request->get("id_session"));die;
+        $session = $sessionRep->findOneBy(["id" => $request->get("id_session")]);
+        $formProgramme = $this->createForm(ProgrammeType::class, $programme);
+       
+        $formProgramme->handleRequest($request);
+        if($formProgramme->isSubmitted() && $formProgramme->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($programme);
+            $em->flush();
+            return $this->redirectToRoute('programme',["id" => $session->getId()]);
+        }
+        return $this->render('session/ModifDuree.html.twig', [
+            
+            'formProgramme' => $formProgramme->createView(),
+        ]);
+    }
      /**
      * @Route("/delete_session", name="session_delete", methods={"GET"})
      */

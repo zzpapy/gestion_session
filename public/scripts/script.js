@@ -95,24 +95,24 @@ $(".delModule").on("click",function(e){
         alert("supression annulée");
     }
 })
-$("input[type='checkbox']").on("click",function(){
-    data = $(this).val()
-    session = $(this).data('session')
-    stagiaire = $(this).data('stagiaire')
-    text = $("#"+stagiaire).html()
-    $("#"+stagiaire).prepend('<div class="lds-hourglass"></div>')
-    $.get('/session/addStagiaireSess',{        
-        id: session ,    
-        data: data,
-    }).then(function(response){
-        console.log(response)
-        if(response == 'true'){
-            $("#"+stagiaire).remove()
-            $("#inscrit").append("<tr>"+text+"</tr>")
-        }
-        if(response === 'false') {
-            $("#"+stagiaire).remove()
-            $("#nonInscrit").append("<tr>"+text+"</tr>")
-        }                    
-  })
-})
+// $("input[type='checkbox']").on("click",function(){
+//     data = $(this).val()
+//     session = $(this).data('session')
+//     stagiaire = $(this).data('stagiaire')
+//     text = $("#"+stagiaire).html()
+//     $("#"+stagiaire).prepend('<div class="lds-hourglass"></div>')
+//     $.get('/session/addStagiaireSess',{        
+//         id: session ,    
+//         data: data,
+//     }).then(function(response){
+//         console.log(response)
+//         if(response == 'true'){
+           
+//             $("#inscrit").append("<tr>"+text+"</tr>")
+//         }
+//         if(response === 'false') {
+//             $("#nonInscrit").append("<tr>"+text+"</tr>")
+//         }                    
+//         $("#"+stagiaire).remove()
+//   })
+// })

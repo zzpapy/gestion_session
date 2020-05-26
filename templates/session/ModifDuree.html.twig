@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{{form_start(formProgramme)}}
+{{form_widget(formProgramme)}}
+<input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
+{{form_end(formProgramme)}}
+    
+{% endblock %}
