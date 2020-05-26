@@ -60,8 +60,6 @@
             </thead>
         </table>
     </div>
-   
-        <!-- {{ form_start(form) }} -->
         {% set inscrit = [] %}
         {% set nonInscrit = [] %}
         {% for stagiaire in form.stagiaires %}
@@ -75,12 +73,12 @@
         <div>
             <h4>Stagiaire inscrits</h4>
         <table class="table ">
-            <thead>
-                <th>Nom</th>
-                <th>prenom</th>
-                <th>age</th>
-                <th>inscrit</th>
-                <th></th>
+            <thead class="thead-light">
+                <th scope="col">Nom</th>
+                <th scope="col">prenom</th>
+                <th scope="col">age</th>
+                <th scope="col">inscrit</th>
+                <th scope="col"></th>
             </thead>            
             {{form_start(form)}}
             <tbody id="inscrit">
@@ -96,18 +94,17 @@
                     <td></td>
                 </tr>
                 {% endfor %}
-            </tbody>
-            
+            </tbody>            
         </table>
         <h4>Stagiaire non inscrits</h4>
         <table class="table ">
-            <thead>
-                <th>Nom</th>
-                <th>prenom</th>
-                <th>age</th>
-                <th>inscrit</th>
-                <th></th>
-            </thead>            
+            <!-- <thead class="thead-light">
+                <th scope="col">Nom</th>
+                <th scope="col">prenom</th>
+                <th scope="col">age</th>
+                <th scope="col">inscrit</th>
+                <th scope="col"></th>
+            </thead>-->
             <tbody id="nonInscrit">
             {% for stagiaire in nonInscrit %}
             {% set index  = stagiaire.vars.value %}    
@@ -121,13 +118,11 @@
                     <td></td>
                 </tr>
                 {% endfor %}
-                <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
+                <!-- <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit"> -->
                 
             </tbody>
         </table>
         {{form_end(form)}}
-        <!-- </div> -->
-        <!-- -->
     </div>
         </div>
     </div>

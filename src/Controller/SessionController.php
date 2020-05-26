@@ -93,13 +93,9 @@ class SessionController extends AbstractController
                 $em->flush();
                 $session->addStagiaire($stagiaire);
                 return  new Response( "true" );
-            }
-            
-            
+            }    
         }
-        $stagiaire = $stagiaireRep->findOneBy(["id" => 10]);
-        // dump($stagiaire,$session);die;
-        // dump($session->getStagiaires()->contains($stagiaire));die;
+        
         
         $programmes = $session->getProgrammes();
         $tab=[];

@@ -100,21 +100,18 @@ $("input[type='checkbox']").on("click",function(){
     session = $(this).data('session')
     stagiaire = $(this).data('stagiaire')
     text = $("#"+stagiaire).html()
-    console.log(text)
     $("#"+stagiaire).prepend('<div class="lds-hourglass"></div>')
     $.get('/session/addStagiaireSess',{        
         id: session ,    
         data: data,
     }).then(function(response){
-        console.log(response)
-        if(response === true){
+        if(response == 'true'){
+            $("#"+stagiaire).remove()
             $("#inscrit").append("<tr>"+text+"</tr>")
         }
-        if(response === false) {
+        if(response === 'false') {
+            $("#"+stagiaire).remove()
             $("#nonInscrit").append("<tr>"+text+"</tr>")
-            console.log(response)
-        }
-        $("#"+stagiaire).remove()
-                    
+        }                    
   })
 })
