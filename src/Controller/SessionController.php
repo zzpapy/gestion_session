@@ -75,26 +75,41 @@ class SessionController extends AbstractController
      */
     public function index(StagiaireRepository $stagiaireRep, Stagiaire $stagiaire = null,MailerInterface $mailer, Session $session = null, SessionRepository $sessRep,Request $request)
     {
-        if($request->get("data") != null){
-            $session = $sessRep->findOneBy(["id"=> $request->get("id")]);
-            $stagiaire = $stagiaireRep->findOneBy(["id"=> $request->get("data")]);
-            if($session->getStagiaires()->contains($stagiaire)){
+        // dump($request->request->get("add"));die;
+        $session = $sessRep->findOneBy(["id"=> $request->get("id")]);
+        if($request->request->get("remove")){
+            $stagiaire = $this->getDoctrine()
+                            ->getRepository(Stagiaire::class)
+                            ->find($request->request->get("add_stagiaire")['stagiaires'][0]);
                 $session->removestagiaire($stagiaire);
                 // dump($session->getStagiaires()->contains($stagiaire));die;
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($session);
                 $em->flush();
-                return  new Response( "false" );
+                $this->addFlash('success', 'stagiaire(s) retiré(s) avec succés');
+                return $this->redirectToRoute('programme',["id" => $session->getId()]);
+                // return  new Response( "false" );
             }
-            else{
+            else if($request->request->get("add")){
+                $nb_stagiaires = count($session->getStagiaires());
+                $nb_places = $session->getNbPlaces();
+                if($nb_stagiaires >= $nb_places){
+                    $this->addFlash('error', 'la formation est complète');
+                    return $this->redirectToRoute('programme',["id" => $session->getId()]);
+                }
+                $stagiaire = $this->getDoctrine()
+                ->getRepository(Stagiaire::class)
+                ->find($request->request->get("add_stagiaire")['stagiaires'][0]);
                 $session->addStagiaire($stagiaire);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($session);
                 $em->flush();
                 $session->addStagiaire($stagiaire);
-                return  new Response( "true" );
-            }    
-        }
+                $this->addFlash('success', 'stagiaire(s) ajouté(s) avec succés');
+                return $this->redirectToRoute('programme',["id" => $session->getId()]);
+                // return  new Response( "true" );
+            }
+            
         
         
         $programmes = $session->getProgrammes();

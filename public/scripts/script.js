@@ -116,3 +116,7 @@ $(".delModule").on("click",function(e){
 //         $("#"+stagiaire).remove()
 //   })
 // })
+$(".button").on("click",function(){
+    console.log('toto')
+    $(this).prepend('<div class="lds-hourglass"></div>')
+})

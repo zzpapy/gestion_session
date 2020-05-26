@@ -9,6 +9,14 @@ body{
     background-repeat: no-repeat;
     background-size: contain;
 }
+.button{
+    border: none;
+    background: transparent;
+    color:green
+}
+.remove{
+    color: red;
+}
 
   .modileMenu {
       display: none;

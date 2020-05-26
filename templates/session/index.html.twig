@@ -23,16 +23,18 @@
                 <div class="flex align-middle" >
                     <p class="text-center alert alert-dark">Du {{thisSession.dateDebut| date("d/m/Y")}} au {{thisSession.dateFin| date("d/m/Y")}} soit {{difference.y}} ans {{difference.m}} mois et {{difference.d}} jours
                     <span class="">nb places : {{thisSession.nbPlaces}} - places restantes :<span class={{comp}}> {{places}} </span></span></p>
-                    {% if thisSession.programmes | length == 0 %}
-                    <a class="text-center alert alert-dark" href="{{path('CreaProgramme',{id:thisSession.id})}}">Créer un programme de formation</a>
-                    {% else %}
-                    <a class="text-center alert alert-dark" href="{{path('CreaProgramme',{id:thisSession.id})}}">Ajouter un module</a>
-                    {% endif %}
+                   
                     <a class="text-center alert alert-dark" href="{{path('trombi',{id:thisSession.id})}}">Trombinoscope</a>
                 </div>
             </div>
         </div>
-        <h4>Programme</h4>
+        <h4>Programme
+            {% if thisSession.programmes | length == 0 %}
+            <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}">Créer un programme de formation</a>
+            {% else %}
+            <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}">Ajouter un module</a>
+            {% endif %}       
+        </h4>
         <table class="table">
             <thead class="thead-light">
                 <th scope="col">Module</th>
@@ -80,10 +82,10 @@
                 <th scope="col">Nom</th>
                 <th scope="col">prenom</th>
                 <th scope="col">age</th>
+                <th scope="col">détail</th>
                 <th scope="col">inscrit</th>
-                <th scope="col"></th>
             </thead>            
-            {{form_start(form)}}
+            <!-- {{form_start(form)}} -->
             <tbody id="inscrit">
             {% for stagiaire in inscrit %}
             {% set index  = stagiaire.vars.value %}    
@@ -93,21 +95,26 @@
                     <td>{{entity.nom|capitalize}}</td>
                     <td>{{entity.prenom|capitalize}}</td>
                     <td>{{difference.y}}</td>
-                    <td> {{form_row(stagiaire,{ 'attr': {'data-session': thisSession.id,'data-stagiaire':entity.id}})}}</td>
-                    <td></td>
+                    <!-- <td> {{form_row(stagiaire,{ 'attr': {'data-session': thisSession.id,'data-stagiaire':entity.id}})}}</td> -->
+                    <td><a class="button" href="{{path('/stagiaire/detailStagiaire',{id:entity.id})}}"><i class="fas fa-user"></i></a>
+                    </td>
+                    <td>
+                        <form action="" method="post">
+                            <input type="hidden" name="add_stagiaire[stagiaires][]" id="add_stagiaire_stagiaires_{{entity.id}}" value="{{entity.id}}">
+                            <input type="hidden" name="remove" id="add_stagiaire_stagiaires_{{entity.id}}" value="{{entity.id}}">
+                            
+                            <button class="button remove" class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit" ><i class="fas fa-user-minus"></i></button>
+
+                        </form>
+
+                    </td>
+                    
                 </tr>
                 {% endfor %}
             </tbody>            
         </table>
         <h4>Stagiaires non inscrits</h4>
         <table class="table ">
-            <!-- <thead class="thead-light">
-                <th scope="col">Nom</th>
-                <th scope="col">prenom</th>
-                <th scope="col">age</th>
-                <th scope="col">inscrit</th>
-                <th scope="col"></th>
-            </thead>-->
             <tbody id="nonInscrit">
             {% for stagiaire in nonInscrit %}
             {% set index  = stagiaire.vars.value %}    
@@ -117,15 +124,23 @@
                     <td>{{entity.nom|capitalize}}</td>
                     <td>{{entity.prenom|capitalize}}</td>
                     <td>{{difference.y}}</td>
-                    <td> {{form_row(stagiaire,{ 'attr': {'data-session': thisSession.id,'data-stagiaire':entity.id}})}}</td>
-                    <td></td>
+                    <!-- <td> {{form_row(stagiaire,{ 'attr': {'data-session': thisSession.id,'data-stagiaire':entity.id}})}}</td> -->
+                    <td><a class="button" href="{{path('/stagiaire/detailStagiaire',{id:entity.id})}}"><i class="fas fa-user"></i></a>
+                    </td>
+                    <td>
+                        <form action="" method="post">
+                            <input type="hidden" name="add_stagiaire[stagiaires][]" id="add_stagiaire_stagiaires_{{entity.id}}" value="{{entity.id}}">
+                            <input type="hidden" name="add" id="add_stagiaire_stagiaires_{{entity.id}}" value="{{entity.id}}">
+                            
+                            <button class="button" type="submit" value="inscrire"><i class="fas fa-user-plus"></i></button>
+
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
-                <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
-                
             </tbody>
         </table>
-        {{form_end(form)}}
+        <!-- {{form_end(form)}} -->
     </div>
 </div>
 {% endblock %}
