@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 body{
-    background-image: url("../img/back4.jpg");
+    /* background-image: url("../img/back4.jpg"); */
     /* height: 500px; */
     background-attachment: fixed;
     background-position: center;
@@ -17,7 +17,7 @@ body{
 .alert{
     margin-left:0 0.5em;
 }
-#slide{
+/* #slide{
     max-width: 10%;
     position: fixed;
     left: 0;
@@ -25,10 +25,9 @@ body{
     z-index: 1;
     top: 0;
     top: 0;
-}
+} */
 nav{
     display: flex;
-    height: 100vh;
     justify-content: space-around;
 }
 .flex{
@@ -40,14 +39,13 @@ img{
     max-width: 100%;
 }
 .wrapper{
-    max-width: 75%;
+    /* max-width: 75%; */
     margin: auto;
     
 }
 .table{
     /* max-width: 75%; */
     margin: auto;
-    margin-top: 1em;
     background:rgb(220,220,220,0.8);
 }
 .stagiaire{
@@ -73,10 +71,13 @@ img{
     width: 100px;
 }
 .prog{
-    margin-top: 4em;
+    justify-content: space-around;
 }
-.prog>div:nth-child(2){
-    /* width: 25%; */
+.prog > div{
+    width: 40%;
+}
+.info_sess{
+    max-width: 50%;
 }
 .modalButton{
     border: none;

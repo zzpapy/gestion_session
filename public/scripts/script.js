@@ -105,6 +105,7 @@ $("input[type='checkbox']").on("click",function(){
         id: session ,    
         data: data,
     }).then(function(response){
+        console.log(response)
         if(response == 'true'){
             $("#"+stagiaire).remove()
             $("#inscrit").append("<tr>"+text+"</tr>")

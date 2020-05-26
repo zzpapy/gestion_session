@@ -8,10 +8,9 @@
 {% block body %}
 <div class="flex prog">
     <div>
-        <div>
+        <div style="margin-top:2.5em" class="alert alert-dark">    
+            <h4>{{thisSession.nom}} <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="far fa-edit"></i></a></h4>
             
-            <h1>{{thisSession.nom}}</h1>
-            <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="far fa-edit"></i></a>
             {% set difference = thisSession.dateDebut.diff(thisSession.dateFin) %}
             <div class="mt-4">
                 {% set comp = ""  %}
@@ -21,9 +20,9 @@
                     {% set places = 'formation complète' %}
                     
                 {% endif %}
-                <p class="text-center alert alert-dark">Du {{thisSession.dateDebut| date("d/m/Y")}} au {{thisSession.dateFin| date("d/m/Y")}} soit {{difference.y}} ans {{difference.m}} mois et {{difference.d}} jours</p>
                 <div class="flex align-middle" >
-                    <span class="alert alert-dark">nb places : {{thisSession.nbPlaces}} - places restantes :<span class={{comp}}> {{places}} </span></span>
+                    <p class="text-center alert alert-dark">Du {{thisSession.dateDebut| date("d/m/Y")}} au {{thisSession.dateFin| date("d/m/Y")}} soit {{difference.y}} ans {{difference.m}} mois et {{difference.d}} jours
+                    <span class="">nb places : {{thisSession.nbPlaces}} - places restantes :<span class={{comp}}> {{places}} </span></span></p>
                     {% if thisSession.programmes | length == 0 %}
                     <a class="text-center alert alert-dark" href="{{path('CreaProgramme',{id:thisSession.id})}}">Créer un programme de formation</a>
                     {% else %}
@@ -33,6 +32,7 @@
                 </div>
             </div>
         </div>
+        <h4>Programme</h4>
         <table class="table">
             <thead class="thead-light">
                 <th scope="col">Module</th>
@@ -71,7 +71,7 @@
             {% endif %}
         {% endfor %}
         <div>
-            <h4>Stagiaire inscrits</h4>
+        <h4>Stagiaires inscrits</h4>
         <table class="table ">
             <thead class="thead-light">
                 <th scope="col">Nom</th>
@@ -87,8 +87,8 @@
             {% set entity = form.stagiaires.vars.choices[index].data %}
             {% set difference = date("now").diff(date(entity.birth)) %}
                 <tr id="{{entity.id}}">
-                    <td>{{entity.nom}}</td>
-                    <td>{{entity.prenom}}</td>
+                    <td>{{entity.nom|capitalize}}</td>
+                    <td>{{entity.prenom|capitalize}}</td>
                     <td>{{difference.y}}</td>
                     <td> {{form_row(stagiaire,{ 'attr': {'data-session': thisSession.id,'data-stagiaire':entity.id}})}}</td>
                     <td></td>
@@ -96,7 +96,7 @@
                 {% endfor %}
             </tbody>            
         </table>
-        <h4>Stagiaire non inscrits</h4>
+        <h4>Stagiaires non inscrits</h4>
         <table class="table ">
             <!-- <thead class="thead-light">
                 <th scope="col">Nom</th>
@@ -111,8 +111,8 @@
             {% set entity = form.stagiaires.vars.choices[index].data %}
             {% set difference = date("now").diff(date(entity.birth)) %}
                 <tr id="{{entity.id}}">
-                    <td>{{entity.nom}}</td>
-                    <td>{{entity.prenom}}</td>
+                    <td>{{entity.nom|capitalize}}</td>
+                    <td>{{entity.prenom|capitalize}}</td>
                     <td>{{difference.y}}</td>
                     <td> {{form_row(stagiaire,{ 'attr': {'data-session': thisSession.id,'data-stagiaire':entity.id}})}}</td>
                     <td></td>
@@ -123,8 +123,6 @@
             </tbody>
         </table>
         {{form_end(form)}}
-    </div>
-        </div>
     </div>
 </div>
 {% endblock %}

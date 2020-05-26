@@ -37,7 +37,7 @@ class SessionController extends AbstractController
      */
     public function createSession(Request $request,Session $session = null)
     {
-        // dump($session);die;
+        
         if(!$session){
             $session = new session();
         }
@@ -98,8 +98,10 @@ class SessionController extends AbstractController
         
         
         $programmes = $session->getProgrammes();
+        // $session = $sessRep->findOneBy(["id" => $request->get("id")]);
         $tab=[];
         foreach ($programmes as $key => $programme) {
+            // dump($programme->getModule()->getCategorie()->getNom());die;
             if(array_key_exists($programme->getModule()->getCategorie()->getNom(),$tab)){
                 array_push($tab[$programme->getModule()->getCategorie()->getNom()],$programme);
             }
