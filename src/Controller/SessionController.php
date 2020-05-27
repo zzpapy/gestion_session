@@ -197,24 +197,24 @@ class SessionController extends AbstractController
         if(!$programme){
             $programme = new programme();
         }
-        $formProgramme = $this->createForm(ProgrammeType::class, $programme);
-        $duree = 0;
+        $tps_session = 0;
         foreach ($session->getProgrammes() as $programme) {
             $tps = $programme->getDuree();
-            $duree = $duree + $tps;
+            $tps_session = $tps_session + $tps;
         }
         $debut = $session->getDateDebut();
         $fin = $session->getDateFin();
         $longueur = $fin->diff($debut);
         $days = $longueur->days;
-        // dump($duree + $request->request->get("programme")["duree"]);die;
+        // dump($days);die;
         if(isset($request->request->get("programme")["duree"])){
-            if(($duree + $request->request->get("programme")["duree"]) > $days){
+            if(($tps_session + $request->request->get("programme")["duree"]) > $days){
                 $this->addFlash('error', 'vous dépassez la durée de la formation');
                 return $this->redirectToRoute('CreaProgramme',["id" => $session->getId()]);
             }
-
+            
         }
+        $formProgramme = $this->createForm(ProgrammeType::class, $programme);
         $formProgramme->handleRequest($request);
         $programme->setSession($session);
         if($formProgramme->isSubmitted() && $formProgramme->isValid()){
