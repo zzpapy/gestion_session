@@ -12,8 +12,8 @@ function readURL(input) {
   $(".modileMenu").on("click",function(e){    
     e.stopPropagation()
     console.log("toto")
-    $("nav").addClass("flex")
     $( "#slide" ).slideDown( 500 );
+    // $("nav").addClass("flex")
 })
 var windowWidth = window.innerWidth;
 if(windowWidth<=640){

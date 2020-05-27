@@ -31,9 +31,9 @@
             {% set places = session.nbPlaces - session.stagiaires | length %}
             {% if places == 0 %}
                 {% set places = "formation complète" %}
-                <p class="errors"> {{places}}</p>
+                <p class="error"> {{places}}</p>
             {% else %}
-            <p class="success">Places restantes : {{places}}</p>
+            <p class="succes">Places restantes : {{places}}</p>
                 
             {% endif %}
             <p class="d-flex p-2 justify-content-between">

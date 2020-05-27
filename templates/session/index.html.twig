@@ -10,22 +10,28 @@
     <div class="programme">
         <div  class="title_sess alert alert-dark"> 
             <h4>{{thisSession.nom}} <a class="" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="far fa-edit"></i></a></h4>
-           
+            <a class="" href="{{path('vacances',{id:thisSession.id})}}">Ajouter des vacances</a>
+            {% for vacance in vacances %}
+            {% set diffVac = vacance.dateDebut.diff(vacance.dateFin) %}
+                <p> vacances du  {{vacance.dateDebut|date('d-m-Y')}} au {{vacance.dateFin|date('d-m-Y')}} soit {{diffVac.days}} jours</p>
+                    
+                {% endfor %}
             
             {% set difference = thisSession.dateDebut.diff(thisSession.dateFin) %}
             <div class="mt-4">
-                {% set comp = ""  %}
                 {% set places = thisSession.nbPlaces - thisSession.stagiaires | length %}
                 {% if places == 0 %}
                     {% set comp = "error" %}
                     {% set places = 'formation complète' %}
+                {% else %}
+                    {% set comp = "succes" %}
                     
                 {% endif %}
                 <div class="flex align-middle" >
                     <p class="text-center alert alert-dark">Du {{thisSession.dateDebut| date("d/m/Y")}} au {{thisSession.dateFin| date("d/m/Y")}} soit {{difference.y}} ans {{difference.m}} mois et {{difference.d}} jours
-                    <span class="">nb places : {{thisSession.nbPlaces}} - places restantes :<span class={{comp}}> {{places}} </span></span></p>
+                    <span class="">nb places : {{thisSession.nbPlaces}} -<span class={{comp}}> places restantes : {{places}} </span></span></p>
                    
-                    <a class="text-center alert alert-dark" href="{{path('trombi',{id:thisSession.id})}}">Trombinoscope</a>
+                    
                 </div>
                 {% if tps_session < longueur %}
                 <p>cette session a une durée de {{longueur}} jours, vous avez déjà programmé  {{tps_session}} jours.
@@ -38,11 +44,11 @@
         </div>
         <h4>Programme
             {% if tps_session < longueur %}
-            {% if thisSession.programmes | length == 0 %}
+            <!-- {% if thisSession.programmes | length == 0 %}
             <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}">Créer un programme de formation</a>
-            {% else %}
-            <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}">Ajouter un module</a>
-            {% endif %} 
+            {% else %} -->
+            <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}"><i class="far fa-edit"></i></a>
+            <!-- {% endif %}  -->
             {% endif %}
                   
         </h4>
@@ -89,7 +95,7 @@
             {% endif %}
         {% endfor %}
         <div>
-        <h4>Stagiaires inscrits</h4>
+        <h4>Stagiaires inscrits</h4><a class="" href="{{path('trombi',{id:thisSession.id})}}">Trombinoscope</a>
         <table class="table ">
             <thead class="thead-light">
                 <th scope="col">Nom</th>

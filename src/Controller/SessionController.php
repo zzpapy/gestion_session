@@ -6,11 +6,13 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Entity\Module;
 use App\Entity\Session;
+use App\Entity\Vacances;
 use App\Form\ModuleType;
 use App\Entity\Categorie;
 use App\Entity\Programme;
 use App\Entity\Stagiaire;
 use App\Form\SessionType;
+use App\Form\VacancesType;
 use App\Form\CategorieType;
 use App\Form\ProgrammeType;
 use App\Form\AddStagiaireType;
@@ -131,26 +133,38 @@ class SessionController extends AbstractController
         }
         $debut = $session->getDateDebut();
         $fin = $session->getDateFin();
+        $fin->modify('+1 day');
         $longueur = $fin->diff($debut);
         $days = $longueur->days;
         $period = new \DatePeriod($debut, new \DateInterval('P1D'), $fin);
-        $holidays = array('2012-09-07');
+        $vacances = $session->getVacances();
+        // dump(count($vacances));die;
+        if(count($vacances) != 0){
+            foreach ($vacances as $vac) {
+                $dateDeb = $vac->getDateDebut();
+                $dateFin = $vac->getDateFin();
+            }
+            $debutHol =  $dateDeb;
+            $finHol =$dateFin;
+            $daysHol = $finHol->diff($debutHol);
+            // dump($dateDeb);die;
+            if($daysHol){
+    
+                $days = $days - $daysHol->days;
+            }
+        }
         foreach($period as $dt) {
             $curr = $dt->format('D');
-        
-            // substract if Saturday or Sunday
             if ($curr == 'Sat' || $curr == 'Sun') {
                 $days--;
             }
-            elseif (in_array($dt->format('Y-m-d'), $holidays)) {
-                $days--;
-            }
-        
-            // (optional) for the updated question
+            // else if (in_array($dt->format('Y-m-d'), $holidays)) {
+            //     $days--;
+            // }
             
         }
         
-        // dump($days);die;
+        // dump($daysHol->days,$days-$daysHol->days);die;
 
 
         $form = $this->createForm(AddStagiaireType::class,$session);
@@ -202,7 +216,8 @@ class SessionController extends AbstractController
             'tab'     => $tab,  
             'form'    => $form->createView(),
             'longueur' => $days,
-            'tps_session' => $tps_session
+            'tps_session' => $tps_session,
+            'vacances' => $vacances
         ]);
     }
     /**
@@ -453,6 +468,49 @@ class SessionController extends AbstractController
         $entityManager->flush();        
        
         return $this->redirectToRoute('home');
+    }
+     /**
+     * @Route("/vacances/{id<\d+>}", name="vacances")
+     */
+    public function addVacances(Request $request,Session $session,Vacances $vacances = null)
+    {
+        if(!$vacances){
+            $vacances = new Vacances();
+        }
+        $formVacances = $this->createForm(VacancesType::class, $vacances);
+        $formVacances->handleRequest($request);
+        if($formVacances->isSubmitted() && $formVacances->isValid()){
+            $vacances->setSession($session);
+            $debVac =new \Datetime( implode('-',$request->request->get('vacances')["date_debut"]));
+            $finVac =new \Datetime( implode('-',$request->request->get('vacances')["date_fin"]));
+            $periodVac = new \DatePeriod($debVac, new \DateInterval('P1D'), $finVac);
+            
+            $debSess = $session->getDateDebut();
+            $finSess = $session->getDateFin();
+            $diffDeb = $debSess < $debVac;
+            if($diffDeb){
+                if($finVac > $finSess){
+                    // dump($diffDeb);die;
+                    $this->addFlash('error', 'Cette pèriode de vacances est non valide');
+                    return $this->redirectToRoute('vacances',["id" => $session->getId()]);
+                }    
+            }
+            else{
+                $this->addFlash('error', 'Cette pèriode de vacances est non valide');
+                return $this->redirectToRoute('vacances',["id" => $session->getId()]);
+            }
+            $periodSess = new \DatePeriod($debSess, new \DateInterval('P1D'), $finSess);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($vacances);
+            $em->flush();
+            return $this->redirectToRoute('programme',["id" => $session->getId()]);
+        }
+       
+        return $this->render('session/vacances.html.twig', [
+            
+            'formVacances' => $formVacances->createView(),
+            'session' => $session
+        ]);
     }
      /**
      * Export to PDF

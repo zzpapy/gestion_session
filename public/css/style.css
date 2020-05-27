@@ -17,10 +17,15 @@ body{
 .remove{
     color: red;
 }
+footer{
+    height:10vh;
+    position: sticky;
+    bottom: 0;
+}
 
   .modileMenu {
       display: none;
-      color: white;
+      /* color: white; */
   }
 .alert{
     margin-left:0 0.5em;
@@ -82,7 +87,7 @@ img{
     width: 100px;
 }
 .title_sess{
-    width: 50%;
+    width: 80%;
     margin-top:1em;
 }
 .list_stagiaires{
@@ -172,6 +177,9 @@ img{
 .reste,.success{
     color : rgb(0,180,0);
     
+}
+.succes{
+    color : rgb(0,180,0);
 }
 #success, .errors{
     display: flex;
@@ -275,6 +283,9 @@ form[name="add_stagiaire"]{
     nav{        
         flex-direction: column;
         height: auto;
+        position: fixed;
+        width: 100%;
+        z-index: 1;
     }
     nav a{
         width: 80%;

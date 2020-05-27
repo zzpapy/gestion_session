@@ -49,12 +49,18 @@ class Session
      */
     private $programmes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Vacances::class, mappedBy="session")
+     */
+    private $vacances;
+
    
 
     public function __construct()
     {
         $this->stagiaires = new ArrayCollection();
         $this->programmes = new ArrayCollection();
+        $this->vacances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +170,37 @@ class Session
             // set the owning side to null (unless already changed)
             if ($programme->getSession() === $this) {
                 $programme->setSession(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vacances[]
+     */
+    public function getVacances(): Collection
+    {
+        return $this->vacances;
+    }
+
+    public function addVacance(Vacances $vacance): self
+    {
+        if (!$this->vacances->contains($vacance)) {
+            $this->vacances[] = $vacance;
+            $vacance->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVacance(Vacances $vacance): self
+    {
+        if ($this->vacances->contains($vacance)) {
+            $this->vacances->removeElement($vacance);
+            // set the owning side to null (unless already changed)
+            if ($vacance->getSession() === $this) {
+                $vacance->setSession(null);
             }
         }
 
