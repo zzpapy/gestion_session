@@ -120,3 +120,4 @@ $(".button").on("click",function(){
     console.log('toto')
     $(this).prepend('<div class="lds-hourglass"></div>')
 })
+$(".errors").slideDown(500)

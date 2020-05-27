@@ -5,12 +5,12 @@
 {{parent()}}
 {% endblock %}
 {% block body %}
-<table class="table">
+<table class="table list_stagiaires">
     <thead>
         <th>Photo</th>
         <th>Nom</th>
         <th>Prénom</th>
-        <th>Détail</th>
+        <th>Outils</th>
         <tbody>
             {% set photo = "" %}
             {% for stagiaire in stagiaires %}
@@ -76,9 +76,9 @@
                     <td class="align-middle">{{stagiaire.nom|capitalize}}</td>
                     <td class="align-middle">{{stagiaire.prenom|capitalize}}</td>
                     <td class="align-middle" width="15%">
-                        <a class="border rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a>
-                        <a class="border rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('updateStagiaire',{id:stagiaire.id})}}"><i class="far fa-edit"></i></a>
-                        <a data-id="{{stagiaire.id}}" class="delStagiaire border rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('stagiaire_delete')}}"><i class="far fa-trash-alt"></i></a>
+                        <a class="" href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a>
+                        <a class="" href="{{path('updateStagiaire',{id:stagiaire.id})}}"><i class="far fa-edit"></i></a>
+                        <a data-id="{{stagiaire.id}}" class="delStagiaire " href="{{path('stagiaire_delete')}}"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 

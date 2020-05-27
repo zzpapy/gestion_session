@@ -4,7 +4,7 @@
 
 {% block body %}
 {# {{form(form)}} #}
-<div class="flex prog">
+<div class="container prog">
     <div>
         {{ form_start(form) }}
         {{ form_row(form.nom) }}
@@ -18,9 +18,11 @@
                     {{ form_row(stagiaire) }}
             {% endfor %}
         </div>
+        
+<input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
+
     </div>
 </div>
-<button class="btn btn-primary">créer</button>
 {{ form_end(form) }}
 
 {% endblock %}

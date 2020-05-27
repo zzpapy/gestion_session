@@ -6,10 +6,10 @@
 
 {% endblock %}
 {% block body %}
-<div class="flex prog">
-    <div>
-        <div style="margin-top:2.5em" class="alert alert-dark">    
-            <h4>{{thisSession.nom}} <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="far fa-edit"></i></a></h4>
+<div class="flex affich_session container-fluid">
+    <div class="programme">
+        <div  class="title_sess alert alert-dark">    
+            <h4>{{thisSession.nom}} <a class="" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="far fa-edit"></i></a></h4>
             
             {% set difference = thisSession.dateDebut.diff(thisSession.dateFin) %}
             <div class="mt-4">
@@ -35,7 +35,7 @@
             <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}">Ajouter un module</a>
             {% endif %}       
         </h4>
-        <table class="table">
+        <table class="table text-center">
             <thead class="thead-light">
                 <th scope="col">Module</th>
                 <th scope="col">Duree</th>
@@ -52,11 +52,11 @@
                             <td>{{programme.module.nom}}</td>
                             <td>
                                 {{programme.duree}}
-                                <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifDuree',{id:programme.id,id_session:thisSession.id})}}"><i class="far fa-edit"></i></a>
                             </td>
                             <td width="15%">
-                                <a data-id="{{programme.id}}" data-session="{{thisSession.id}}" class="delProgramme border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme_delete')}}"><i class="far fa-trash-alt"></i></a>
-                                <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifModule',{id:programme.module.id})}}"><i class="far fa-edit"></i></a>
+                                <a class="" href="{{path('ModifDuree',{id:programme.id,id_session:thisSession.id})}}"><i class="far fa-edit"></i></a>
+                                <!-- <a class="" href="{{path('ModifModule',{id:programme.module.id})}}"><i class="far fa-edit"></i></a> -->
+                                <a data-id="{{programme.id}}" data-session="{{thisSession.id}}" class="delProgramme " href="{{path('programme_delete')}}"><i class="far fa-trash-alt"></i></a>
                             </td>
                         </tr>
                         {% endfor %}                    
@@ -113,7 +113,9 @@
                 {% endfor %}
             </tbody>            
         </table>
-        <h4>Stagiaires non inscrits</h4>
+        {% if nonInscrit is not empty %}
+        <h4>Stagiaires non inscrits</h4>            
+        {% endif %}
         <table class="table ">
             <tbody id="nonInscrit">
             {% for stagiaire in nonInscrit %}
