@@ -30,7 +30,7 @@ class Programme
     private $session;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="integer", length=20)
      * @ORM\JoinColumn(nullable=true)
      */
     private $duree;

@@ -31,12 +31,12 @@
                 
             <div id="errors">
                 {% for message in app.flashes('error') %}
-                    <p class="errors">{{ message }}</p>
+                    <p class="errors alert alert-danger">{{ message }}</p>
                 {% endfor %}
             </div>
             <div id="success">
                 {% for message in app.flashes('success') %}
-                    <p class="success">{{ message }}</p>
+                    <p class="success alert alert-success">{{ message }}</p>
                 {% endfor %}
             </div>
             <header>

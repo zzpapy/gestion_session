@@ -117,7 +117,7 @@ $(".delModule").on("click",function(e){
 //   })
 // })
 $(".button").on("click",function(){
-    console.log('toto')
     $(this).prepend('<div class="lds-hourglass"></div>')
 })
-$(".errors").slideDown(500)
+$(".errors").slideDown(300).delay(5000).slideUp(300);
+$(".success").slideDown(300).delay(5000).slideUp(300);
