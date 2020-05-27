@@ -166,6 +166,9 @@ img{
 .complet,.errors{
     color: red;
 }
+.error{
+    color: red;
+}
 .reste,.success{
     color : rgb(0,180,0);
     

@@ -124,6 +124,34 @@ class SessionController extends AbstractController
                 $tab[$programme->getModule()->getCategorie()->getNom()] = [$programme];
             }
         }
+        $tps_session = 0;
+        foreach ($session->getProgrammes() as $value) {
+            $tps = $value->getDuree();
+            $tps_session = $tps_session + $tps;
+        }
+        $debut = $session->getDateDebut();
+        $fin = $session->getDateFin();
+        $longueur = $fin->diff($debut);
+        $days = $longueur->days;
+        $period = new \DatePeriod($debut, new \DateInterval('P1D'), $fin);
+        $holidays = array('2012-09-07');
+        foreach($period as $dt) {
+            $curr = $dt->format('D');
+        
+            // substract if Saturday or Sunday
+            if ($curr == 'Sat' || $curr == 'Sun') {
+                $days--;
+            }
+            elseif (in_array($dt->format('Y-m-d'), $holidays)) {
+                $days--;
+            }
+        
+            // (optional) for the updated question
+            
+        }
+        
+        // dump($days);die;
+
 
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
@@ -172,7 +200,9 @@ class SessionController extends AbstractController
         return $this->render('session/index.html.twig', [
             'thisSession' => $session,
             'tab'     => $tab,  
-            'form'    => $form->createView()
+            'form'    => $form->createView(),
+            'longueur' => $days,
+            'tps_session' => $tps_session
         ]);
     }
     /**
@@ -198,14 +228,26 @@ class SessionController extends AbstractController
             $programme = new programme();
         }
         $tps_session = 0;
-        foreach ($session->getProgrammes() as $programme) {
-            $tps = $programme->getDuree();
+        foreach ($session->getProgrammes() as $value) {
+            $tps = $value->getDuree();
             $tps_session = $tps_session + $tps;
         }
         $debut = $session->getDateDebut();
         $fin = $session->getDateFin();
         $longueur = $fin->diff($debut);
         $days = $longueur->days;
+        $period = new \DatePeriod($debut, new \DateInterval('P1D'), $fin);
+        foreach($period as $dt) {
+            $curr = $dt->format('D');
+        
+            // substract if Saturday or Sunday
+            if ($curr == 'Sat' || $curr == 'Sun') {
+                $days--;
+            }
+        
+            // (optional) for the updated question
+            
+        }
         // dump($days);die;
         if(isset($request->request->get("programme")["duree"])){
             if(($tps_session + $request->request->get("programme")["duree"]) > $days){
@@ -246,7 +288,8 @@ class SessionController extends AbstractController
             'thisSession' => $session,
             'formProgramme' => $formProgramme->createView(),
             'formModule' => $formModule->createView(),
-            'formCategorie' => $formCategorie->createView()
+            'formCategorie' => $formCategorie->createView(),
+            'longueur' => $days
         ]);
     }
      /**

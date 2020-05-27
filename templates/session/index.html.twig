@@ -8,15 +8,16 @@
 {% block body %}
 <div class="flex affich_session container-fluid">
     <div class="programme">
-        <div  class="title_sess alert alert-dark">    
+        <div  class="title_sess alert alert-dark"> 
             <h4>{{thisSession.nom}} <a class="" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="far fa-edit"></i></a></h4>
+           
             
             {% set difference = thisSession.dateDebut.diff(thisSession.dateFin) %}
             <div class="mt-4">
                 {% set comp = ""  %}
                 {% set places = thisSession.nbPlaces - thisSession.stagiaires | length %}
                 {% if places == 0 %}
-                    {% set comp = "errors" %}
+                    {% set comp = "error" %}
                     {% set places = 'formation complète' %}
                     
                 {% endif %}
@@ -26,21 +27,32 @@
                    
                     <a class="text-center alert alert-dark" href="{{path('trombi',{id:thisSession.id})}}">Trombinoscope</a>
                 </div>
+                {% if tps_session < longueur %}
+                <p>cette session a une durée de {{longueur}} jours, vous avez déjà programmé  {{tps_session}} jours.
+                    Vous disposez encore de {{longueur - tps_session}} jours.
+                </p>
+                {% else %}
+                    <p> Le programme de formation est complet</p>             
+                {% endif %}
             </div>
         </div>
         <h4>Programme
+            {% if tps_session < longueur %}
             {% if thisSession.programmes | length == 0 %}
             <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}">Créer un programme de formation</a>
             {% else %}
             <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}">Ajouter un module</a>
-            {% endif %}       
+            {% endif %} 
+            {% endif %}
+                  
         </h4>
         <table class="table text-center">
             <thead class="thead-light">
+                {% set duree = 0 %}                  
                 <th scope="col">Module</th>
                 <th scope="col">Duree</th>
                 <th scope="col"></th>
-                <tbody>                    
+                <tbody>  
                     {% for  key,cat in tab  %}
                     <tr class="title_cat">
                         <td colspan="3">
@@ -52,6 +64,7 @@
                             <td>{{programme.module.nom}}</td>
                             <td>
                                 {{programme.duree}}
+                                {% set duree = duree + programme.duree %}
                             </td>
                             <td width="15%">
                                 <a class="" href="{{path('ModifDuree',{id:programme.id,id_session:thisSession.id})}}"><i class="far fa-edit"></i></a>
