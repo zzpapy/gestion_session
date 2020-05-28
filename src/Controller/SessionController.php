@@ -58,8 +58,17 @@ class SessionController extends AbstractController
                 // }
             }
         }
+        
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            $dateDeb = $request->request->get("session")["date_debut"];
+            $dateFin = $request->request->get("session")["date_fin"];
+            $dateDeb = new \Datetime(implode($dateDeb));
+            $datefin = new \Datetime(implode($dateFin));
+            if($dateFin > $dateDeb){
+                    $this->addFlash('error', 'le date de fin de session ne peut inférieure à celle du début !!!');
+                    return $this->redirectToRoute('createSession');
+                }
             $em = $this->getDoctrine()->getManager();
             $em->persist($session);
             $stagiare = $em->flush();
@@ -136,34 +145,35 @@ class SessionController extends AbstractController
         $fin->modify('+1 day');
         $longueur = $fin->diff($debut);
         $days = $longueur->days;
+        dump($days);
         $period = new \DatePeriod($debut, new \DateInterval('P1D'), $fin);
         $vacances = $session->getVacances();
-        // dump(count($vacances));die;
         if(count($vacances) != 0){
+            // dump(count($vacances));die;
             foreach ($vacances as $vac) {
                 $dateDeb = $vac->getDateDebut();
                 $dateFin = $vac->getDateFin();
-            }
-            $debutHol =  $dateDeb;
-            $finHol =$dateFin;
-            $daysHol = $finHol->diff($debutHol);
-            // dump($dateDeb);die;
-            if($daysHol){
-    
-                $days = $days - $daysHol->days;
+                $debutHol =  $dateDeb;
+                $finHol =$dateFin;
+                $daysHol = $finHol->diff($debutHol);
+                if($daysHol){
+                    
+                    $days = $days - $daysHol->days;
+                }
             }
         }
+        // dump($days);die;
         foreach($period as $dt) {
             $curr = $dt->format('D');
             if ($curr == 'Sat' || $curr == 'Sun') {
                 $days--;
             }
             // else if (in_array($dt->format('Y-m-d'), $holidays)) {
-            //     $days--;
-            // }
+                //     $days--;
+                // }
+                
+            }
             
-        }
-        
         // dump($daysHol->days,$days-$daysHol->days);die;
 
 
@@ -495,7 +505,8 @@ class SessionController extends AbstractController
             for ($i=0; $i < count($tabVacances); $i++) { 
                 $debSessVac = $tabVacances[$i]->getDateDebut();
                 $finSessVac =$tabVacances[$i]->getDateFin();
-                if($debSessVac < $debVac && $debVac < $finSessVac || $finSessVac > $finVac || $debVac> $finSess || $finVac > $finSess || $debVac < $debSess ){
+                // dump($debSessVac < $debVac && $finVac < $debVac && $debSessVac > $debVac && $finVac > $debVac );die;
+                if($debVac < $debSessVac && $finVac > $debSessVac && $debVac > $debSessVac && $finVac < $finSessVac ){
                     $this->addFlash('error', 'Cette pèriode de vacances est non valide');
                     return $this->redirectToRoute('vacances',["id" => $session->getId()]);
                 }

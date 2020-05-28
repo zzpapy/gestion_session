@@ -9,6 +9,7 @@
 <div class="flex affich_session container-fluid">
     <div class="programme">
         <div  class="title_sess alert alert-dark"> 
+            
             <h4>{{thisSession.nom}} <a class="" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="ml-2 far fa-edit"></i></a></h4>
             <a class="" href="{{path('vacances',{id:thisSession.id})}}">Ajouter des vacances</a>
             {% for vacance in vacances %}
@@ -45,11 +46,11 @@
         <h4>Programme
             {% if tps_session < longueur %}
            
-            <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}"><i class="far fa-edit"></i></a>
+            <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}"><i class="far fa-plus-square"></i></a>
             {% endif %}
                   
         </h4>
-        <table class="table text-center">
+        <table class="table text-center ">
             <thead class="thead-light">
                 {% set duree = 0 %}                  
                 <th scope="col">Module</th>
@@ -93,7 +94,7 @@
         {% endfor %}
         <div>
         <h4>Stagiaires inscrits</h4><a class="" href="{{path('trombi',{id:thisSession.id})}}">Trombinoscope</a>
-        <table class="table ">
+        <table class="table">
             <thead class="thead-light">
                 <th scope="col">Nom</th>
                 <th scope="col">prenom</th>
@@ -132,7 +133,7 @@
         {% if nonInscrit is not empty %}
         <h4>Stagiaires non inscrits</h4>            
         {% endif %}
-        <table class="table ">
+        <table class="table">
             <tbody id="nonInscrit">
             {% for stagiaire in nonInscrit %}
             {% set index  = stagiaire.vars.value %}    

@@ -17,13 +17,17 @@ class SessionType extends AbstractType
         $builder
             ->add('nom')
             ->add('date_debut',DateType::class, [
+                'years' => range(date('Y'), date('Y')+10),
                 'format' => 'dd-MM-yyyy ',
                 'html5'  => false,
+                'data' => new \DateTime()
                 // "data" => new \DateTime()
             ])
             ->add('date_fin',DateType::class, [
+                'years' => range(date('Y'), date('Y')+10),
                 'format' => 'dd-MM-yyyy ',
                 'html5'  => false,
+                'data' => new \DateTime()
             ])
             ->add('nb_places')
             ->add('stagiaires', EntityType::class, [

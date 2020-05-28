@@ -27,7 +27,7 @@
                 </td>
                 <td></td>
                 <td>
-                    <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifCategorie',{id:categorie.id})}}"><i class="far fa-edit"></i></a> 
+                    <a class="" href="{{path('ModifCategorie',{id:categorie.id})}}"><i class="far fa-edit"></i></a> 
                 </td>
             </tr>
             {% for module in categorie.modules  %}
@@ -35,9 +35,9 @@
                 <td></td>
                 <td>{{module.nom}}</td>
                 <td>
-                    <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifModule',{id:module.id})}}"><i class="far fa-edit"></i></a> 
+                    <a class="" href="{{path('ModifModule',{id:module.id})}}"><i class="far fa-edit"></i></a> 
                     
-                    <a data-id="{{module.id}}" class="delModule border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('module_delete')}}"><i class="far fa-trash-alt"></i></a>
+                    <a data-id="{{module.id}}" class="delModule " href="{{path('module_delete')}}"><i class="far fa-trash-alt"></i></a>
                 </td>
             </tr>
                 

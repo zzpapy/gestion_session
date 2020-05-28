@@ -15,14 +15,14 @@ class HomeController extends AbstractController
     public function index(SessionRepository $session)
     {
         $sessions = $session->findAll();
-        foreach ($sessions as  $session) {
-            foreach ($session->getStagiaires() as  $stagiaire) {
-                // dump($stagiaire);
-            }
-        }
+        // foreach ($sessions as  $session) {
+        //     foreach ($session->getStagiaires() as  $stagiaire) {
+        //         // dump($stagiaire);
+        //     }
+        // }
         
-        $session = $this->get("session");
-        $session->set('sessions',$sessions);
+        // $session = $this->get("session");
+        // $session->set('sessions',$sessions);
         // dump($this->get("session"));die;
         return $this->render('home/index.html.twig', [
             'sessions' => $sessions,

@@ -33,15 +33,9 @@ footer{
 a{
     color:black
 }
-/* #slide{
-    max-width: 10%;
-    position: fixed;
-    left: 0;
-    margin: auto;
-    z-index: 1;
-    top: 0;
-    top: 0;
-} */
+#slide{    
+    margin-bottom: 1em;
+}
 nav{
     display: flex;
     justify-content: space-around;
@@ -79,6 +73,16 @@ img{
     background: #aaa;
     text-align: center;
 }
+.listMod{
+    max-width: 35%;
+    margin: auto;
+    margin-bottom: 1em;
+    text-align: center;
+
+}
+.creaProg{
+    justify-content: space-around;
+}
 .photo{
     width: 100px;
 }
@@ -91,7 +95,7 @@ img{
     width: 100px;
 }
 .title_sess{
-    width: 80%;
+    width: 70%;
     margin-top:1em;
 }
 .list_stagiaires{
