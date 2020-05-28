@@ -20,6 +20,7 @@ class HomeController extends AbstractController
                 // dump($stagiaire);
             }
         }
+        
         $session = $this->get("session");
         $session->set('sessions',$sessions);
         // dump($this->get("session"));die;

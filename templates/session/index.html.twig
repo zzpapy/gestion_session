@@ -9,11 +9,11 @@
 <div class="flex affich_session container-fluid">
     <div class="programme">
         <div  class="title_sess alert alert-dark"> 
-            <h4>{{thisSession.nom}} <a class="" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="far fa-edit"></i></a></h4>
+            <h4>{{thisSession.nom}} <a class="" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="ml-2 far fa-edit"></i></a></h4>
             <a class="" href="{{path('vacances',{id:thisSession.id})}}">Ajouter des vacances</a>
             {% for vacance in vacances %}
             {% set diffVac = vacance.dateDebut.diff(vacance.dateFin) %}
-                <p> vacances du  {{vacance.dateDebut|date('d-m-Y')}} au {{vacance.dateFin|date('d-m-Y')}} soit {{diffVac.days}} jours</p>
+                <p> vacances du  {{vacance.dateDebut|date('d-m-Y')}} au {{vacance.dateFin|date('d-m-Y')}} soit {{diffVac.days + 1}} jours<a class="ml-2" href="{{path('delVacances',{id:vacance.id})}}"><i class="far fa-trash-alt"></i></a></p>
                     
                 {% endfor %}
             
@@ -44,11 +44,8 @@
         </div>
         <h4>Programme
             {% if tps_session < longueur %}
-            <!-- {% if thisSession.programmes | length == 0 %}
-            <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}">Créer un programme de formation</a>
-            {% else %} -->
+           
             <a class="" href="{{path('CreaProgramme',{id:thisSession.id})}}"><i class="far fa-edit"></i></a>
-            <!-- {% endif %}  -->
             {% endif %}
                   
         </h4>

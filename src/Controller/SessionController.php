@@ -295,6 +295,7 @@ class SessionController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($module);
             $em->flush();
+            $this->addFlash('success', 'module ajouté avec succés');
             return $this->redirectToRoute('CreaProgramme',["id" => $session->getId()]);
         }
        
@@ -479,14 +480,39 @@ class SessionController extends AbstractController
         }
         $formVacances = $this->createForm(VacancesType::class, $vacances);
         $formVacances->handleRequest($request);
+        $tabVacances = $session->getVacances(); 
         if($formVacances->isSubmitted() && $formVacances->isValid()){
-            $vacances->setSession($session);
+            
             $debVac =new \Datetime( implode('-',$request->request->get('vacances')["date_debut"]));
             $finVac =new \Datetime( implode('-',$request->request->get('vacances')["date_fin"]));
             $periodVac = new \DatePeriod($debVac, new \DateInterval('P1D'), $finVac);
-            
             $debSess = $session->getDateDebut();
             $finSess = $session->getDateFin();
+            if($finVac < $debVac){
+                $this->addFlash('error', 'Ces dates ne sont pas valides');
+                return $this->redirectToRoute('vacances',["id" => $session->getId()]);
+            }
+            for ($i=0; $i < count($tabVacances); $i++) { 
+                $debSessVac = $tabVacances[$i]->getDateDebut();
+                $finSessVac =$tabVacances[$i]->getDateFin();
+                if($debSessVac < $debVac && $debVac < $finSessVac || $finSessVac > $finVac || $debVac> $finSess || $finVac > $finSess || $debVac < $debSess ){
+                    $this->addFlash('error', 'Cette pèriode de vacances est non valide');
+                    return $this->redirectToRoute('vacances',["id" => $session->getId()]);
+                }
+            //     $periodVacSess = new \DatePeriod($debSessVac, new \DateInterval('P1D'), $finSessVac);
+            //     foreach($periodVac as $dt) {
+            //         $curr = $dt->format('Y-m-d');
+            //         foreach($periodVacSess as $date) {
+            //             $currVac = $date->format('Y-m-d');
+            //             dump($currVac,$curr);
+            //             if ($currVac == $curr) {
+            //                 $this->addFlash('error', 'des vacances on déjà été positionnées à ces dates');
+            //                 return $this->redirectToRoute('vacances',["id" => $session->getId()]);
+            //             }
+            //         }
+            //     }
+            //     // dump($periodVac);die;
+            }
             $diffDeb = $debSess < $debVac;
             if($diffDeb){
                 if($finVac > $finSess){
@@ -499,18 +525,40 @@ class SessionController extends AbstractController
                 $this->addFlash('error', 'Cette pèriode de vacances est non valide');
                 return $this->redirectToRoute('vacances',["id" => $session->getId()]);
             }
+        
             $periodSess = new \DatePeriod($debSess, new \DateInterval('P1D'), $finSess);
+            $vacances->setSession($session);
             $em = $this->getDoctrine()->getManager();
             $em->persist($vacances);
             $em->flush();
+            $this->addFlash('success', 'Vacances bien enregistrées');
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
+
+            
         }
        
         return $this->render('session/vacances.html.twig', [
             
             'formVacances' => $formVacances->createView(),
-            'session' => $session
+            'session' => $session,
+            'tabVacances' => $tabVacances
         ]);
+    }
+    /**
+     * @Route("/delVacances/{id<\d+>", name="delVacances", methods={"GET"})
+     */
+    public function delVacances(Request $request,ModuleRepository $moduleRep,Vacances $vacances = null)
+    {
+        $id_vacances = $request->get("id");
+        $vacances = $this->getDoctrine()
+        ->getRepository(Vacances::class)
+        ->find($id_vacances);
+        // dump($vacances->getSession());die;
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($vacances);
+        $entityManager->flush();        
+       
+        return $this->redirectToRoute('programme',["id" => $vacances->getSession()->getId()]);
     }
      /**
      * Export to PDF
