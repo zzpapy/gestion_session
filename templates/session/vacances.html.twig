@@ -2,19 +2,21 @@
 {% block body %}
 
 <div class="container">
-    <h1>{{session.nom}}</h1>
-    <p>Du : {{session.dateDebut|date('d-m-Y')}} au : {{session.dateFin|date('d-m-Y')}}</p>
-    <div>
-        <h4>Vacances déjà programmée</h4>
-        {% for vacance in tabVacances %}
-            <p>{{vacance.dateDebut|date('d-m-Y')}} {{vacance.dateFin|date('d-m-Y')}}</p>
-        {% endfor %}
+    <div class="center alert alert-dark">
+        <h1>{{session.nom}}</h1>
+        <p>Du : {{session.dateDebut|date('d-m-Y')}} au : {{session.dateFin|date('d-m-Y')}}</p>
+        <div>
+            <h4>Vacances déjà programmée</h4>
+            {% for vacance in tabVacances %}
+                <p>{{vacance.dateDebut|date('d-m-Y')}} {{vacance.dateFin|date('d-m-Y')}}</p>
+            {% endfor %}
+        </div>
+        {{ form_start(formVacances) }}
+        {{ form_row(formVacances.date_debut) }}
+        {{ form_row(formVacances.date_fin) }}
+        <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
+        {{form_end(formVacances)}}
     </div>
-    {{ form_start(formVacances) }}
-    {{ form_row(formVacances.date_debut) }}
-    {{ form_row(formVacances.date_fin) }}
-    <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
-    {{form_end(formVacances)}}
 </div>
     
 {% endblock %}

@@ -82,6 +82,10 @@ img{
 .photo{
     width: 100px;
 }
+.center{
+    max-width: 50%;
+    margin: auto;
+}
 .avatar{
     display: inline-block;
     width: 100px;
