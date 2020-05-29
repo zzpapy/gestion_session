@@ -34,8 +34,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SessionController extends AbstractController
 {
     /**
-     * @Route("/session/ModifSession/{id}", name="ModifSession")
-     * @Route("/session/createSession", name="createSession")
+     * @Route("/session/ModifSession/{id}/admin", name="ModifSession")
+     * @Route("/session/createSession/admin", name="createSession")
      */
     public function createSession(Request $request,Session $session = null)
     {
@@ -63,15 +63,15 @@ class SessionController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $dateDeb = $request->request->get("session")["date_debut"];
             $dateFin = $request->request->get("session")["date_fin"];
-            $dateDeb = new \Datetime(implode($dateDeb));
-            $datefin = new \Datetime(implode($dateFin));
-            if($dateFin > $dateDeb){
+            $dateDeb = new \Datetime(implode('-',$dateDeb));
+            $dateFin = new \Datetime(implode('-',$dateFin));
+            if($dateFin > $dateDeb || $dateFin == $dateDeb){
                     $this->addFlash('error', 'le date de fin de session ne peut inférieure à celle du début !!!');
                     return $this->redirectToRoute('createSession');
                 }
             $em = $this->getDoctrine()->getManager();
             $em->persist($session);
-            $stagiare = $em->flush();
+            $stagiare = $em->flush();  
             $this->addFlash('success', 'session ajouté avec succés');
             return $this->redirectToRoute('home');
             
@@ -81,8 +81,8 @@ class SessionController extends AbstractController
         ]);
     }
     /**
-     * @Route("/session/addStagiaireSess", name="/session/addStagiaireSess", methods={"GET"})
-     * @Route("/session/{id<\d+>}", name="programme")
+     * @Route("/session/addStagiaireSess/admin", name="/session/addStagiaireSess", methods={"GET"})
+     * @Route("/session/{id<\d+>}/admin", name="programme")
      */
     public function index(StagiaireRepository $stagiaireRep, Stagiaire $stagiaire = null,MailerInterface $mailer, Session $session = null, SessionRepository $sessRep,Request $request)
     {
@@ -124,7 +124,7 @@ class SessionController extends AbstractController
         
         
         $programmes = $session->getProgrammes();
-        // $session = $sessRep->findOneBy(["id" => $request->get("id")]);
+        // $session = $sessRep->findOneBy(["id" => $request->get("id")]); 
         $tab=[];
         foreach ($programmes as $key => $programme) {
             // dump($programme->getModule()->getCategorie()->getNom());die;
@@ -231,7 +231,7 @@ class SessionController extends AbstractController
         ]);
     }
     /**
-     * @Route("/session/CreaProgramme/{id}", name="CreaProgramme")
+     * @Route("/session/CreaProgramme/{id}/admin", name="CreaProgramme")
      */
     public function CreaProgramme(Request $request,Categorie $categorie = null,Module $module = null,Programme $programme = null,Session $session = null, SessionRepository $sessRep)
     {
@@ -319,7 +319,7 @@ class SessionController extends AbstractController
         ]);
     }
      /**
-     * @Route("programme_delete", name="programme_delete", methods={"GET"})
+     * @Route("programme_delete/admin", name="programme_delete", methods={"GET"})
      */
     public function delete(Request $request, ProgrammeRepository $programmeRep, SessionRepository $sessionRep): Response
     {
@@ -335,7 +335,7 @@ class SessionController extends AbstractController
     }
     
      /**
-     * @Route("ModifDuree/{id<\d+>}/{id_session<\d+>}", name="ModifDuree")
+     * @Route("ModifDuree/{id<\d+>}/{id_session<\d+>}/admin", name="ModifDuree")
      */
     public function modif(Request $request, Programme $programme = null,SessionRepository $sessionRep): Response
     {
@@ -359,7 +359,7 @@ class SessionController extends AbstractController
         ]);
     }
      /**
-     * @Route("/delete_session", name="session_delete", methods={"GET"})
+     * @Route("/delete_session/admin", name="session_delete", methods={"GET"})
      */
     public function deleteSession(Request $request,SessionRepository $sessionRep)
     {
@@ -373,7 +373,7 @@ class SessionController extends AbstractController
     }
 
      /**
-     * @Route("/affich_module", name="affich_module")
+     * @Route("/affich_module/admin", name="affich_module")
      */
     public function affichModule(Request $request,ModuleRepository $moduleRep,CategorieRepository $catRep,Module $module = null)
     {
@@ -415,7 +415,7 @@ class SessionController extends AbstractController
         ]);
     }
      /**
-      * @Route("/session/ModifModule/{id}", name="ModifModule"))
+      * @Route("/session/ModifModule/{id}/admin", name="ModifModule"))
      */
     public function mofifModule(Request $request,ModuleRepository $moduleRep,CategorieRepository $catRep,Module $module = null)
     {
@@ -442,7 +442,7 @@ class SessionController extends AbstractController
         ]);
     }
     /**
-      * @Route("/session/ModifCategorie/{id}", name="ModifCategorie"))
+      * @Route("/session/ModifCategorie/{id}/admin", name="ModifCategorie"))
      */
     public function mofifCategorie(Request $request,Categorie $categorie = null)
     {
@@ -468,7 +468,7 @@ class SessionController extends AbstractController
         ]);
     }
      /**
-     * @Route("/delete_module", name="module_delete", methods={"GET"})
+     * @Route("/delete_module/admin", name="module_delete", methods={"GET"})
      */
     public function deleteModule(Request $request,ModuleRepository $moduleRep)
     {
@@ -481,7 +481,7 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('home');
     }
      /**
-     * @Route("/vacances/{id<\d+>}", name="vacances")
+     * @Route("/vacances/{id<\d+>}/admin", name="vacances")
      */
     public function addVacances(Request $request,Session $session,Vacances $vacances = null)
     {
@@ -505,9 +505,9 @@ class SessionController extends AbstractController
             for ($i=0; $i < count($tabVacances); $i++) { 
                 $debSessVac = $tabVacances[$i]->getDateDebut();
                 $finSessVac =$tabVacances[$i]->getDateFin();
-                // dump($debSessVac < $debVac && $finVac < $debVac && $debSessVac > $debVac && $finVac > $debVac );die;
-                if($debVac < $debSessVac && $finVac > $debSessVac && $debVac > $debSessVac && $finVac < $finSessVac ){
-                    $this->addFlash('error', 'Cette pèriode de vacances est non valide');
+                // dump($debSess < $debVac);die;
+                if($debVac < $debSessVac && $finVac > $debSessVac || $debVac > $debSessVac && $finVac < $finSessVac || $debVac > $debSessVac && $finVac > $finSessVac &&  $debVac < $finSessVac || $debVac == $debSessVac){
+                    $this->addFlash('error', 'Cette pèriode de vacances en chevauche une autre');
                     return $this->redirectToRoute('vacances',["id" => $session->getId()]);
                 }
             //     $periodVacSess = new \DatePeriod($debSessVac, new \DateInterval('P1D'), $finSessVac);
@@ -528,13 +528,10 @@ class SessionController extends AbstractController
             if($diffDeb){
                 if($finVac > $finSess){
                     // dump($diffDeb);die;
-                    $this->addFlash('error', 'Cette pèriode de vacances est non valide');
+                    $this->addFlash('error', 'Cette pèriode de vacances est non valide tata');
                     return $this->redirectToRoute('vacances',["id" => $session->getId()]);
                 }    
-            }
-            else{
-                $this->addFlash('error', 'Cette pèriode de vacances est non valide');
-                return $this->redirectToRoute('vacances',["id" => $session->getId()]);
+                
             }
         
             $periodSess = new \DatePeriod($debSess, new \DateInterval('P1D'), $finSess);
@@ -556,7 +553,7 @@ class SessionController extends AbstractController
         ]);
     }
     /**
-     * @Route("/delVacances/{id<\d+>", name="delVacances", methods={"GET"})
+     * @Route("/delVacances/{id<\d+>/admin", name="delVacances", methods={"GET"})
      */
     public function delVacances(Request $request,ModuleRepository $moduleRep,Vacances $vacances = null)
     {
@@ -574,7 +571,7 @@ class SessionController extends AbstractController
      /**
      * Export to PDF
      * 
-     * @Route("/session/pdf/{id<\d+>}/{id_stagiaire<\d+>}", name="acme_demo_pdf")
+     * @Route("/session/pdf/{id<\d+>}/{id_stagiaire<\d+>}/admin", name="acme_demo_pdf")
      */
     public function pdfAction(Request $request,Session $session = null,StagiaireRepository $stagiaireRep )
     {
