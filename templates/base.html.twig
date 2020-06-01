@@ -39,14 +39,17 @@
             </div>
             <div id="success">
                 {% for message in app.flashes('success') %}
-                    <p class="success alert alert-success">{{ message }}</p>
+                <p class="success alert alert-success">{{ message }}</p>
                 {% endfor %}
             </div>
-            <header>
-                <i class="modileMenu fas fa-bars"></i>
-            </header>
             {% endblock %}
             {% block body %}
+                <header>
+                    <i class="modileMenu fas fa-bars"></i>
+                </header>
+                <div class="konami">
+                    <img src="{{asset('img/konami.jpg')}}" alt="">
+                </div>
             {% endblock %}
 
         </div>

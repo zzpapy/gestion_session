@@ -11,19 +11,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class HomeController extends AbstractController
 {
-    // /**
-    //  * @Route("/", name="home")
-    //  */
-    // public function index(SessionRepository $session)
-    // {
+    /**
+     * @Route("/", name="home")
+     */
+    public function index(SessionRepository $session)
+    {
+        $sessions = $session->findAll();
         
-    //     return $this->render('home/index.html.twig', [
-    //         'sessions' => $sessions,
-    //     ]);
-    // }
+        return $this->render('home/index.html.twig', [
+            'sessions' => $sessions,
+        ]);
+    }
     /**
      * @IsGranted("ROLE_ADMIN")
-     * @Route("/home/admin", name="home")
+     * @ ("/home/admin", name="home")
      */
     public function home(SessionRepository $session)
     {

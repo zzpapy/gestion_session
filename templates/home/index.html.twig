@@ -25,7 +25,7 @@
     {% for session in sessions %}
     {% set difference = session.dateDebut.diff(session.dateFin) %}
         <div id="session_{{session.id}}"class="alert alert-dark">
-            <p><h4>{{session.id}}{{session.nom}}</h4> du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}} soit {{difference.y}} ans  {{difference.m}} mois et {{difference.d}} jours</p>
+            <p><h4>{{session.nom}}</h4> du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}} soit {{difference.y}} ans  {{difference.m}} mois et {{difference.d}} jours</p>
             <p>Places disponibles : {{session.nbPlaces}}</p>
             <p>Place réservées : {{session.stagiaires | length}}</p>
             {% set places = session.nbPlaces - session.stagiaires | length %}

@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/", name="app_login")
+     * @Route("/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
