@@ -13,12 +13,14 @@ function readURL(input) {
     e.stopPropagation()
     console.log("toto")
     $( "#slide" ).slideDown( 500 );
+    $( "nav" ).slideDown( 500 );
     // $("nav").addClass("flex")
 })
 var windowWidth = window.innerWidth;
 if(windowWidth<=640){
     $("nav").on("click",function(){
         $( "#slide" ).slideUp( 500 );
+        $( "nav" ).slideUp( 500 );
     })
 }
 $(".delStagiaire").on("click",function(e){
@@ -119,21 +121,22 @@ $(".delModule").on("click",function(e){
 $(".button").on("click",function(){
     $(this).prepend('<div class="lds-hourglass"></div>')
 })
-$(".errors").slideDown(300).delay(5000).slideUp(300)
-$(".success").slideDown(300).delay(5000).slideUp(300)
+$(".errors").slideDown(300).delay(5000).slideUp(300);
+$(".success").slideDown(300).delay(5000).slideUp(300);
 
 
 var k = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
-n = 0
+n = 0;
 $(document).keydown(function (e) {
+    console.log(n)
     if (e.keyCode === k[n++]) {
         if (n === k.length) {
             $(".konami").slideDown(500).delay(1000).slideUp(500)
-            n = 0
+            n = 0;
             return false;
         }
     }
     else {
         n = 0;
     }
-})
+});

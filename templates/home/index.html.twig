@@ -2,7 +2,9 @@
 
 {% block title %}Liste des sessions{% endblock %}
 {% block nav %}
-    <a  class="rounded p-1 mb-4 bg-light text-dark" href="{{path('createSession')}}">Créer une session</a>
+<div>
+    <a  class="rounded bg-light text-dark" href="{{path('createSession')}}">Créer une session</a>
+</div>
     {{parent()}}
 {% endblock %}
 {% block body %}

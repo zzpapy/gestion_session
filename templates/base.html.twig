@@ -13,16 +13,36 @@
     </head>
     <body>
         {% block test %}
+        <header>
+            <i class="modileMenu fas fa-bars"></i>
+        </header>
         <div id="slide">
             <nav class=" navbar-dark bg-dark p-3" style="background-color: #e3f2fd;">
                 {% block nav %}
-                <a class="p-1 mb-4 bg-light text-dark rounded" href="{{path('home')}}">Liste des sessions</a>
-                <a class="p-1 mb-4 bg-light text-dark rounded" href="{{path('stagiaire')}}">Liste des stagiaires</a>
-                <a class="rounded p-1 mb-4 bg-light text-dark"href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>                
-                <a class="rounded p-1 mb-4 bg-light text-dark"href="{{path('affich_module')}}">liste des modules</a>
-                <a class="rounded p-1 mb-4 bg-light text-dark"href="{{path('app_register')}}">Register</a>
-                <a class="rounded p-1 mb-4 bg-light text-dark"href="{{path('app_login')}}">connexion</a>
-                <a class="rounded p-1 mb-4 bg-light text-dark"href="{{path('app_logout')}}">Déconnexion</a>
+                <div class="konami">
+                    <img src="{{asset('img/konami.jpg')}}" alt="">
+                </div>
+                <div>
+                    <a class=" bg-light text-dark rounded" href="{{path('home')}}">Liste des sessions</a>
+                </div>
+                <div>
+                    <a class=" bg-light text-dark rounded" href="{{path('stagiaire')}}">Liste des stagiaires</a>
+                </div>
+                <div>
+                    <a class="rounded  bg-light text-dark"href="{{path('addStagiaire')}}">Ajouter un stagiaire</a>
+                </div>
+                <div>
+                    <a class="rounded  bg-light text-dark"href="{{path('affich_module')}}">liste des modules</a>
+                </div>                
+                <div>
+                    <a class="rounded  bg-light text-dark"href="{{path('app_register')}}">Register</a>
+                </div>
+                <div>
+                    <a class="rounded  bg-light text-dark"href="{{path('app_login')}}">connexion</a>
+                </div>
+                <div>
+                    <a class="rounded  bg-light text-dark"href="{{path('app_logout')}}">Déconnexion</a>
+                </div>
                 {% endblock %}
             </nav>
         </div> 
@@ -44,12 +64,8 @@
             </div>
             {% endblock %}
             {% block body %}
-                <header>
-                    <i class="modileMenu fas fa-bars"></i>
-                </header>
-                <div class="konami">
-                    <img src="{{asset('img/konami.jpg')}}" alt="">
-                </div>
+                
+                
             {% endblock %}
 
         </div>
