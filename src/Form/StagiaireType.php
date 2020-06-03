@@ -14,7 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class StagiaireType extends AbstractType
 {
@@ -37,8 +38,8 @@ class StagiaireType extends AbstractType
                 'html5'  => false,
                 "data" => new \DateTime()
             ])
-            ->add('ville')
-            ->add('email')
+            ->add('ville',TextType::class)
+            ->add('email',EmailType::class)
             ->add('phone')
             // ->add('sessions', EntityType::class, [
             //     'class' => Session::class,
