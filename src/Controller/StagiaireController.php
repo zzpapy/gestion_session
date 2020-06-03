@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Session;
 use App\Entity\Stagiaire;
+use App\Form\AddSessionType;
 use App\Form\StagiaireType;
 use App\Form\AddStagiaireType;
 use App\Repository\SessionRepository;
@@ -29,12 +30,20 @@ class StagiaireController extends AbstractController
     /**
      * @Route("/stagiaire/detailStagiaire/{id}", name="/stagiaire/detailStagiaire")
      */
-    public function detailStagiaire(Stagiaire $stagiaire,StagiaireRepository $stagiaireRep)
+    public function detailStagiaire(Request $request,Stagiaire $stagiaire,StagiaireRepository $stagiaireRep)
     {
-        // dump($stagiaire);die;
+        $form = $this->createForm(AddSessionType::class,$stagiaire);
+        // dump($form);die;
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($stagiaire);
+            $em->flush();
+        }
         $stagiaires = $stagiaireRep->findAll();
         return $this->render('stagiaire/detailStagiaire.html.twig', [
             'stagiaire' => $stagiaire,
+            'form' => $form->createView()
         ]);
     }
     /**
