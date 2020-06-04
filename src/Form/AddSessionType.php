@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Session;
 use App\Entity\Stagiaire;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,9 +19,21 @@ class AddSessionType extends AbstractType
         ->add('sessions', EntityType::class, [
             'class' =>Session::class,
             'label' => 'Ajouter',
-            'choice_label' => function ($choice, $key, $value) {               
-                $nom = $choice->getNom();
+            'choice_label' => function ($choice, $key, $value) {
+                $nbStag = $choice->getNbplaces();
+                $nb =  count($choice->getStagiaires());
+                dump($nbStag,$nb);
+                if($nbStag <= $nb){
+                    $nom = $choice->getNom()." formation complète ";
+                }
+                else{
+                    $nom =  $choice->getNom();
+                }             
                 return $nom;
+            },
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->orderBy('u.nom', 'ASC');
             },
             'multiple' =>true,
             'expanded' =>true,

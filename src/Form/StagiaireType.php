@@ -37,6 +37,9 @@ class StagiaireType extends AbstractType
                 'years' => range(date('Y')-18, date('Y')-100),
                 // 'widget' => 'single_text',
                 'model_timezone' => 'Etc/UTC',
+                'placeholder' => [
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                ],
                 'view_timezone' => 'Europe/Paris',
                 'attr' => [
                     'class' => "datePicker"

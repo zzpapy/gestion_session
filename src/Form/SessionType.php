@@ -21,14 +21,20 @@ class SessionType extends AbstractType
                 'years' => range(date('Y'), date('Y')+10),
                 'format' => 'dd-MM-yyyy ',
                 'html5'  => false,
-                'data' => $options["data"]->getDateDebut()
+                'data' => $options["data"]->getDateDebut(),
+                'placeholder' => [
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                ]
                 // "data" => new \DateTime()
             ])
             ->add('date_fin',DateType::class, [
                 'years' => range(date('Y'), date('Y')+10),
                 'format' => 'dd-MM-yyyy ',
                 'html5'  => false,
-                'data' => $options["data"]->getDateFin()
+                'data' => $options["data"]->getDateFin(),
+                'placeholder' => [
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                ]
             ])
             ->add('nb_places')
             ->add('stagiaires', EntityType::class, [
