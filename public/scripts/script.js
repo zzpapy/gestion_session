@@ -1,3 +1,10 @@
+// $( function() {
+    $( ".datePicker" ).datepicker();
+    console.log($( ".datePicker" ))
+    console.log('toto')
+// } );
+
+
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader()

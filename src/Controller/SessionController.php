@@ -65,7 +65,8 @@ class SessionController extends AbstractController
             $dateFin = $request->request->get("session")["date_fin"];
             $dateDeb = new \Datetime(implode('-',$dateDeb));
             $dateFin = new \Datetime(implode('-',$dateFin));
-            if($dateFin > $dateDeb || $dateFin == $dateDeb){
+            // dump($dateFin > $dateDeb);die;
+            if($dateFin < $dateDeb || $dateFin == $dateDeb){
                     $this->addFlash('error', 'le date de fin de session ne peut inférieure à celle du début !!!');
                     return $this->redirectToRoute('createSession');
                 }
@@ -94,6 +95,7 @@ class SessionController extends AbstractController
                             ->find($request->request->get("add_stagiaire")['stagiaires'][0]);
                 $session->removestagiaire($stagiaire);
                 // dump($session->getStagiaires()->contains($stagiaire));die;
+                
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($session);
                 $em->flush();
@@ -111,17 +113,18 @@ class SessionController extends AbstractController
                 $stagiaire = $this->getDoctrine()
                 ->getRepository(Stagiaire::class)
                 ->find($request->request->get("add_stagiaire")['stagiaires'][0]);
+                // dd($session);
                 $session->addStagiaire($stagiaire);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($session);
                 $em->flush();
                 $session->addStagiaire($stagiaire);
                 $this->addFlash('success', 'stagiaire(s) ajouté(s) avec succés');
-                return $this->redirectToRoute('programme',["id" => $session->getId()]);
+                return $this->redirectToRoute('programme',["id" => $session->getId()]); 
                 // return  new Response( "true" );
             }
             
-        
+         
         
         $programmes = $session->getProgrammes();
         // $session = $sessRep->findOneBy(["id" => $request->get("id")]); 
@@ -145,7 +148,6 @@ class SessionController extends AbstractController
         $fin->modify('+1 day');
         $longueur = $fin->diff($debut);
         $days = $longueur->days;
-        dump($days);
         $period = new \DatePeriod($debut, new \DateInterval('P1D'), $fin);
         $vacances = $session->getVacances();
         if(count($vacances) != 0){
@@ -168,13 +170,8 @@ class SessionController extends AbstractController
             if ($curr == 'Sat' || $curr == 'Sun') {
                 $days--;
             }
-            // else if (in_array($dt->format('Y-m-d'), $holidays)) {
-                //     $days--;
-                // }
                 
             }
-            
-        // dump($daysHol->days,$days-$daysHol->days);die;
 
 
         $form = $this->createForm(AddStagiaireType::class,$session);
@@ -273,7 +270,6 @@ class SessionController extends AbstractController
             // (optional) for the updated question
             
         }
-        // dump($days);die;
         if(isset($request->request->get("programme")["duree"])){
             if(($tps_session + $request->request->get("programme")["duree"]) > $days){
                 $this->addFlash('error', 'vous dépassez la durée de la formation');
@@ -281,17 +277,35 @@ class SessionController extends AbstractController
             }
             
         }
+        $vacances = $session->getVacances();
+        if(count($vacances) != 0){
+            // dump(count($vacances));die;
+            foreach ($vacances as $vac) {
+                $dateDeb = $vac->getDateDebut();
+                $dateFin = $vac->getDateFin();
+                $debutHol =  $dateDeb;
+                $finHol =$dateFin;
+                $daysHol = $finHol->diff($debutHol);
+                if($daysHol){
+                    
+                    $days = $days - $daysHol->days;
+                }
+            }
+        }
         $formProgramme = $this->createForm(ProgrammeType::class, $programme);
         $formProgramme->handleRequest($request);
         $programme->setSession($session);
         if($formProgramme->isSubmitted() && $formProgramme->isValid()){
+            if(($days-$tps_session+1 < $request->request->get("programme")["duree"]) ){
+                $this->addFlash('error', 'vous dépassez la durée de la formation');
+                return $this->redirectToRoute('CreaProgramme',["id" => $session->getId()]);
+            }
             $em = $this->getDoctrine()->getManager();
             $test = $programme->getDuree();
             $test = intval($test);
             $programme->setDuree($test);
             $em->persist($programme);
             $em->flush();
-            // dump(gettype($programme->getDuree()));die;
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
         }
         // if(!$module){

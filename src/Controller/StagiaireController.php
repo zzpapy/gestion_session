@@ -33,13 +33,89 @@ class StagiaireController extends AbstractController
     public function detailStagiaire(Request $request,Stagiaire $stagiaire,StagiaireRepository $stagiaireRep)
     {
         $form = $this->createForm(AddSessionType::class,$stagiaire);
-        // dump($form);die;
+        $sessionTab = [];
+        foreach ($stagiaire->getSessions() as  $sess) {
+           array_push($sessionTab,$sess->getId());
+        }
+        // dump(count($sessionTab),count($request->request->get("add_session")["sessions"]));die;
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($stagiaire);
-            $em->flush();
+            if( isset($request->request->get("add_session")["sessions"]) && count($sessionTab) > count($request->request->get("add_session")["sessions"])){
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($stagiaire);
+                $em->flush();    
+            }
+            else{
+                $tabReqSess = [];
+                if(isset($request->request->get("add_session")["sessions"])){
+                    foreach ($request->request->get("add_session")["sessions"] as  $value) {              
+                        array_push($tabReqSess,$value);
+                    }
+                }
+                $croise = array_intersect($sessionTab,$tabReqSess);
+                $clean1 = array_diff($sessionTab, $tabReqSess); 
+                $clean2 = array_diff($tabReqSess, $sessionTab); 
+                $final_output = array_merge($clean1, $clean2);
+                // dump($final_output);die;
+                foreach ( $final_output as  $id) {
+                    $session = $this->getDoctrine()
+                    ->getRepository(Session::class)
+                    ->find($id);
+                    $nbInscrits = count($session->getStagiaires());
+                    $nbPLace = $session->getNbPlaces();
+                    $nom = $session->getNom();
+                    
+                    if($nbPLace <= $nbInscrits){
+                        $this->addFlash('error', 'la formation est complète');
+                        return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
+                    }
+                    else{
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($stagiaire);
+                        $em->flush();
+                        $this->addFlash('success', 'formation ajoutée');
+                        return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
+                    }
+                }
+            }
+
         }
+        // if(isset($request->request->get("add_session")["sessions"])){
+        //     $tabReqSess = [];
+        //     foreach ($request->request->get("add_session")["sessions"] as  $value) {
+                
+               
+        //         array_push($tabReqSess,$value);
+        //         foreach ($sessionTab as $id) {
+        //             // if($id == $value){
+        //                 //     $this->addFlash('error', 'stagiaire déjà inscrit à cette formation');
+        //             //     return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]); 
+        //             // }
+        //         }
+        //     }
+        //     $croise = array_intersect($sessionTab,$tabReqSess);
+        //     $clean1 = array_diff($sessionTab, $tabReqSess); 
+        //     $clean2 = array_diff($tabReqSess, $sessionTab); 
+        //     $final_output = array_merge($clean1, $clean2);
+        //     dump($final_output);
+        //     foreach ( $final_output as $key => $id) {
+        //         $session = $this->getDoctrine()
+        //         ->getRepository(Session::class)
+        //         ->find($id);
+        //         $nbInscrits = count($session->getStagiaires());
+        //         $nbPLace = $session->getNbPlaces();
+        //         $nom = $session->getNom();
+        //         dump($nbPLace <= $nbInscrits,$nom);
+        //             if($nbPLace <= $nbInscrits){
+        //                 $this->addFlash('error', 'la formation est complète');
+        //                 return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
+        //             }
+        //             else{
+        //             }
+        //         }
+        //     }
+        // 
+       
         $stagiaires = $stagiaireRep->findAll();
         return $this->render('stagiaire/detailStagiaire.html.twig', [
             'stagiaire' => $stagiaire,
@@ -85,13 +161,14 @@ class StagiaireController extends AbstractController
             $stagiaire->setcreateDate($date);
             $em = $this->getDoctrine()->getManager();
             $em->persist($stagiaire);
-            $stagiare = $em->flush();
+            $em->flush();
             $this->addFlash('success', 'stagiaire ajouté avec succés');
             return $this->redirectToRoute('/stagiaire/detailStagiaire',array("id" => $stagiaire->getId()));
             
         }
         return $this->render('stagiaire/addStagiaire.html.twig', [
             'form' => $form->createView(),
+            'stagiaire' => $stagiaire
         ]);
     }
     /**
@@ -106,7 +183,6 @@ class StagiaireController extends AbstractController
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
         $form->handleRequest($request);
-        dump($session->getStagiaires());die;
         if($form->isSubmitted() && $form->isValid()){
             
             // $session->addStagiaire($stagiaire);

@@ -6,15 +6,18 @@
         {{ form_row(form.nom) }} 
         {{ form_row(form.prenom) }}
         {{ form_row(form.sexe) }} 
-        {{ form_row(form.birth) }}
-   
+        {{ form_row(form.birth)}}   
         {{ form_row(form.ville) }} 
         {{ form_row(form.email) }} 
         {{ form_row(form.phone) }} 
         {{ form_row(form.photo,{ 'attr': {'onchange': 'readURL(this);'} }) }} 
     </div>
     <div class="prev">
-        <img id="blah" src="{{asset('img/avatar.jpg')}}" alt="">
+        {% if stagiaire.photo !="" %}
+        <img id="blah" src="{{asset('img/'~stagiaire.photo)}}" alt="">
+        {% else %}
+        <img id="blah" src="{{asset('img/avatar.jpg')}}" alt="">            
+        {% endif %}
     </div>
 </div>
     {{ form_row(form.submit) }}
@@ -22,6 +25,7 @@
 {% endblock %}
 {% block javascripts %}
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
     <script>
         function readURL(input) {
     if (input.files && input.files[0]) {
@@ -34,5 +38,9 @@
         reader.readAsDataURL(input.files[0])
     }
   }
+  $( function() {
+    console.log($( ".datePicker" ))
+    console.log('toto')
+} );
     </script>
 {% endblock %}

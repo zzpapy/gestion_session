@@ -33,10 +33,16 @@ class StagiaireType extends AbstractType
                 "multiple" => false
             ])
             ->add('birth', DateType::class, [
-                'years' => range(date('Y'), date('Y')-100),
                 'format' => 'dd-MM-yyyy ',
+                'years' => range(date('Y')-18, date('Y')-100),
+                // 'widget' => 'single_text',
+                'model_timezone' => 'Etc/UTC',
+                'view_timezone' => 'Europe/Paris',
+                'attr' => [
+                    'class' => "datePicker"
+                ],
                 'html5'  => false,
-                "data" => new \DateTime()
+                "data" => $options["data"]->getBirth()
             ])
             ->add('ville',TextType::class)
             ->add('email',EmailType::class)

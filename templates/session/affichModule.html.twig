@@ -21,7 +21,7 @@
                     {{ form_end(formModule) }}
                 </td>
             </tr>
-        {% for categorie in categories %}
+        {% for categorie in categories |sort((a, b) => a.nom <=> b.nom) %}
             <tr class="cat_title">
                 <td>{{categorie.nom}}
                 </td>
@@ -30,7 +30,7 @@
                     <a class="" href="{{path('ModifCategorie',{id:categorie.id})}}"><i class="far fa-edit"></i></a> 
                 </td>
             </tr>
-            {% for module in categorie.modules  %}
+            {% for module in categorie.modules |sort((a, b) => a.nom <=> b.nom) %}
             <tr id="module_{{module.id}}">
                 <td></td>
                 <td>{{module.nom}}</td>
