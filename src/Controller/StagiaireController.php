@@ -43,7 +43,9 @@ class StagiaireController extends AbstractController
             if( isset($request->request->get("add_session")["sessions"]) && count($sessionTab) > count($request->request->get("add_session")["sessions"])){
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($stagiaire);
-                $em->flush();    
+                $em->flush(); 
+                $this->addFlash('success', 'la formation a été retirée');
+                return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);   
             }
             else{
                 $tabReqSess = [];

@@ -25,18 +25,40 @@
     <p>courriel : {{stagiaire.email}}</p>
     <p>Téléphone : {{stagiaire.phone}}</p>
     <h2>Sessions prévues</h2>
-    <ul>
+    <table class="table">
         {% for session in stagiaire.sessions %}
-        <li>
-            <div>
-                <a class="text-dark" href="{{path('programme',{id:session.id})}}">{{session.nom}}</i></a> - 
-                <a class="text-dark" href="{{path('acme_demo_pdf',{id:session.id,id_stagiaire:stagiaire.id})}}">Génerer une attestation de formation</i></a>
-            </div>
-        </li>
+        <tr>
+            <td>
+                <a class="text-dark" href="{{path('programme',{id:session.id})}}">{{session.nom}}</a>
+            </td>
+            <td>
+                <a class="text-dark" href="{{path('programme',{id:session.id})}}"><i class="fas fa-clipboard"></i></a>
+            </td>
+            <td>
+                <a class="text-dark" href="{{path('acme_demo_pdf',{id:session.id,id_stagiaire:stagiaire.id})}}"><i class="far fa-file-pdf"></i></a>               
+            </td>            
+        </tr>
             
         {% endfor %}
-    </ul>
-    {{form(form)}}
+    </table>
+    {{form_start(form)}}
+    <div class="flex">
+    {% for session in form.sessions %}
+    {% set index  = session.vars.value %} 
+    {% set entity = form.sessions.vars.choices[index].data %}
+        {% if entity.stagiaires|length == entity.nbPlaces %}
+            <div class="error">
+                {{form_row(session)}}
+            </div>
+        {% else %}
+            <div>
+                {{form_row(session)}} 
+            </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {{form_rest(form)}}
 </div>
+{{form_end(form)}}
 
 {% endblock %}
