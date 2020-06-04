@@ -24,8 +24,12 @@
     <p>ville : {{stagiaire.ville}}</p>
     <p>courriel : {{stagiaire.email}}</p>
     <p>Téléphone : {{stagiaire.phone}}</p>
-    <h2>Sessions prévues</h2>
     <table class="table">
+        <thead class="">
+            <th scope="col">Inscrit à</th>
+            <th scope="col">Détail</th>
+            <th scope="col" width ="15%">Attestation de formation</th>
+        </thead>    
         {% for session in stagiaire.sessions %}
         <tr>
             <td>
