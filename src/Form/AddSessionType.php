@@ -27,7 +27,8 @@ class AddSessionType extends AbstractType
                     $nom = $choice->getNom()." formation complète ";
                 }
                 else{
-                    $nom =  $choice->getNom();
+                    $reste = $nbStag - $nb;
+                    $nom =  $choice->getNom()." reste : ".$reste." places";
                 }             
                 return $nom;
             },
