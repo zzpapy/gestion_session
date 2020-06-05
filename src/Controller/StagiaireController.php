@@ -32,7 +32,17 @@ class StagiaireController extends AbstractController
      */
     public function detailStagiaire(Request $request,Stagiaire $stagiaire,StagiaireRepository $stagiaireRep)
     {
-        $form = $this->createForm(AddSessionType::class,$stagiaire);
+        $sessionStagiaire = $stagiaire->getSessions();
+        $sessions = $this->getDoctrine()
+        ->getRepository(Session::class)
+        ->findAll();
+        $sessions_dispo = array_filter($sessions,function($session) use ($stagiaire){
+            return $session->full() || $stagiaire->getSessions()->contains($session);
+        });
+        // dd($sessions,$sessions_dispo);
+        $form = $this->createForm(AddSessionType::class,$stagiaire,[ 
+            "sessions" => $sessions_dispo
+        ]);
         $sessionTab = [];
         foreach ($stagiaire->getSessions() as  $sess) {
            array_push($sessionTab,$sess->getId());
@@ -40,7 +50,15 @@ class StagiaireController extends AbstractController
         // dump(count($sessionTab),count($request->request->get("add_session")["sessions"]));die;
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            // dd( count($sessionTab) , count($request->request->get("add_session")["sessions"]));
             if( isset($request->request->get("add_session")["sessions"]) && count($sessionTab) > count($request->request->get("add_session")["sessions"])){
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($stagiaire);
+                $em->flush(); 
+                $this->addFlash('success', 'la formation a été retirée');
+                return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);   
+            }
+            else if(count($sessionTab) != 0){
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($stagiaire);
                 $em->flush(); 
@@ -134,9 +152,9 @@ class StagiaireController extends AbstractController
             $stagiaire = new Stagiaire(); 
         }
         $form = $this->createForm(StagiaireType::class, $stagiaire);
-        
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            
             
             $photo = $form->get('photo')->getData();
             if ($photo) {

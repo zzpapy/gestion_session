@@ -24,6 +24,7 @@
     <p>ville : {{stagiaire.ville}}</p>
     <p>courriel : {{stagiaire.email}}</p>
     <p>Téléphone : {{stagiaire.phone}}</p>
+    {% if stagiaire.sessions | length > 0 %}
     <table class="table">
         <thead class="">
             <th scope="col">Inscrit à</th>
@@ -45,6 +46,7 @@
             
         {% endfor %}
     </table>
+    {% endif %}
     {{form_start(form)}}
     <div class="flex">
     {% for session in form.sessions %}
@@ -63,6 +65,7 @@
     </div>
     {{form_rest(form)}}
 </div>
-{{form_end(form)}}
+{{form_end(form)}}        
+    
 
 {% endblock %}

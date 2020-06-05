@@ -134,6 +134,15 @@ class Session
         return $this;
     }
 
+    public function full()
+    {
+        if (count($this->stagiaires) >= $this->nb_places) {
+           return false;
+        }
+
+        return $this->nb_places - count($this->stagiaires);
+    }
+
     public function removestagiaire(Stagiaire $stagiaire): self
     {
         if ($this->stagiaires->contains($stagiaire)) {
@@ -205,6 +214,10 @@ class Session
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->nom;
     }
 
     

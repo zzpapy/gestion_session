@@ -15,27 +15,25 @@ class AddSessionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // dd($options["sessions"]);
         $builder
         ->add('sessions', EntityType::class, [
             'class' =>Session::class,
             'label' => 'Ajouter',
-            'choice_label' => function ($choice, $key, $value) {
-                $nbStag = $choice->getNbplaces();
-                $nb =  count($choice->getStagiaires());
-                dump($nbStag,$nb);
-                if($nbStag <= $nb){
-                    $nom = $choice->getNom()." formation complète ";
-                }
-                else{
-                    $reste = $nbStag - $nb;
-                    $nom =  $choice->getNom()." reste : ".$reste." places";
-                }             
-                return $nom;
-            },
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('u')
-                    ->orderBy('u.nom', 'ASC');
-            },
+            'choices' => $options["sessions"],
+            // 'choice_label' => function ($choice, $key, $value) {
+            //     if(!$choice->full()){
+            //         $nom = $choice->getNom()." formation complète ";
+            //     }
+            //     else{
+            //         $nom =  $choice->getNom()." reste : ".$choice->full()." places";
+            //     }             
+            //     return $nom;
+            // },
+            // 'query_builder' => function (EntityRepository $er) {
+            //     return $er->createQueryBuilder('u')
+            //         ->orderBy('u.nom', 'ASC');
+            // },
             'multiple' =>true,
             'expanded' =>true,
             "by_reference" => false
@@ -48,6 +46,7 @@ class AddSessionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Stagiaire::class,
+            'sessions' => null
         ]);
     }
 }
