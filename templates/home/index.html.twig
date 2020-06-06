@@ -33,13 +33,13 @@
             {%  set jours = difference.d %}
             <td>
                 {% if ans != 0 %}
-                {{difference.y}} ans
+                {{ans}} ans
                 {% endif %}
                 {% if mois != 0 %}
-                {{difference.m}} mois
+                {{mois}} mois
                 {% endif %}
                 {% if jours != 0 %}
-                {{difference.d}} jours
+                {{jours}} jours
                 {% endif %}
             </td>
             <td>{{session.nbPlaces}}</td>
