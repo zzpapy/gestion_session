@@ -113,6 +113,17 @@ class SessionController extends AbstractController
                 $stagiaire = $this->getDoctrine()
                 ->getRepository(Stagiaire::class)
                 ->find($request->request->get("add_stagiaire")['stagiaires'][0]);
+                foreach ($stagiaire->getSessions() as  $stagsess) {
+                    $dateDeb = $stagsess->getDateDebut();
+                    $dateFin = $stagsess->getDateFin();
+                    $deb = $session->getDateDebut();
+                    $fin = $session->getDateFin();
+                    // dump($dateDeb > $deb && $dateFin < $fin );die;
+                    if($dateDeb > $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin > $fin){
+                        $this->addFlash('error', 'le stagiaire est déjà en formation durant cette période');
+                        return $this->redirectToRoute('programme',["id" => $session->getId()]);
+                    }
+                }
                 // dd($session);
                 $session->addStagiaire($stagiaire);
                 $em = $this->getDoctrine()->getManager();

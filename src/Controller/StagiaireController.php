@@ -58,7 +58,7 @@ class StagiaireController extends AbstractController
                 $this->addFlash('success', 'la formation a été retirée');
                 return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);   
             }
-            else if(count($sessionTab) != 0){
+            else if(count($sessionTab) != 0 && !isset($request->request->get("add_session")["sessions"])){
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($stagiaire);
                 $em->flush(); 
@@ -76,7 +76,6 @@ class StagiaireController extends AbstractController
                 $clean1 = array_diff($sessionTab, $tabReqSess); 
                 $clean2 = array_diff($tabReqSess, $sessionTab); 
                 $final_output = array_merge($clean1, $clean2);
-                // dump($final_output);die;
                 foreach ( $final_output as  $id) {
                     $session = $this->getDoctrine()
                     ->getRepository(Session::class)
@@ -84,6 +83,17 @@ class StagiaireController extends AbstractController
                     $nbInscrits = count($session->getStagiaires());
                     $nbPLace = $session->getNbPlaces();
                     $nom = $session->getNom();
+                    foreach ($stagiaire->getSessions() as  $stagsess) {
+                        $dateDeb = $stagsess->getDateDebut();
+                        $dateFin = $stagsess->getDateFin();
+                        $deb = $session->getDateDebut();
+                        $fin = $session->getDateFin();
+                        // dump($dateDeb > $deb && $dateFin < $fin );die;
+                        if($dateDeb > $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin > $fin){
+                            $this->addFlash('error', 'le stagiaire est déjà en formation durant cette période');
+                            return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
+                        }
+                    }
                     
                     if($nbPLace <= $nbInscrits){
                         $this->addFlash('error', 'la formation est complète');

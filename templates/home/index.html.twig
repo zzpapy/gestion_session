@@ -8,44 +8,45 @@
     {{parent()}}
 {% endblock %}
 {% block body %}
-<!-- <table class="table">
+<table class="table">
     <thead class="thead-light">
         <tr>
-            <td colspan="7">liste des sessions - <a href="{{path('createSession')}}">Créer une session</a></td>
+            <th scope="col">Intitulé session</th>
+            <th scope="col">Date de début</th>
+            <th scope="col">Date de fin</th>
+            <th scope="col">Durée</th>
+            <th scope="col">Places</th>
+            <th scope="col">Réservées</th>
+            <th scope="col">Reste</th>
+            <th></th>
         </tr>
-        <th scope="col">Intitulé session</th>
-        <th scope="col">Date de début</th>
-        <th scope="col">Date de fin</th>
-        <th scope="col">Nb places</th>
-        <th scope="col">Nb places réservées</th>
-        <th scope="col">places restantes</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th></th>
-    </thead> -->
-    <div class="flex home mt-1">
+    </thead>
+    <tbody class="">
     {% for session in sessions %}
     {% set difference = session.dateDebut.diff(session.dateFin) %}
-        <div id="session_{{session.id}}"class="alert alert-dark">
-            <p><h4>{{session.nom}}</h4> du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}} soit {{difference.y}} ans  {{difference.m}} mois et {{difference.d}} jours</p>
-            <p>Places disponibles : {{session.nbPlaces}}</p>
-            <p>Place réservées : {{session.stagiaires | length}}</p>
+        <tr id="session_{{session.id}}"class="alert alert-dark">
+            <td>{{session.nom}}</td> 
+            <td> {{session.dateDebut | date("d/m/Y")}} </td>
+            <td>{{session.dateFin | date("d/m/Y")}}</td>
+            <td>{{difference.y}} ans  {{difference.m}} mois et {{difference.d}} jours</td>
+            <td>{{session.nbPlaces}}</td>
+            <td>{{session.stagiaires | length}}</td>
             {% set places = session.nbPlaces - session.stagiaires | length %}
             {% if places == 0 %}
                 {% set places = "formation complète" %}
-                <p class="error"> {{places}}</p>
+                <td class="error"> {{places}}</td>
             {% else %}
-            <p class="succes">Places restantes : {{places}}</p>
+            <td class="succes">{{places}}</td>
                 
             {% endif %}
-            <p class="d-flex p-2 justify-content-between">
-                <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('programme',{id:session.id})}}"><i class="fas fa-clipboard"></i></a> 
-                <a class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('ModifSession',{id:session.id})}}"><i class="far fa-edit"></i></a> 
-                <a data-id="{{session.id}}" class="delSession border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" href="{{path('session_delete')}}"><i class="far fa-trash-alt"></i></a>
-            </p>
-        </div>
+            <td class="">
+                <a class="" href="{{path('programme',{id:session.id})}}"><i class="fas fa-clipboard"></i></a> 
+                <a class="" href="{{path('ModifSession',{id:session.id})}}"><i class="far fa-edit"></i></a> 
+                <a data-id="{{session.id}}" class="delSession " href="{{path('session_delete')}}"><i class="far fa-trash-alt"></i></a>
+            </td>
+        </tr>
         {% endfor %}
-    </div>       
+    </tbody>       
 </table>
 
 {% endblock %}

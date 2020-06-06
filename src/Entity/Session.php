@@ -217,7 +217,7 @@ class Session
     }
     public function __toString()
     {
-        return $this->nom;
+        return $this->nom." du : ".$this->date_debut->format('d-m-Y')." au : ".$this->date_fin->format('d-m-Y');
     }
 
     
