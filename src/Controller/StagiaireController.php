@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class StagiaireController extends AbstractController
 {
     /**
-     * @Route("/stagiaire", name="stagiaire")
+     * @Route("/admin/stagiaire", name="stagiaire")
      */
     public function index(StagiaireRepository $stagiaireRep)
     {
@@ -28,7 +28,7 @@ class StagiaireController extends AbstractController
         ]);
     }
     /**
-     * @Route("/stagiaire/detailStagiaire/{id}", name="/stagiaire/detailStagiaire")
+     * @Route("/admin/stagiaire/detailStagiaire/{id}", name="/stagiaire/detailStagiaire")
      */
     public function detailStagiaire(Request $request,Stagiaire $stagiaire,StagiaireRepository $stagiaireRep)
     {
@@ -89,7 +89,7 @@ class StagiaireController extends AbstractController
                         $deb = $session->getDateDebut();
                         $fin = $session->getDateFin();
                         // dump($dateDeb > $deb && $dateFin < $fin );die;
-                        if($dateDeb > $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin > $fin){
+                        if($dateDeb > $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin > $fin){
                             $this->addFlash('error', 'le stagiaire est déjà en formation durant cette période');
                             return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
                         }
@@ -153,8 +153,8 @@ class StagiaireController extends AbstractController
         ]);
     }
     /**
-    * @Route("/updateStagiaire/{id}", name="updateStagiaire")
-    * @Route("/addStagiaire", name="addStagiaire")
+    * @Route("/admin/updateStagiaire/{id}", name="updateStagiaire")
+    * @Route("/admin/addStagiaire", name="addStagiaire")
     */
     public function addStagiaire(Request $request,SessionRepository $sessionRep,Stagiaire $stagiaire = null,StagiaireType $form,StagiaireRepository $stagiaireRep,SluggerInterface $slugger)
     {

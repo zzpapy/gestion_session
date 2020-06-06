@@ -34,16 +34,19 @@
                 </div>
                 <div>
                     <a class="rounded  bg-light text-dark"href="{{path('affich_module')}}">liste des modules</a>
-                </div>                
-                <div>
-                    <a class="rounded  bg-light text-dark"href="{{path('app_register')}}">Register</a>
                 </div>
-                <div>
-                    <a class="rounded  bg-light text-dark"href="{{path('app_login')}}">connexion</a>
-                </div>
-                <div>
-                    <a class="rounded  bg-light text-dark"href="{{path('app_logout')}}">Déconnexion</a>
-                </div>
+                {% if app.user %}
+                    <div>
+                        <a class="rounded  bg-light text-dark"href="{{path('app_register')}}">Register</a>
+                    </div>
+                    <div>
+                        <a class="rounded  bg-light text-dark"href="{{path('app_logout')}}">Déconnexion</a>
+                    </div>
+                {% else %}
+                    <div>
+                        <a class="rounded  bg-light text-dark"href="{{path('app_login')}}">connexion</a>
+                    </div>                   
+                {% endif %}                
                 {% endblock %}
             </nav>
         </div> 

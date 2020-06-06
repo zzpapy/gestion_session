@@ -217,7 +217,14 @@ class Session
     }
     public function __toString()
     {
-        return $this->nom." du : ".$this->date_debut->format('d-m-Y')." au : ".$this->date_fin->format('d-m-Y');
+        $nb = $this->full();
+        if($nb){
+            $nb = $nb;
+        }
+        else{
+            $nb = "formation complète";
+        }
+        return $this->nom." du : ".$this->date_debut->format('d-m-Y')." au : ".$this->date_fin->format('d-m-Y')." nb places : ".$nb;
     }
 
     

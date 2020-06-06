@@ -11,8 +11,7 @@ class AccessDeniedHandler extends AbstractController implements AccessDeniedHand
 {
     public function handle(Request $request, AccessDeniedException $accessDeniedException)
     {
-        $content = "toto";
-
+        $this->addFlash('error', 'Accés refusé !!!');
         return $this->redirectToRoute('app_login');
     }
 }

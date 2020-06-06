@@ -1,7 +1,5 @@
 // $( function() {
     $( ".datePicker" ).datepicker();
-    console.log($( ".datePicker" ))
-    console.log('toto')
 // } );
 
 
@@ -18,7 +16,6 @@ function readURL(input) {
   }
   $(".modileMenu").on("click",function(e){    
     e.stopPropagation()
-    console.log("toto")
     $( "#slide" ).slideDown( 500 );
     $( "nav" ).slideDown( 500 );
     // $("nav").addClass("flex")
@@ -39,7 +36,6 @@ $(".delStagiaire").on("click",function(e){
         $.get(url,{        
               data: data        
           }).then(function(response){
-             console.log('toto')
              $("#stagiaire_"+data).remove()
                
         })
@@ -57,7 +53,6 @@ $(".delSession").on("click",function(e){
         $.get(url,{        
               data: data        
           }).then(function(response){
-             console.log('toto')
              $("#session_"+data).remove()               
         })
     }
@@ -69,7 +64,6 @@ $(".delSession").on("click",function(e){
 //     e.preventDefault()
 //     if(confirm("Etes vous sûre de vouloir supprimer ce module ?")){
 //         let url = $(this).attr("href")
-//         console.log(url)
 //         let data = $(this).data("id")
 //         let session = $(this).data("session")
 //         $("#programme_"+data).prepend('<div class="lds-hourglass"></div>')
@@ -77,7 +71,6 @@ $(".delSession").on("click",function(e){
 //               data: data,
 //               session: session        
 //           }).then(function(response){
-//              console.log('toto')
 //              $("#programme_"+data).remove()               
 //         })
 //     }
@@ -94,9 +87,7 @@ $(".delModule").on("click",function(e){
         $("#module_"+data).prepend('<div class="lds-hourglass"></div>')
         $.get(url,{        
               data: data      
-          }).then(function(response){
-             console.log('toto')
-            
+          }).then(function(response){    
              $("#module_"+data).remove()               
         })
     }
@@ -114,7 +105,6 @@ $(".delModule").on("click",function(e){
 //         id: session ,    
 //         data: data,
 //     }).then(function(response){
-//         console.log(response)
 //         if(response == 'true'){
            
 //             $("#inscrit").append("<tr>"+text+"</tr>")
@@ -132,10 +122,9 @@ $(".errors").slideDown(300).delay(5000).slideUp(300);
 $(".success").slideDown(300).delay(5000).slideUp(300);
 
 
-var k = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
+var k = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65,13],
 n = 0;
 $(document).keydown(function (e) {
-    console.log(n)
     if (e.keyCode === k[n++]) {
         if (n === k.length) {
             $(".konami").slideDown(500).delay(1000).slideUp(500)
