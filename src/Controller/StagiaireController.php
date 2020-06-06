@@ -22,7 +22,7 @@ class StagiaireController extends AbstractController
      */
     public function index(StagiaireRepository $stagiaireRep)
     {
-        $stagiaires = $stagiaireRep->findAll();
+        $stagiaires = $stagiaireRep->findBy([], ['nom' => 'ASC']);
         return $this->render('stagiaire/index.html.twig', [
             'stagiaires' => $stagiaires,
         ]);

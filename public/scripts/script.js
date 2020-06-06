@@ -65,26 +65,26 @@ $(".delSession").on("click",function(e){
         alert("supression annulée");
     }
 })
-$(".delProgramme").on("click",function(e){
-    e.preventDefault()
-    if(confirm("Etes vous sûre de vouloir supprimer ce module ?")){
-        let url = $(this).attr("href")
-        console.log(url)
-        let data = $(this).data("id")
-        let session = $(this).data("session")
-        $("#programme_"+data).prepend('<div class="lds-hourglass"></div>')
-        $.get(url,{        
-              data: data,
-              session: session        
-          }).then(function(response){
-             console.log('toto')
-             $("#programme_"+data).remove()               
-        })
-    }
-    else{
-        alert("supression annulée");
-    }
-})
+// $(".delProgramme").on("click",function(e){
+//     e.preventDefault()
+//     if(confirm("Etes vous sûre de vouloir supprimer ce module ?")){
+//         let url = $(this).attr("href")
+//         console.log(url)
+//         let data = $(this).data("id")
+//         let session = $(this).data("session")
+//         $("#programme_"+data).prepend('<div class="lds-hourglass"></div>')
+//         $.get(url,{        
+//               data: data,
+//               session: session        
+//           }).then(function(response){
+//              console.log('toto')
+//              $("#programme_"+data).remove()               
+//         })
+//     }
+//     else{
+//         alert("supression annulée");
+//     }
+// })
 $(".delModule").on("click",function(e){
     e.preventDefault()
     if(confirm("Etes vous sûre de vouloir supprimer ce module ?")){
