@@ -125,6 +125,7 @@ class StagiaireController extends AbstractController
             $stagiaire = new Stagiaire(); 
         }
         $form = $this->createForm(StagiaireType::class, $stagiaire);
+        // dd($request->request);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             
@@ -165,34 +166,26 @@ class StagiaireController extends AbstractController
         ]);
     }
     /**
-     * @Route("/addStagiaireSess/{id}", name="addStagiaireSess")
+     * @Route("/admin/addStagiaireSess/{id}", name="addStagiaireSess")
      */
     public function addStagiaireSess(Request $request,Stagiaire $stagiaire = null,Session $session,SessionRepository $sessionRep,StagiaireRepository $stagiaireRep)
     {
         $stagiaires = $stagiaireRep->findAll();
-        // if(!$stagiaire){
-        //     $stagiaire = new Stagiaire();
-        // }
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            
-            // $session->addStagiaire($stagiaire);
             $em = $this->getDoctrine()->getManager();
             $em->persist($session);
             $em->flush();
-            
-
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
-            
         }
         return $this->render('session/addStagiaireSess.html.twig', [
             'form' => $form->createView(),
         ]);
     }
     /**
-     * @Route("/stagiaire/trombi/{id}", name="trombi")
+     * @Route("/admin/stagiaire/trombi/{id}", name="trombi")
      */
     public function trombi(Session $session,StagiaireRepository $stagiaireRep)
     {

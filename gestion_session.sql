@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mar. 02 juin 2020 à 07:58
+-- Généré le : sam. 06 juin 2020 à 16:35
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.4.5
 
@@ -93,7 +93,6 @@ INSERT INTO `module` (`id`, `categorie_id`, `nom`) VALUES
 (32, 9, 'css'),
 (33, 9, 'sql'),
 (34, 12, 'PS'),
-(35, 12, 'AI'),
 (36, 12, 'INDD'),
 (37, 8, 'PPT'),
 (38, 13, 'test'),
@@ -121,25 +120,20 @@ CREATE TABLE `programme` (
 --
 
 INSERT INTO `programme` (`id`, `module_id`, `session_id`, `duree`) VALUES
-(58, 17, 19, 10),
+(58, 17, 19, 8),
 (59, 25, 19, 10),
-(65, 18, 18, 7),
 (66, 34, 23, 5),
-(68, 35, 23, 5),
 (69, 36, 23, 3),
-(71, 27, 18, 6),
-(72, 25, 18, 2),
-(74, 35, 22, 7),
 (75, 39, 24, 10),
 (83, 40, 24, 7),
 (84, 30, 24, 7),
-(86, 41, 18, 7),
 (93, 42, 19, 100),
 (94, 43, 24, 25),
 (97, 37, 19, 1),
 (98, 30, 19, 7),
 (99, 41, 19, 8),
-(100, 36, 19, 64);
+(100, 36, 19, 64),
+(116, 17, 24, 7);
 
 -- --------------------------------------------------------
 
@@ -160,11 +154,11 @@ CREATE TABLE `session` (
 --
 
 INSERT INTO `session` (`id`, `nom`, `date_debut`, `date_fin`, `nb_places`) VALUES
-(18, 'Secrétariat', '2020-05-25 00:00:00', '2020-08-25 00:00:00', 10),
+(18, 'Secrétariat', '2020-05-25 00:00:00', '2020-08-25 00:00:00', 2),
 (19, 'Initiation au web', '2020-05-24 00:00:00', '2021-05-24 00:00:00', 4),
 (22, 'Animation', '2020-01-01 00:00:00', '2020-06-01 00:00:00', 5),
 (23, 'Initiation infographie', '2020-06-13 00:00:00', '2020-06-20 00:00:00', 10),
-(24, 'Faire ses chaussettes soi-même', '2019-01-01 00:00:00', '2021-01-01 00:00:00', 5);
+(24, 'Faire ses chaussettes soi-même', '2020-01-01 00:00:00', '2021-01-01 00:00:00', 7);
 
 -- --------------------------------------------------------
 
@@ -190,11 +184,11 @@ CREATE TABLE `stagiaire` (
 --
 
 INSERT INTO `stagiaire` (`id`, `nom`, `prenom`, `sexe`, `birth`, `ville`, `email`, `phone`, `photo`, `create_date`) VALUES
-(10, 'pace', 'gregory', 1, '1976-03-20 00:00:00', 'strasbourg', 'gregory.pace@hotmail.fr', '0667371303', 'WIN-20200520-10-50-17-Pro-5ec4f1a8ef958.jpeg', '2020-05-23 16:10:38'),
+(10, 'pace', 'gregory', 1, '1976-03-19 23:00:00', 'strasbourg', 'gregory.pace@hotmail.fr', '0667371303', 'WIN-20200520-10-50-17-Pro-5ec4f1a8ef958.jpeg', '2020-06-06 16:24:14'),
 (31, 'Muller', 'jean-claude', 1, '2000-05-24 00:00:00', 'strasbourg', 'toto@toto.com', '0677889955', 'acheter-un-chat-1-5eca99f9ea603.jpeg', '2020-05-24 15:59:53'),
 (32, 'dupont', 'gérard', 1, '1980-09-24 00:00:00', 'Paris', 'jsute@gmail.com', '0607080910', '388923-2019-Porsche-Cayenne-5eca9cb19dcb1.jpeg', '2020-05-24 16:11:29'),
 (33, 'koenig', 'claudine', 0, '2001-01-31 00:00:00', 'Mulhouse', 'toto@toto.fr', '0607080910', 'clio-5eca9cf17e18c.jpeg', '2020-05-24 16:12:33'),
-(34, 'de gaulle', 'claude', 0, '2001-05-24 00:00:00', 'Paris', 'gerard@gmail.com', '0677889955', NULL, '2020-05-24 16:18:03'),
+(34, 'de gaulle', 'claude', 0, '2000-05-23 22:00:00', 'Paris', 'gerard@gmail.com', '0677889955', NULL, '2020-06-04 13:28:38'),
 (35, 'hechbach', 'benoit', 1, '1964-05-26 00:00:00', 'Paris', 'toto@toto.fr', '0677889955', NULL, '2020-05-26 16:45:51'),
 (36, 'MURMANN', 'Micka', 1, '1985-01-17 00:00:00', 'STRASBOURG', 'mickael.murmann@elan-formation.fr', '00 00 00 00 00 00', NULL, '2020-05-25 13:35:16'),
 (37, 'GIBELLO', 'Virgile', 1, '1984-01-16 00:00:00', 'SCHILTIGHEIM', 'v@gmail.com', '0656565656', 'images-5ece315e820f5.jpeg', '2020-05-27 09:22:38');
@@ -216,21 +210,10 @@ CREATE TABLE `stagiaire_session` (
 
 INSERT INTO `stagiaire_session` (`stagiaire_id`, `session_id`) VALUES
 (10, 18),
-(10, 19),
-(10, 22),
-(10, 23),
-(10, 24),
-(31, 18),
 (31, 19),
-(31, 22),
-(32, 18),
 (32, 19),
 (33, 18),
-(33, 19),
-(34, 18),
-(35, 18),
-(36, 18),
-(37, 18);
+(35, 19);
 
 -- --------------------------------------------------------
 
@@ -251,7 +234,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `email`, `roles`, `password`) VALUES
 (1, 'gregory.pace@hotmail.fr', '[\"ROLE_ADMIN\"]', '$argon2id$v=19$m=65536,t=4,p=1$ekYxZUF4RXdDSWNnRjFnQg$9dykrGuXSkgFva86xzBWc+4GqcNIfnFrJFAT62U0ppA'),
-(2, 'toto@toto.fr', '[]', '$argon2id$v=19$m=65536,t=4,p=1$N3p0Z1ZqQTZSLlJJNGw5SA$P076Tiye7YjbnzvzNcRQCHzV+5EEYmDWE/tSFfqdMA0');
+(2, 'toto@toto.fr', '[]', '$argon2id$v=19$m=65536,t=4,p=1$N3p0Z1ZqQTZSLlJJNGw5SA$P076Tiye7YjbnzvzNcRQCHzV+5EEYmDWE/tSFfqdMA0'),
+(3, 'tutu@tutu.fr', '[]', '$argon2id$v=19$m=65536,t=4,p=1$amVTU3NUNVNLbzFDMEloNA$+fFl5Wt5JHGdlC7hDn3u7/vWQ5AA8cGZ2nDmgcZFP2U');
 
 -- --------------------------------------------------------
 
@@ -360,13 +344,13 @@ ALTER TABLE `module`
 -- AUTO_INCREMENT pour la table `programme`
 --
 ALTER TABLE `programme`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT pour la table `session`
 --
 ALTER TABLE `session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT pour la table `stagiaire`
@@ -378,7 +362,7 @@ ALTER TABLE `stagiaire`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `vacances`

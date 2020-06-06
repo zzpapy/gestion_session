@@ -152,9 +152,7 @@ class SessionController extends AbstractController
             foreach ($vacances as $vac) {
                 $dateDeb = $vac->getDateDebut();
                 $dateFin = $vac->getDateFin();
-                $debutHol =  $dateDeb;
-                $finHol =$dateFin;
-                $daysHol = $finHol->diff($debutHol);
+                $daysHol = $dateFin->diff($dateDeb);
                 if($daysHol){
                     
                     $days = $days - $daysHol->days;

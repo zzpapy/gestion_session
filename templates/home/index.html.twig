@@ -28,7 +28,20 @@
             <td><a class="" href="{{path('programme',{id:session.id})}}">{{session.nom}}</a></td> 
             <td> {{session.dateDebut | date("d/m/Y")}} </td>
             <td>{{session.dateFin | date("d/m/Y")}}</td>
-            <td>{{difference.y}} ans  {{difference.m}} mois et {{difference.d}} jours</td>
+            {%  set ans = difference.y %}
+            {%  set mois = difference.m %}
+            {%  set jours = difference.d %}
+            <td>
+                {% if ans != 0 %}
+                {{difference.y}} ans
+                {% endif %}
+                {% if mois != 0 %}
+                {{difference.m}} mois
+                {% endif %}
+                {% if jours != 0 %}
+                {{difference.d}} jours
+                {% endif %}
+            </td>
             <td>{{session.nbPlaces}}</td>
             <td>{{session.stagiaires | length}}</td>
             {% set places = session.nbPlaces - session.stagiaires | length %}
