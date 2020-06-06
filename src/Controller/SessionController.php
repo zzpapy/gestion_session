@@ -53,9 +53,6 @@ class SessionController extends AbstractController
                 if($session->getId() != null){
                     return $this->redirectToRoute('ModifSession',["id" => $session->getId()]);
                 }
-                // else{
-                //     return $this->redirectToRoute('home');
-                // }
             }
         }
         
@@ -128,10 +125,7 @@ class SessionController extends AbstractController
                 $this->addFlash('success', 'stagiaire(s) ajouté(s) avec succés');
                 return $this->redirectToRoute('programme',["id" => $session->getId()]); 
                 // return  new Response( "true" );
-            }
-            
-         
-        
+            }    
         $programmes = $session->getProgrammes();
         $tab=[];
         foreach ($programmes as $key => $programme) {
@@ -173,9 +167,7 @@ class SessionController extends AbstractController
                 $days--;
             }
                 
-            }
-
-
+        }
         $form = $this->createForm(AddStagiaireType::class,$session);
         $sessionId = $session->getId();
         $nbStagiaires = count($session->getStagiaires());
@@ -227,9 +219,7 @@ class SessionController extends AbstractController
             'tps_session' => $tps_session,
             'vacances' => $vacances
         ]);
-    }
-    
-    
+    }    
      /**
      * @Route("/admin/delete_session", name="session_delete", methods={"GET"})
      */
@@ -242,8 +232,7 @@ class SessionController extends AbstractController
         $entityManager->flush();        
        
         return $this->redirectToRoute('home');
-    }   
-     
+    }    
      /**
      * @Route("/vacances/{id<\d+>}", name="vacances")
      */
@@ -273,17 +262,6 @@ class SessionController extends AbstractController
                     $this->addFlash('error', 'Cette pèriode de vacances en chevauche une autre');
                     return $this->redirectToRoute('vacances',["id" => $session->getId()]);
                 }
-            //     $periodVacSess = new \DatePeriod($debSessVac, new \DateInterval('P1D'), $finSessVac);
-            //     foreach($periodVac as $dt) {
-            //         $curr = $dt->format('Y-m-d');
-            //         foreach($periodVacSess as $date) {
-            //             $currVac = $date->format('Y-m-d');
-            //             if ($currVac == $curr) {
-            //                 $this->addFlash('error', 'des vacances on déjà été positionnées à ces dates');
-            //                 return $this->redirectToRoute('vacances',["id" => $session->getId()]);
-            //             }
-            //         }
-            //     }
             }
             $diffDeb = $debSess < $debVac;
             if($diffDeb){
