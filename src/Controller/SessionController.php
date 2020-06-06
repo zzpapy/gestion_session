@@ -107,7 +107,7 @@ class SessionController extends AbstractController
                 $nb_stagiaires = count($session->getStagiaires());
                 $nb_places = $session->getNbPlaces();
                 if($nb_stagiaires >= $nb_places){
-                    $this->addFlash('error', 'la formation est complète');
+                    $this->addFlash('error', 'le stagiare est déjà inscrit à une autre formation durant cette période !!!');
                     return $this->redirectToRoute('programme',["id" => $session->getId()]);
                 }
                 $stagiaire = $this->getDoctrine()
