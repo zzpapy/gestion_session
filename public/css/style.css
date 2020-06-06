@@ -57,14 +57,14 @@ nav div a{
 img{
     max-width: 100%;
 }
-#stagiaire_birth,#session_date_debut,#session_date_fin{
+#stagiaire_birth,#session_date_debut,#session_date_fin,#vacances_date_debut,#vacances_date_fin{
     display: flex;
     flex-direction: row;
     
 }
-#stagiaire_birth :nth-child(1),#session_date_debut :nth-child(1) ,#session_date_fin :nth-child(1){ order: 2; }
-#stagiaire_birth :nth-child(2),#session_date_debut :nth-child(2),#session_date_fin :nth-child(2) { order: 3; }
-#stagiaire_birth :nth-child(3),#session_date_debut :nth-child(3) ,#session_date_fin :nth-child(3){ order: 1; }
+#stagiaire_birth :nth-child(1),#session_date_debut :nth-child(1) ,#session_date_fin :nth-child(1),#vacances_date_debut :nth-child(1),#vacances_date_fin :nth-child(1){ order: 2; }
+#stagiaire_birth :nth-child(2),#session_date_debut :nth-child(2),#session_date_fin :nth-child(2),#vacances_date_debut :nth-child(2),#vacances_date_fin :nth-child(2) { order: 3; }
+#stagiaire_birth :nth-child(3),#session_date_debut :nth-child(3) ,#session_date_fin :nth-child(3),#vacances_date_debut :nth-child(3),#vacances_date_fin :nth-child(3){ order: 1; }
 
 
 .wrapper{

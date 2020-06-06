@@ -106,6 +106,7 @@ class SessionController extends AbstractController
             else if($request->request->get("add")){
                 $nb_stagiaires = count($session->getStagiaires());
                 $nb_places = $session->getNbPlaces();
+                // dd($nb_stagiaires >= $nb_places);
                 if($nb_stagiaires >= $nb_places){
                     $this->addFlash('error', 'le stagiare est déjà inscrit à une autre formation durant cette période !!!');
                     return $this->redirectToRoute('programme',["id" => $session->getId()]);
@@ -124,7 +125,6 @@ class SessionController extends AbstractController
                         return $this->redirectToRoute('programme',["id" => $session->getId()]);
                     }
                 }
-                // dd($session);
                 $session->addStagiaire($stagiaire);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($session);

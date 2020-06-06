@@ -25,7 +25,7 @@
     {% for session in sessions %}
     {% set difference = session.dateDebut.diff(session.dateFin) %}
         <tr id="session_{{session.id}}"class="alert alert-dark">
-            <td>{{session.nom}}</td> 
+            <td><a class="" href="{{path('programme',{id:session.id})}}">{{session.nom}}</a></td> 
             <td> {{session.dateDebut | date("d/m/Y")}} </td>
             <td>{{session.dateFin | date("d/m/Y")}}</td>
             <td>{{difference.y}} ans  {{difference.m}} mois et {{difference.d}} jours</td>

@@ -19,11 +19,17 @@ class VacancesType extends AbstractType
                 'format' => 'dd-MM-yyyy ',
                 'html5'  => false,
                 'years' => range(date('Y'), date('Y')+10),
+                'placeholder' => [
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                ],
             ])
             ->add('date_fin',DateType::class, [
                 'format' => 'dd-MM-yyyy ',
                 'html5'  => false,
                 'years' => range(date('Y'), date('Y')+10),
+                'placeholder' => [
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                ],
             ])
             // ->add('session', EntityType::class, [
             //     'class' =>Session::class,
