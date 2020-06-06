@@ -47,7 +47,6 @@ class StagiaireController extends AbstractController
         foreach ($stagiaire->getSessions() as  $sess) {
            array_push($sessionTab,$sess->getId());
         }
-        // dump(count($sessionTab),count($request->request->get("add_session")["sessions"]));die;
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             // dd( count($sessionTab) , count($request->request->get("add_session")["sessions"]));
@@ -88,7 +87,6 @@ class StagiaireController extends AbstractController
                         $dateFin = $stagsess->getDateFin();
                         $deb = $session->getDateDebut();
                         $fin = $session->getDateFin();
-                        // dump($dateDeb > $deb && $dateFin < $fin );die;
                         if($dateDeb > $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin > $fin){
                             $this->addFlash('error', 'le stagiaire est déjà en formation durant cette période');
                             return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
@@ -110,41 +108,6 @@ class StagiaireController extends AbstractController
             }
 
         }
-        // if(isset($request->request->get("add_session")["sessions"])){
-        //     $tabReqSess = [];
-        //     foreach ($request->request->get("add_session")["sessions"] as  $value) {
-                
-               
-        //         array_push($tabReqSess,$value);
-        //         foreach ($sessionTab as $id) {
-        //             // if($id == $value){
-        //                 //     $this->addFlash('error', 'stagiaire déjà inscrit à cette formation');
-        //             //     return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]); 
-        //             // }
-        //         }
-        //     }
-        //     $croise = array_intersect($sessionTab,$tabReqSess);
-        //     $clean1 = array_diff($sessionTab, $tabReqSess); 
-        //     $clean2 = array_diff($tabReqSess, $sessionTab); 
-        //     $final_output = array_merge($clean1, $clean2);
-        //     dump($final_output);
-        //     foreach ( $final_output as $key => $id) {
-        //         $session = $this->getDoctrine()
-        //         ->getRepository(Session::class)
-        //         ->find($id);
-        //         $nbInscrits = count($session->getStagiaires());
-        //         $nbPLace = $session->getNbPlaces();
-        //         $nom = $session->getNom();
-        //         dump($nbPLace <= $nbInscrits,$nom);
-        //             if($nbPLace <= $nbInscrits){
-        //                 $this->addFlash('error', 'la formation est complète');
-        //                 return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
-        //             }
-        //             else{
-        //             }
-        //         }
-        //     }
-        // 
        
         $stagiaires = $stagiaireRep->findAll();
         return $this->render('stagiaire/detailStagiaire.html.twig', [
@@ -233,7 +196,6 @@ class StagiaireController extends AbstractController
      */
     public function trombi(Session $session,StagiaireRepository $stagiaireRep)
     {
-        // dump($session->getStagiaires());die;
         $stagiaires = $session->getStagiaires();
         return $this->render('stagiaire/trombi.html.twig', [
             'stagiaires' => $stagiaires,
@@ -244,7 +206,6 @@ class StagiaireController extends AbstractController
      */
     public function deleteSession(Request $request,StagiaireRepository $stagiaireRep)
     {
-        // dump($request->get("data"));die;
         $stagiaire = $stagiaireRep->findOneBy(["id" => $request->get("data") ]);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($stagiaire);

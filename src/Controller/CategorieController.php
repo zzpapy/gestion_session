@@ -22,9 +22,8 @@ class CategorieController extends AbstractController
        
         
         if(!$categorie){
-        $categorie = new categorie();
+            $categorie = new Categorie();
         }
-        // dump($cat);die;
         $formCategorie = $this->createForm(CategorieType::class, $categorie);
         $formCategorie->remove("categorie");
         $formCategorie->handleRequest($request);

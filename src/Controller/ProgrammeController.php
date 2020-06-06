@@ -73,7 +73,6 @@ class ProgrammeController extends AbstractController
         }
         $vacances = $session->getVacances();
         if(count($vacances) != 0){
-            // dump(count($vacances));die;
             foreach ($vacances as $vac) {
                 $dateDeb = $vac->getDateDebut();
                 $dateFin = $vac->getDateFin();
@@ -102,10 +101,7 @@ class ProgrammeController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('programme',["id" => $session->getId()]);
         }
-        // if(!$module){
-            $module = new Module();
-        // }
-        // dump($module);die;
+        $module = new Module();
         $formModule = $this->createForm(ModuleType::class, $module);
         
         $formModule->handleRequest($request);
@@ -134,7 +130,6 @@ class ProgrammeController extends AbstractController
         if(!$programme){
             $programme = new programme();
         }
-        // dump($request->get("id_session"));die;
         $session = $sessionRep->findOneBy(["id" => $request->get("id_session")]);
         $formProgramme = $this->createForm(ProgrammeType::class, $programme);
         $formProgramme->remove('module');

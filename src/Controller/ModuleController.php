@@ -29,7 +29,6 @@ class ModuleController extends AbstractController
         
        
             $module = new Module();
-            // dump($cat);die;
             $formModule = $this->createForm(ModuleType::class, $module);
             $formModule->handleRequest($request);
             if($formModule->isSubmitted() && $formModule->isValid()){
@@ -41,7 +40,6 @@ class ModuleController extends AbstractController
 
       
             $categorie = new Categorie();
-            // dump($cat);die;
             $formCategorie = $this->createForm(CategorieType::class, $categorie);
             $formCategorie->handleRequest($request);
             if($formCategorie->isSubmitted() && $formCategorie->isValid()){
@@ -68,9 +66,8 @@ class ModuleController extends AbstractController
         $nom = $module->getNom();
         
         if(!$module){
-        $module = new Module();
+            $module = new Module();
         }
-        // dump($cat);die;
         $formModule = $this->createForm(ModuleType::class, $module);
         $formModule->remove("categorie");
         $formModule->handleRequest($request);

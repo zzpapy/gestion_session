@@ -47,7 +47,6 @@ class SessionController extends AbstractController
         $form = $this->createForm(SessionType::class, $session);
         if(isset($request->request->get("session")["stagiaires"])){
             if(count($request->request->get("session")["stagiaires"])>$request->request->get("session")["nb_places"]){
-                // dump($request->request->get("session"));die;
                 $this->addFlash('error', 'vous avez séléctionné trop de stagiaires');
                 $form->remove("stagiaires");
                 $form->add("stagiaires");
@@ -66,7 +65,6 @@ class SessionController extends AbstractController
             $dateFin = $request->request->get("session")["date_fin"];
             $dateDeb = new \Datetime(implode('-',$dateDeb));
             $dateFin = new \Datetime(implode('-',$dateFin));
-            // dump($dateFin > $dateDeb);die;
             if($dateFin < $dateDeb || $dateFin == $dateDeb){
                     $this->addFlash('error', 'le date de fin de session ne peut inférieure à celle du début !!!');
                     return $this->redirectToRoute('createSession');
@@ -88,21 +86,17 @@ class SessionController extends AbstractController
      */
     public function index(StagiaireRepository $stagiaireRep, Stagiaire $stagiaire = null,MailerInterface $mailer, Session $session = null, SessionRepository $sessRep,Request $request)
     {
-        // dump($request->request->get("add"));die;
         $session = $sessRep->findOneBy(["id"=> $request->get("id")]);
         if($request->request->get("remove")){
             $stagiaire = $this->getDoctrine()
                             ->getRepository(Stagiaire::class)
                             ->find($request->request->get("add_stagiaire")['stagiaires'][0]);
                 $session->removestagiaire($stagiaire);
-                // dump($session->getStagiaires()->contains($stagiaire));die;
-                
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($session);
                 $em->flush();
                 $this->addFlash('success', 'stagiaire(s) retiré(s) avec succés');
                 return $this->redirectToRoute('programme',["id" => $session->getId()]);
-                // return  new Response( "false" );
             }
             else if($request->request->get("add")){
                 $nb_stagiaires = count($session->getStagiaires());
@@ -139,10 +133,8 @@ class SessionController extends AbstractController
          
         
         $programmes = $session->getProgrammes();
-        // $session = $sessRep->findOneBy(["id" => $request->get("id")]); 
         $tab=[];
         foreach ($programmes as $key => $programme) {
-            // dump($programme->getModule()->getCategorie()->getNom());die;
             if(array_key_exists($programme->getModule()->getCategorie()->getNom(),$tab)){
                 array_push($tab[$programme->getModule()->getCategorie()->getNom()],$programme);
             }
@@ -163,7 +155,6 @@ class SessionController extends AbstractController
         $period = new \DatePeriod($debut, new \DateInterval('P1D'), $fin);
         $vacances = $session->getVacances();
         if(count($vacances) != 0){
-            // dump(count($vacances));die;
             foreach ($vacances as $vac) {
                 $dateDeb = $vac->getDateDebut();
                 $dateFin = $vac->getDateFin();
@@ -176,7 +167,6 @@ class SessionController extends AbstractController
                 }
             }
         }
-        // dump($days);die;
         foreach($period as $dt) {
             $curr = $dt->format('D');
             if ($curr == 'Sat' || $curr == 'Sun') {
@@ -191,7 +181,6 @@ class SessionController extends AbstractController
         $nbStagiaires = count($session->getStagiaires());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            // dump(isset($request->request->get("add_stagiaire")["stagiaires"]),$request->request->get("add_stagiaire"));die;
             if(isset($request->request->get("add_stagiaire")["stagiaires"])){
                 if(count($request->request->get("add_stagiaire")["stagiaires"])>$session->getNbPlaces()){
                     $this->addFlash('error', 'vous avez séléctionné trop de stagiares');
@@ -280,7 +269,6 @@ class SessionController extends AbstractController
             for ($i=0; $i < count($tabVacances); $i++) { 
                 $debSessVac = $tabVacances[$i]->getDateDebut();
                 $finSessVac =$tabVacances[$i]->getDateFin();
-                // dump($debSess < $debVac);die;
                 if($debVac < $debSessVac && $finVac > $debSessVac || $debVac > $debSessVac && $finVac < $finSessVac || $debVac > $debSessVac && $finVac > $finSessVac &&  $debVac < $finSessVac || $debVac == $debSessVac){
                     $this->addFlash('error', 'Cette pèriode de vacances en chevauche une autre');
                     return $this->redirectToRoute('vacances',["id" => $session->getId()]);
@@ -290,19 +278,16 @@ class SessionController extends AbstractController
             //         $curr = $dt->format('Y-m-d');
             //         foreach($periodVacSess as $date) {
             //             $currVac = $date->format('Y-m-d');
-            //             dump($currVac,$curr);
             //             if ($currVac == $curr) {
             //                 $this->addFlash('error', 'des vacances on déjà été positionnées à ces dates');
             //                 return $this->redirectToRoute('vacances',["id" => $session->getId()]);
             //             }
             //         }
             //     }
-            //     // dump($periodVac);die;
             }
             $diffDeb = $debSess < $debVac;
             if($diffDeb){
                 if($finVac > $finSess){
-                    // dump($diffDeb);die;
                     $this->addFlash('error', 'Cette pèriode de vacances est non valide tata');
                     return $this->redirectToRoute('vacances',["id" => $session->getId()]);
                 }    
@@ -336,7 +321,6 @@ class SessionController extends AbstractController
         $vacances = $this->getDoctrine()
         ->getRepository(Vacances::class)
         ->find($id_vacances);
-        // dump($vacances->getSession());die;
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($vacances);
         $entityManager->flush();        
