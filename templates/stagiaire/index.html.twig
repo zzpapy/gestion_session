@@ -10,6 +10,7 @@
         <th>Photo</th>
         <th>Nom</th>
         <th>Prénom</th>
+        <th>Nb de formations</th>
         <th>Outils</th>
         <tbody>
             {% set photo = "" %}
@@ -75,6 +76,7 @@
                     </td>
                     <td class="align-middle">{{stagiaire.nom|capitalize}}</td>
                     <td class="align-middle">{{stagiaire.prenom|capitalize}}</td>
+                    <td>{{stagiaire.sessions|length}}</td>
                     <td class="align-middle" width="15%">
                         <a class="" href="{{path('/stagiaire/detailStagiaire',{id:stagiaire.id})}}"><i class="fas fa-user"></i></a>
                         <a class="" href="{{path('updateStagiaire',{id:stagiaire.id})}}"><i class="far fa-edit"></i></a>

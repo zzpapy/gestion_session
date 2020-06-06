@@ -39,6 +39,10 @@ footer{
 a{
     color:black
 }
+.home{
+    max-width: 75%;
+    margin: auto;
+}
 #slide{    
     margin-bottom: 1em;
 }
