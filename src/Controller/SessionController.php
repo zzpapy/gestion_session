@@ -31,11 +31,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
 class SessionController extends AbstractController
 {
     /**
-     * @Route("/session/ModifSession/{id}/admin", name="ModifSession")
-     * @Route("/session/createSession/admin", name="createSession")
+     * @Route("/session/ModifSession/{id}", name="ModifSession")
+     * @Route("/session/createSession", name="createSession")
      */
     public function createSession(Request $request,Session $session = null)
     {
@@ -82,8 +83,8 @@ class SessionController extends AbstractController
         ]);
     }
     /**
-     * @Route("/session/addStagiaireSess/admin", name="/session/addStagiaireSess", methods={"GET"})
-     * @Route("/session/{id<\d+>}/admin", name="programme")
+     * @Route("admin/session/addStagiaireSess", name="/session/addStagiaireSess", methods={"GET"})
+     * @Route("admin/session/{id<\d+>}", name="programme")
      */
     public function index(StagiaireRepository $stagiaireRep, Stagiaire $stagiaire = null,MailerInterface $mailer, Session $session = null, SessionRepository $sessRep,Request $request)
     {
@@ -239,7 +240,7 @@ class SessionController extends AbstractController
         ]);
     }
     /**
-     * @Route("/session/CreaProgramme/{id}/admin", name="CreaProgramme")
+     * @Route("/session/CreaProgramme/{id}", name="CreaProgramme")
      */
     public function CreaProgramme(Request $request,Categorie $categorie = null,Module $module = null,Programme $programme = null,Session $session = null, SessionRepository $sessRep)
     {
@@ -344,7 +345,7 @@ class SessionController extends AbstractController
         ]);
     }
      /**
-     * @Route("programme_delete/admin", name="programme_delete", methods={"GET"})
+     * @Route("programme_delete", name="programme_delete", methods={"GET"})
      */
     public function delete(Request $request, ProgrammeRepository $programmeRep, SessionRepository $sessionRep): Response
     {
@@ -360,7 +361,7 @@ class SessionController extends AbstractController
     }
     
      /**
-     * @Route("ModifDuree/{id<\d+>}/{id_session<\d+>}/admin", name="ModifDuree")
+     * @Route("ModifDuree/{id<\d+>}/{id_session<\d+>}", name="ModifDuree")
      */
     public function modif(Request $request, Programme $programme = null,SessionRepository $sessionRep): Response
     {
@@ -384,7 +385,7 @@ class SessionController extends AbstractController
         ]);
     }
      /**
-     * @Route("/delete_session/admin", name="session_delete", methods={"GET"})
+     * @Route("/delete_session", name="session_delete", methods={"GET"})
      */
     public function deleteSession(Request $request,SessionRepository $sessionRep)
     {
@@ -398,7 +399,7 @@ class SessionController extends AbstractController
     }
 
      /**
-     * @Route("/affich_module/admin", name="affich_module")
+     * @Route("/affich_module", name="affich_module")
      */
     public function affichModule(Request $request,ModuleRepository $moduleRep,CategorieRepository $catRep,Module $module = null)
     {
@@ -440,7 +441,7 @@ class SessionController extends AbstractController
         ]);
     }
      /**
-      * @Route("/session/ModifModule/{id}/admin", name="ModifModule"))
+      * @Route("/session/ModifModule/{id}", name="ModifModule"))
      */
     public function mofifModule(Request $request,ModuleRepository $moduleRep,CategorieRepository $catRep,Module $module = null)
     {
@@ -467,7 +468,7 @@ class SessionController extends AbstractController
         ]);
     }
     /**
-      * @Route("/session/ModifCategorie/{id}/admin", name="ModifCategorie"))
+      * @Route("/session/ModifCategorie/{id}", name="ModifCategorie"))
      */
     public function mofifCategorie(Request $request,Categorie $categorie = null)
     {
@@ -493,7 +494,7 @@ class SessionController extends AbstractController
         ]);
     }
      /**
-     * @Route("/delete_module/admin", name="module_delete", methods={"GET"})
+     * @Route("/delete_module", name="module_delete", methods={"GET"})
      */
     public function deleteModule(Request $request,ModuleRepository $moduleRep)
     {
@@ -506,7 +507,7 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('home');
     }
      /**
-     * @Route("/vacances/{id<\d+>}/admin", name="vacances")
+     * @Route("/vacances/{id<\d+>}", name="vacances")
      */
     public function addVacances(Request $request,Session $session,Vacances $vacances = null)
     {
@@ -578,7 +579,7 @@ class SessionController extends AbstractController
         ]);
     }
     /**
-     * @Route("/delVacances/{id<\d+>/admin", name="delVacances", methods={"GET"})
+     * @Route("/delVacances/{id<\d+>", name="delVacances", methods={"GET"})
      */
     public function delVacances(Request $request,ModuleRepository $moduleRep,Vacances $vacances = null)
     {
@@ -596,7 +597,7 @@ class SessionController extends AbstractController
      /**
      * Export to PDF
      * 
-     * @Route("/session/pdf/{id<\d+>}/{id_stagiaire<\d+>}/admin", name="acme_demo_pdf")
+     * @Route("/session/pdf/{id<\d+>}/{id_stagiaire<\d+>}", name="acme_demo_pdf")
      */
     public function pdfAction(Request $request,Session $session = null,StagiaireRepository $stagiaireRep )
     {
