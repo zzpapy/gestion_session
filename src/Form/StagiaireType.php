@@ -48,6 +48,9 @@ class StagiaireType extends AbstractType
                 "data" => $options["data"]->getBirth()
             ])
             ->add('ville',TextType::class)
+            // ->add('ville',ChoiceType::class,[
+            //     "choices" => $options["list_commune"]
+            // ])
             ->add('email',EmailType::class)
             ->add('phone')
             // ->add('sessions', EntityType::class, [
@@ -85,7 +88,8 @@ class StagiaireType extends AbstractType
             // ...
         
             ->add('submit', SubmitType::class, [
-                "label" => "Ajouter"
+                "label" => "Ajouter",
+                // "list_commune" => null
             ])
         ;
     }

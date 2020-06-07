@@ -1,5 +1,5 @@
 // $( function() {
-    $( ".datePicker" ).datepicker();
+    // $( ".datePicker" ).datepicker();
 // } );
 
 
@@ -136,3 +136,90 @@ $(document).keydown(function (e) {
         n = 0;
     }
 });
+
+// const searchClient = algoliasearch(
+//     'latency',
+//     '94a2f57396b45e4153113af04823808a'
+//   );
+  
+//   const search = instantsearch({
+//     indexName: 'movies',
+//     searchClient,
+//   });
+  
+//   search.addWidgets([
+//     {
+//       init(opts) {
+//         const helper = opts.helper;
+//         const input = document.querySelector('#stagiaire_ville');
+//         console.log(opts)
+//         input.addEventListener('input', ({currentTarget}) => {
+//           helper.setQuery(currentTarget.value) // update the parameters
+//                 .search(); // launch the query
+//         });
+//       }
+//     },
+//     {
+//       render(options) {
+//         const results = options.results;
+//         console.log(results)
+//         // read the hits from the results and transform them into HTML.
+//         document.querySelector('#hits').innerHTML = results.hits
+//           .map(
+//             hit => `<p>${instantsearch.highlight({ attribute: 'nom', hit })}</p>`
+//           )
+//           .join('');
+//       },
+//     }
+//   ]);
+  
+//   search.start();
+
+//   const data_url =
+//   "https://raw.githubusercontent.com/algolia/datasets/master/movies/actors.json";
+
+//   function indexData(data_url) {
+//     return axios
+//       .get(data_url, {})
+//       .then(response => {
+//         return dataToAlgoliaObject(response.data);
+//       })
+//       .then(function(response) {
+//         return;
+//       })
+//       .catch(function(error) {
+//         console.warn(error);
+//       });
+//   }
+
+//   function dataToAlgoliaObject(data_points) {
+//     var algoliaObjects = [];
+//     for (var i = 0; i < data_points.length; i++) {
+//       var data_point = data_points[i];
+//       var algoliaObject = {
+//         objectID: data_point.objectID,
+//         name: data_point.name,
+//         rating: data_point.rating,
+//         image_path: data_point.image_path,
+//         alternative_name: data_point.alternative_name
+//       };
+//       algoliaObjects.push(algoliaObject);
+//     }
+  
+//     return algoliaObjects;
+//   }
+
+//   const algoliaClient = algoliasearch(
+//     process.env.ALGOLIA_APP_ID,
+//     process.env.ALGOLIA_ADMIN_API_KEY
+//   );
+//   const algoliaIndex = algoliaClient.initIndex("commune");
+  
+//   function sendDataToAlgolia(algoliaObjects) {
+//     return new Promise((resolve, reject) => {
+//       algoliaIndex.addObjects(algoliaObjects, (err, content) => {
+//         if (err) reject(err);
+//         resolve();
+//       });
+//     });
+//   }
