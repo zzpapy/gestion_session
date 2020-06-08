@@ -100,7 +100,7 @@ class SessionController extends AbstractController
                 $nb_places = $session->getNbPlaces();
                 
                 if($nb_stagiaires >= $nb_places){
-                    $this->addFlash('error', 'le stagiare est déjà inscrit à une autre formation durant cette période !!!');
+                    $this->addFlash('error', 'il n\'y a plus de places dans cette formation !!!');
                     return $this->redirectToRoute('programme',["id" => $session->getId()]);
                 }
                 $stagiaire = $this->getDoctrine()
@@ -111,19 +111,24 @@ class SessionController extends AbstractController
                     $dateFin = $stagsess->getDateFin();
                     $deb = $session->getDateDebut();
                     $fin = $session->getDateFin();
-                    
-                    if($dateDeb > $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin > $fin){
+                    // dd($session);
+                    // dump($dateDeb >= $deb && $dateFin <= $fin || $dateDeb <= $deb && $dateFin >= $fin && !$stagiaire->getSessions()->contains(!$session));
+                    if($dateDeb >= $deb && $dateFin <= $fin || $dateDeb <= $deb && $dateFin >= $fin && !$stagiaire->getSessions()->contains(!$session) && $nbPLace <= $nbInscrits){
+                        // dd($dateDeb >= $deb && $dateFin <= $fin || $dateDeb <= $deb && $dateFin >= $fin);
                         $this->addFlash('error', 'le stagiaire est déjà en formation durant cette période');
-                        return $this->redirectToRoute('programme',["id" => $session->getId()]);
+                        return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
+                    }
+                    else{
+                        $session->addStagiaire($stagiaire);
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($session);
+                        $em->flush();
+                        $session->addStagiaire($stagiaire);
+                        $this->addFlash('success', 'stagiaire(s) ajouté(s) avec succés');
+                        return $this->redirectToRoute('programme',["id" => $session->getId()]); 
                     }
                 }
-                $session->addStagiaire($stagiaire);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($session);
-                $em->flush();
-                $session->addStagiaire($stagiaire);
-                $this->addFlash('success', 'stagiaire(s) ajouté(s) avec succés');
-                return $this->redirectToRoute('programme',["id" => $session->getId()]); 
+               
                 // return  new Response( "true" );
             }    
         $programmes = $session->getProgrammes();

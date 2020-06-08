@@ -59,7 +59,7 @@ class StagiaireController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             // dd( count($sessionTab) , count($request->request->get("add_session")["sessions"]));
-            if( isset($request->request->get("add_session")["sessions"]) && count($sessionTab) > count($request->request->get("add_session")["sessions"])){
+            if( isset($request->request->get("add_session")["sessions"]) && count($sessionTab) > count($request->request->get("add_session")["sessions"]) || count($sessionTab) == 0){
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($stagiaire);
                 $em->flush(); 
@@ -81,8 +81,8 @@ class StagiaireController extends AbstractController
                     }
                 }
                 $croise = array_intersect($sessionTab,$tabReqSess);
-                $clean1 = array_diff($sessionTab, $tabReqSess); 
-                $clean2 = array_diff($tabReqSess, $sessionTab); 
+                $clean1 = array_diff($sessionTab, $croise); 
+                $clean2 = array_diff($tabReqSess, $croise); 
                 $final_output = array_merge($clean1, $clean2);
                 foreach ( $final_output as  $id) {
                     $session = $this->getDoctrine()
@@ -90,29 +90,28 @@ class StagiaireController extends AbstractController
                     ->find($id);
                     $nbInscrits = count($session->getStagiaires());
                     $nbPLace = $session->getNbPlaces();
-                    $nom = $session->getNom();
                     foreach ($stagiaire->getSessions() as  $stagsess) {
+                        // dump($stagsess);
                         $dateDeb = $stagsess->getDateDebut();
                         $dateFin = $stagsess->getDateFin();
                         $deb = $session->getDateDebut();
                         $fin = $session->getDateFin();
-                        if($dateDeb > $deb && $dateFin < $fin || $dateDeb < $deb && $dateFin > $fin){
+                        // dump($dateDeb,$dateFin,$deb,$fin,count($sessionTab));die;
+                        // dump($dateDeb >= $deb && $dateFin <= $fin );die;
+                        if($dateDeb >= $deb && $dateFin <= $fin || $dateDeb <= $deb && $dateFin >= $fin && !$stagiaire->getSessions()->contains($session) && $nbPLace <= $nbInscrits && count($sessionTab) != 0){
+                            // dd($dateDeb >= $deb && $dateFin <= $fin || $dateDeb <= $deb && $dateFin >= $fin);
                             $this->addFlash('error', 'le stagiaire est déjà en formation durant cette période');
+                            return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
+                        }
+                        else{
+                            $em = $this->getDoctrine()->getManager();
+                            $em->persist($stagiaire);
+                            $em->flush();
+                            $this->addFlash('success', 'formation ajoutée');
                             return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
                         }
                     }
                     
-                    if($nbPLace <= $nbInscrits){
-                        $this->addFlash('error', 'la formation est complète');
-                        return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
-                    }
-                    else{
-                        $em = $this->getDoctrine()->getManager();
-                        $em->persist($stagiaire);
-                        $em->flush();
-                        $this->addFlash('success', 'formation ajoutée');
-                        return $this->redirectToRoute('/stagiaire/detailStagiaire',["id" => $stagiaire->getId()]);
-                    }
                 }
             }
 
@@ -133,20 +132,11 @@ class StagiaireController extends AbstractController
         if(!$stagiaire){
             $stagiaire = new Stagiaire(); 
         }
-        // $commune = HttpClient::create();
-        // $list_commune = $commune->request('GET', 'https://geo.api.gouv.fr/communes?fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre');
-        // $content = $list_commune->getContent();
-        // // $content = $list_commune->toArray();
-        // // $searchService = $this->get('search.service');
+       
         
-        // $client = SearchClient::create('8V1R9H6WI8', '3f4787643f438dfc0dc54b26b40728ae');
-        // $index = $client->initIndex('commune');
-        // $batch = json_decode($content, true);
-        // $test = $index->saveObjects($batch, ['autoGenerateObjectIDIfNotExist' => true]);
-        // dd($test);
-        // // $form = $this->createForm(StagiaireType::class, $stagiaire,[
-        // //     "list_commune" => $content
-        // // ]);
+        // $form = $this->createForm(StagiaireType::class, $stagiaire,[
+        //     "list_commune" => $content
+        // ]);
         // dd($this->searchService);
         $form = $this->createForm(StagiaireType::class, $stagiaire);
         // dd($request->request);

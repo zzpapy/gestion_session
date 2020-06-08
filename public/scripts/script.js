@@ -137,43 +137,57 @@ $(document).keydown(function (e) {
     }
 });
 
-// const searchClient = algoliasearch(
-//     'latency',
-//     '94a2f57396b45e4153113af04823808a'
-//   );
+function readURL(input) {
+if (input.files && input.files[0]) {
+var reader = new FileReader()
+
+reader.onload = function (e) {
+    $('#blah').attr('src', e.target.result)
+}
+
+reader.readAsDataURL(input.files[0])
+}
+}
+$( function() {
+} );
+
+const searchClient = algoliasearch(
+    'latency',
+    '94a2f57396b45e4153113af04823808a'
+  );
   
-//   const search = instantsearch({
-//     indexName: 'movies',
-//     searchClient,
-//   });
+  const search = instantsearch({
+    indexName: 'commune',
+    searchClient,
+  });
   
-//   search.addWidgets([
-//     {
-//       init(opts) {
-//         const helper = opts.helper;
-//         const input = document.querySelector('#stagiaire_ville');
-//         console.log(opts)
-//         input.addEventListener('input', ({currentTarget}) => {
-//           helper.setQuery(currentTarget.value) // update the parameters
-//                 .search(); // launch the query
-//         });
-//       }
-//     },
-//     {
-//       render(options) {
-//         const results = options.results;
-//         console.log(results)
-//         // read the hits from the results and transform them into HTML.
-//         document.querySelector('#hits').innerHTML = results.hits
-//           .map(
-//             hit => `<p>${instantsearch.highlight({ attribute: 'nom', hit })}</p>`
-//           )
-//           .join('');
-//       },
-//     }
-//   ]);
+  search.addWidgets([
+    {
+      init(opts) {
+        const helper = opts.helper;
+        const input = document.querySelector('#stagiaire_ville');
+        console.log(opts)
+        input.addEventListener('input', ({currentTarget}) => {
+          helper.setQuery(currentTarget.value) // update the parameters
+                .search(); // launch the query
+        });
+      }
+    },
+    {
+      render(options) {
+        const results = options.results;
+        console.log(results)
+        // read the hits from the results and transform them into HTML.
+        document.querySelector('#hits').innerHTML = results.hits
+          .map(
+            hit => `<p>${instantsearch.highlight({ attribute: 'nom', hit })}</p>`
+          )
+          .join('');
+      },
+    }
+  ]);
   
-//   search.start();
+  search.start();
 
 //   const data_url =
 //   "https://raw.githubusercontent.com/algolia/datasets/master/movies/actors.json";

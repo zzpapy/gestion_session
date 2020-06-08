@@ -105,6 +105,9 @@
     "doctrine/reflection": {
         "version": "1.2.1"
     },
+    "doctrine/sql-formatter": {
+        "version": "1.1.0"
+    },
     "dompdf/dompdf": {
         "version": "v0.8.5"
     },
@@ -113,9 +116,6 @@
     },
     "h4cc/wkhtmltopdf-amd64": {
         "version": "0.12.4"
-    },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
     },
     "knplabs/knp-snappy": {
         "version": "v1.2.1"
@@ -435,6 +435,9 @@
         "version": "v1.17.0"
     },
     "symfony/polyfill-php73": {
+        "version": "v1.17.0"
+    },
+    "symfony/polyfill-php80": {
         "version": "v1.17.0"
     },
     "symfony/process": {

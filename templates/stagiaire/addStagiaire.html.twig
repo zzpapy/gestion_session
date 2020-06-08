@@ -24,23 +24,4 @@
     {{ form_row(form.submit) }}
 {{ form_end(form) }}
 {% endblock %}
-{% block javascripts %}
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
-    <script>
-        function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader()
-  
-        reader.onload = function (e) {
-            $('#blah').attr('src', e.target.result)
-        }
-  
-        reader.readAsDataURL(input.files[0])
-    }
-  }
-  $( function() {
-} );
-</script>
-<script src="{{ asset('scripts/script.js') }}"></script>
-{% endblock %}
+
