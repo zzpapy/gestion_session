@@ -19,6 +19,11 @@
             {% endfor %}
         </div>
         
+            {% for programme in form.programmes %}
+            {{ form_row(programme) }}
+            {% endfor %}
+        
+        
 <input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
 
     </div>

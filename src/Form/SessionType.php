@@ -9,32 +9,35 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class SessionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // dump($options["data"]->getDateDebut());die;
+        // dump($options["programmes"]);die;
         $builder
             ->add('nom')
             ->add('date_debut',DateType::class, [
-                'years' => range(date('Y'), date('Y')+10),
-                'format' => 'dd-MM-yyyy ',
-                'html5'  => false,
-                'data' => $options["data"]->getDateDebut(),
-                'placeholder' => [
-                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
-                ]
+                'widget' => 'single_text',
+                // 'years' => range(date('Y'), date('Y')+10),
+                // 'format' => 'dd-MM-yyyy ',
+                // 'html5'  => false,
+                // 'data' => $options["data"]->getDateDebut(),
+                // 'placeholder' => [
+                //     'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                // ]
                 // "data" => new \DateTime()
             ])
             ->add('date_fin',DateType::class, [
-                'years' => range(date('Y'), date('Y')+10),
-                'format' => 'dd-MM-yyyy ',
-                'html5'  => false,
-                'data' => $options["data"]->getDateFin(),
-                'placeholder' => [
-                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
-                ]
+                'widget' => 'single_text',
+                // 'years' => range(date('Y'), date('Y')+10),
+                // 'format' => 'dd-MM-yyyy ',
+                // 'html5'  => false,
+                // 'data' => $options["data"]->getDateFin(),
+                // 'placeholder' => [
+                //     'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                // ]
             ])
             ->add('nb_places')
             ->add('stagiaires', EntityType::class, [
@@ -47,6 +50,17 @@ class SessionType extends AbstractType
                 'expanded' =>true,
                 "by_reference" => false
             ])
+            ->add('programmes', CollectionType::class, [
+                'entry_type' => ProgrammeType::class,
+                'entry_options' => [
+                    'attr' => ['class' => 'programme'],
+                ],
+                // 'required' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                // 'by_reference' => false
+            ])
         ;
     }
 
@@ -54,6 +68,7 @@ class SessionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Session::class,
+            "programmes" => null
         ]);
     }
 }

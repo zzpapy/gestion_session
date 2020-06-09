@@ -75,4 +75,8 @@ class Programme
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->getModule()->getNom()."-".$this->getDuree();
+    }
 }
