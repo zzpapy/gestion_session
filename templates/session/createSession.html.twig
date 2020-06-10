@@ -18,16 +18,50 @@
                     {{ form_row(stagiaire) }}
             {% endfor %}
         </div>
-        
+        <ul id="programmes"
+            data-prototype="{{ form_widget(form.programmes.vars.prototype)|e }}"
+            data-widget-tags="{{ '<li></li>'|e }}"
+            data-widget-counter="{{ form.programmes|length }}">
             {% for programme in form.programmes %}
-            {{ form_row(programme) }}
+                <li>
+                    {{ form_errors(programme) }}
+                    {{ form_row(programme) }}
+                </li>
             {% endfor %}
-        
-        
-<input class="border border-dark rounded d-inline-block p-1 mt-1 mb-2 bg-light text-dark" type="submit">
-
+        </ul>
+    <button type="button"
+        class="newProgramme"
+        data-list-selector="#programmes-fields-list">Ajouter un programme
+        </button>
     </div>
 </div>
 {{ form_end(form) }}
 
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('.newProgramme').click(function (e) {
+                var list = $("#programmes");
+                // Try to find the counter of the list or use the length of the list
+                var counter = list.data('widget-counter') || list.children().length;
+
+                // grab the prototype template
+                var newWidget = list.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+                counter++;
+                // And store it, the length cannot be used if deleting widgets is allowed
+                list.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+                newElem.appendTo(list);
+            });
+        });
+    </script>  
 {% endblock %}

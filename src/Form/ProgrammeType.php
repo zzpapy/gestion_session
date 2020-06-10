@@ -20,10 +20,10 @@ class ProgrammeType extends AbstractType
             ->add('module', EntityType::class, [
                 'class' =>Module::class,
                 'choice_label' => 'nom',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.nom', 'ASC');
-                },
+                // 'query_builder' => function (EntityRepository $er) {
+                //     return $er->createQueryBuilder('u')
+                //         ->orderBy('u.nom', 'ASC');
+                // },
                 
             ])
             

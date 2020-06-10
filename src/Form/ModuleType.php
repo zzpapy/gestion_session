@@ -21,10 +21,10 @@ class ModuleType extends AbstractType
             ->add('categorie', EntityType::class, [
                 'class' =>Categorie::class,
                 'choice_label' => 'nom',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.nom', 'ASC');
-                },
+                // 'query_builder' => function (EntityRepository $er) {
+                //     return $er->createQueryBuilder('u')
+                //         ->orderBy('u.nom', 'ASC');
+                // },
                 // 'multiple' =>false,
                 // 'expanded' =>true,
                 // "by_reference" => false,

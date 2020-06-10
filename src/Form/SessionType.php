@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class SessionType extends AbstractType
@@ -58,8 +59,11 @@ class SessionType extends AbstractType
                 // 'required' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'prototype' => true,
-                // 'by_reference' => false
+                // 'prototype' => true,
+                'by_reference' => false
+            ])
+            ->add('submit', SubmitType::class, [
+                "label" => "Ajouter",
             ])
         ;
     }

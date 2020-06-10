@@ -56,14 +56,15 @@
                 <th scope="col">Module</th>
                 <th scope="col">Duree</th>
                 <th scope="col"></th>
+               
                 <tbody>
-                    {% for  key,cat in tab |sort((a, b) => b <=> a)  %}
+                    {% for  key,cat in tab   %}
                     <tr class="title_cat">
                         <td colspan="3">
                             {{key}}
                         </td>
                     </tr>   
-                        {% for programme in cat  %}
+                        {% for programme in cat|sort  %}
                         <tr id="programme_{{programme.id}}">
                             <td>{{programme.module.nom}}</td>
                             <td>

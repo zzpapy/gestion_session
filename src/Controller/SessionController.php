@@ -66,8 +66,9 @@ class SessionController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $dateDeb = $request->request->get("session")["date_debut"];
             $dateFin = $request->request->get("session")["date_fin"];
-            $dateDeb = new \Datetime(implode('-',$dateDeb));
-            $dateFin = new \Datetime(implode('-',$dateFin));
+            // dd( $request->request);
+            // $dateDeb = new \Datetime(implode('-',$dateDeb));
+            // $dateFin = new \Datetime(implode('-',$dateFin));
             if($dateFin < $dateDeb || $dateFin == $dateDeb){
                     $this->addFlash('error', 'le date de fin de session ne peut inférieure à celle du début !!!');
                     return $this->redirectToRoute('createSession');
@@ -147,6 +148,8 @@ class SessionController extends AbstractController
                 $tab[$programme->getModule()->getCategorie()->getNom()] = [$programme];
             }
         }
+        ksort($tab);
+        dump($tab);
         $tps_session = 0;
         foreach ($session->getProgrammes() as $value) {
             $tps = $value->getDuree();
