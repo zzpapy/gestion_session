@@ -54,6 +54,16 @@ class Session
      */
     private $vacances;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numSalle;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=SessionMat::class, mappedBy="session")
+     */
+    private $sessionMats;
+
    
 
     public function __construct()
@@ -61,6 +71,7 @@ class Session
         $this->stagiaires = new ArrayCollection();
         $this->programmes = new ArrayCollection();
         $this->vacances = new ArrayCollection();
+        $this->sessionMats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,6 +236,46 @@ class Session
             $nb = "formation complète";
         }
         return $this->nom." du : ".$this->date_debut->format('d-m-Y')." au : ".$this->date_fin->format('d-m-Y')." nb places : ".$nb;
+    }
+
+    public function getNumSalle(): ?int
+    {
+        return $this->numSalle;
+    }
+
+    public function setNumSalle(?int $numSalle): self
+    {
+        $this->numSalle = $numSalle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SessionMat[]
+     */
+    public function getSessionMats(): Collection
+    {
+        return $this->sessionMats;
+    }
+
+    public function addSessionMat(SessionMat $sessionMat): self
+    {
+        if (!$this->sessionMats->contains($sessionMat)) {
+            $this->sessionMats[] = $sessionMat;
+            $sessionMat->addSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSessionMat(SessionMat $sessionMat): self
+    {
+        if ($this->sessionMats->contains($sessionMat)) {
+            $this->sessionMats->removeElement($sessionMat);
+            $sessionMat->removeSession($this);
+        }
+
+        return $this;
     }
 
     

@@ -103,9 +103,9 @@ class ProgrammeController extends AbstractController
         }
         $module = new Module();
         $formModule = $this->createForm(ModuleType::class, $module);
-        
         $formModule->handleRequest($request);
         if($formModule->isSubmitted() && $formModule->isValid()){
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($module);
             $em->flush();
