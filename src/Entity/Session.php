@@ -45,7 +45,7 @@ class Session
     private $stagiaires;
 
     /**
-     * @ORM\OneToMany(targetEntity=Programme::class, mappedBy="session",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Programme::class, mappedBy="session", orphanRemoval=true,cascade={"persist"})
      */
     private $programmes;
 

@@ -57,6 +57,7 @@ class SessionType extends AbstractType
                     'attr' => ['class' => 'programme'],
                 ],
                 // 'required' => false,
+                "label" => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 // 'prototype' => true,

@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Nouvelle session{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form, {'class': 'uk-form-stacked'} ) }}
+        <div>{{ form_row(form.beginDate) }}</div>
+        <div>{{ form_row(form.endDate) }}</div>
+        <div>{{ form_row(form.title) }}</div>
+        <div>{{ form_row(form.stagiaires) }}</div>
+        {# cette balise va contenir la collection de ProgrammeType #}
+        <div id="programmes"
+            {# le modele HTML de chaque formulaire ProgrammeType #}
+            data-prototype="{{ form_widget(form.programmes.vars.prototype)|e }}"
+            {# la balise dans laquelle chaque nouveau formulaire ProgrammeType devra s'insérer #}
+            data-widget-tags="{{ '<div class="programmeForm"></div>'|e }}"
+            {# un compteur permettant de mettre un numéro unique à chaque formulaire #}
+            data-widget-counter="{{ form.programmes|length }}">
+            {# dans le cas d'une édition, cette boucle affichera les programmes sous
+            forme de ProgrammeType déjà présents dans l'entité Session #}
+            {% for programme in form.programmes %}
+                <div class="programmeForm">
+                    {{ form_errors(programme) }}
+                    {{ form_widget(programme) }}
+                </div>
+            {% endfor %}
+            {# le bouton JS qui permettra d'ajouter un nouveau ProgrammeType à la collection #}
+            <button id='addButton'>Ajouter un programme</button>
+        </div>
+    {{ form_end(form) }}
+    
+{% endblock %}
+  <div>
+        {{ form_start(form) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.date_debut) }}
+        {{ form_row(form.date_fin) }}
+    </div>
+    <div>
+        {{ form_row(form.nb_places) }}
+        <div class="flex list_stag">
+            {% for stagiaire in form.stagiaires %}             
+                    {{ form_row(stagiaire) }}
+            {% endfor %}
+        </div>
+        <div id="programmes"
+            {# le modele HTML de chaque formulaire ProgrammeType #}
+            data-prototype="{{ form_widget(form.programmes.vars.prototype)|e }}"
+            {# la balise dans laquelle chaque nouveau formulaire ProgrammeType devra s'insérer #}
+            data-widget-tags="{{ '<div class="programmeForm"></div>'|e }}"
+            {# un compteur permettant de mettre un numéro unique à chaque formulaire #}
+            data-widget-counter="{{ form.programmes|length }}">
+            {# dans le cas d'une édition, cette boucle affichera les programmes sous
+            forme de ProgrammeType déjà présents dans l'entité Session #}
+            {% for programme in form.programmes %}
+                <div class="programmeForm">
+                    {{ form_errors(programme) }}
+                    {{ form_widget(programme) }}
+                </div>
+            {% endfor %}
+            {# le bouton JS qui permettra d'ajouter un nouveau ProgrammeType à la collection #}
+            <button id='addButton'>Ajouter un programme</button>
+        </div>
+       
+        <!-- <button id='addButton'>Ajouter un programme</button> -->
+    <!-- <button type="button"
+        class="newProgramme"
+        data-list-selector="#programmes-fields-list">Ajouter un programme
+        </button> -->
+    
+</div>
+{{ form_end(form) }}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        /*cette fonction prend en charge deux choses :
+            - la création d'un bouton "supprimer" pour chaque ProgrammeType
+            - la gestion de l'évènement click qui pourra survenir
+
+            $form = un formulaire ProgrammeType
+        */
+        function putDeleteButton($form) {
+            //on créé un élément HTML bouton
+            let $deleteButton = $('<button type="button">Supprimer</button>')
+            //on l'ajoute à la fin du contenu du formulaire en paramètre
+            $form.append($deleteButton)
+            //et on lui accroche un évènement click
+            $deleteButton.on('click', function() {
+                //qui supprimera du DOM le formulaire en question
+                $form.remove()
+            })
+        }
+        //lorsque la page est totalement interpretée par le navigateur
+        //DOM construit à 100%
+        $(document).ready(function(){
+            // on récupère l'élément HTML qui contient tous les ProgrammeType
+            $collectionForms = $('#programmes');
+
+            // pour chaque ProgrammeType à l'intérieur, on applique la fonction
+            // putDeleteButton() 
+            $collectionForms.find('.programmeForm').each(function() {
+                putDeleteButton($(this));
+            });
+            //on récupère dans une variable le bouton #addButton
+            let $addButton = $("#addButton")
+            
+            //fonction qui va gérer tout ce qui se passe lorsqu'on appuie sur le bouton
+            //"ajouter un programme"
+            $addButton.on("click", (event) => {
+                //il faut désactiver l'event par défaut de ce bouton
+                //sinon, il se comportera comme un bouton submit
+                event.preventDefault()
+                //on stocke dans une variable le prototype contenu dans la collection
+                //aka : le modèle HTML d'un ProgrammeType coté client
+                let $newProgrammeForm = $("#programmes").data("prototype")
+                //on créé un compteur qui contient le nombre d'enfants de la collection
+                let counter = $("#programmes").children().length
+                /*ici, plusieurs choses se passent :
+                    - la variable $newProgrammeForm contiendra l'élément du DOM du nouveau ProgrammeType
+                    - cet élément a au préalable été modifié grâce à la fonction replace = on a remplacé les
+                        chaines de caractères '__name__' présentes dans le prototype par la valeur du compteur
+                */
+                $newProgrammeForm = $($newProgrammeForm.replace(/__name__/g, counter))
+                //on applique la fonction putDeleteButton à ce nouveau ProgrammeType
+                //afin qu'il dispose d'un bouton Supprimer
+                putDeleteButton($newProgrammeForm)
+                //POUR FINIR
+                //On ajoute à la fin du contenu actuel de la collection
+                $("#programmes").append(
+                    //le nouveau ProgrammeType transformé en élément HTML, entouré des deux
+                    //balises renseignées dans l'attribut data-widget-tags de la collection
+                    //(voir le html ci-dessus)
+                    $($("#programmes").data("widget-tags")).html($newProgrammeForm)
+                )
+                //et on déplace le bouton "ajouter un programme" à la fin du contenu de la collection
+                $("#programmes").append($addButton)
+            })
+        })
+    </script>
+{% endblock %}

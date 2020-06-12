@@ -5,63 +5,70 @@
 {% block body %}
 {# {{form(form)}} #}
 <div class="container prog">
-    <div>
-        {{ form_start(form) }}
-        {{ form_row(form.nom) }}
-        {{ form_row(form.date_debut) }}
-        {{ form_row(form.date_fin) }}
+    {{ form_start(form, {'class': 'uk-form-stacked'} ) }}
+    <div>{{ form_row(form.date_debut) }}</div>
+    <div>{{ form_row(form.date_fin) }}</div>
+    <div>{{ form_row(form.nom) }}</div>
+    <div>{{ form_row(form.stagiaires) }}</div>
+    <div id="programmes"
+        data-prototype="{{ form_widget(form.programmes.vars.prototype)|e }}"
+        data-widget-tags="{{ '<div class="programmeForm"></div>'|e }}"
+        data-widget-counter="{{ form.programmes|length }}">
+        {% for programme in form.programmes %}
+            <div class="programmeForm">
+                {{ form_errors(programme) }}
+                {{ form_widget(programme) }}
+            </div>
+        {% endfor %}
+        <button id='addButton'>Ajouter un programme</button>
     </div>
-    <div>
-        {{ form_row(form.nb_places) }}
-        <div class="flex list_stag">
-            {% for stagiaire in form.stagiaires %}             
-                    {{ form_row(stagiaire) }}
-            {% endfor %}
-        </div>
-        <ul id="programmes"
-            data-prototype="{{ form_widget(form.programmes.vars.prototype)|e }}"
-            data-widget-tags="{{ '<li></li>'|e }}"
-            data-widget-counter="{{ form.programmes|length }}">
-            {% for programme in form.programmes %}
-                <li>
-                    {{ form_errors(programme) }}
-                    {{ form_row(programme) }}
-                </li>
-            {% endfor %}
-        </ul>
-    <button type="button"
-        class="newProgramme"
-        data-list-selector="#programmes-fields-list">Ajouter un programme
-        </button>
-    </div>
-</div>
 {{ form_end(form) }}
+</div>
 
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $(document).ready(function () {
-            $('.newProgramme').click(function (e) {
-                var list = $("#programmes");
-                // Try to find the counter of the list or use the length of the list
-                var counter = list.data('widget-counter') || list.children().length;
-
-                // grab the prototype template
-                var newWidget = list.attr('data-prototype');
-                // replace the "__name__" used in the id and name of the prototype
-                // with a number that's unique to your emails
-                // end name attribute looks like name="contact[emails][2]"
-                newWidget = newWidget.replace(/__name__/g, counter);
-                // Increase the counter
-                counter++;
-                // And store it, the length cannot be used if deleting widgets is allowed
-                list.data('widget-counter', counter);
-
-                // create a new list element and add it to the list
-                var newElem = $(list.attr('data-widget-tags')).html(newWidget);
-                newElem.appendTo(list);
+        function putDeleteButton($form) {
+            let $deleteButton = $('<button type="button">Supprimer</button>')
+            $form.append($deleteButton)
+            $deleteButton.on('click', function() {
+                $form.remove()
+            })
+        }
+        $(document).ready(function(){
+            $collectionForms = $('#programmes');
+            $collectionForms.find('.programmeForm').each(function() {
+                putDeleteButton($(this));
             });
-        });
+            let $addButton = $("#addButton")
+            $addButton.on("click", (event) => {
+                event.preventDefault()
+                let $newProgrammeForm = $("#programmes").data("prototype")
+                let counter = $("#programmes").children().length
+                $newProgrammeForm = $($newProgrammeForm.replace(/__name__/g, counter))
+                putDeleteButton($newProgrammeForm)
+                $("#programmes").append(
+                    $($("#programmes").data("widget-tags")).html($newProgrammeForm)
+                )
+                $("#programmes").append($addButton)
+            })
+        })
+    </script>
+    <script>
+        // $(document).ready(function () {
+        //     $('#addButton').click((event) => {
+        //         event.preventDefault()
+        //         console.log('toto')
+        //         var list = $("#programmes");
+        //         var counter = list.data('widget-counter') || list.children().length;
+        //         var newWidget = list.attr('data-prototype');
+        //         newWidget = newWidget.replace(/__name__/g, counter);
+        //         counter++;
+        //         list.data('widget-counter', counter);
+        //         var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+        //         newElem.appendTo(list);
+        //     });
+        // });
     </script>  
 {% endblock %}

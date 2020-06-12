@@ -14,7 +14,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategorieController extends AbstractController
 {
+    
+
      /**
+      * @Route("/admin/session/creaCategorie", name="creaCategorie"))
       * @Route("/admin/session/ModifCategorie/{id}", name="ModifCategorie"))
      */
     public function mofifCategorie(Request $request,Categorie $categorie = null)
