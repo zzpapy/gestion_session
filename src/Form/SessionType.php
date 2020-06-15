@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Salle;
 use App\Entity\Session;
 use App\Entity\Stagiaire;
 use Symfony\Component\Form\AbstractType;
@@ -47,6 +48,15 @@ class SessionType extends AbstractType
                     $nom = $choice->getNom();
                     return ucfirst($nom);
                 },
+                'multiple' =>true,
+                'expanded' =>true,
+                "by_reference" => false
+            ])
+            ->add('salle', EntityType::class, [
+                'class' =>Salle::class,
+                // 'choice_label' => function ($choice, $key, $value) {               
+                //     $nom = $choice->getNumero();
+                // },
                 'multiple' =>true,
                 'expanded' =>true,
                 "by_reference" => false

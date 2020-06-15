@@ -55,14 +55,12 @@ class Session
     private $vacances;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToMany(targetEntity=Salle::class, inversedBy="sessions",cascade={"persist"})
      */
-    private $numSalle;
+    private $salle;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=SessionMat::class, mappedBy="session")
-     */
-    private $sessionMats;
+    
+   
 
    
 
@@ -72,6 +70,7 @@ class Session
         $this->programmes = new ArrayCollection();
         $this->vacances = new ArrayCollection();
         $this->sessionMats = new ArrayCollection();
+        $this->salle = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -238,45 +237,35 @@ class Session
         return $this->nom." du : ".$this->date_debut->format('d-m-Y')." au : ".$this->date_fin->format('d-m-Y')." nb places : ".$nb;
     }
 
-    public function getNumSalle(): ?int
-    {
-        return $this->numSalle;
-    }
-
-    public function setNumSalle(?int $numSalle): self
-    {
-        $this->numSalle = $numSalle;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|SessionMat[]
+     * @return Collection|Salle[]
      */
-    public function getSessionMats(): Collection
+    public function getSalle(): Collection
     {
-        return $this->sessionMats;
+        return $this->salle;
     }
 
-    public function addSessionMat(SessionMat $sessionMat): self
+    public function addSalle(Salle $salle): self
     {
-        if (!$this->sessionMats->contains($sessionMat)) {
-            $this->sessionMats[] = $sessionMat;
-            $sessionMat->addSession($this);
+        if (!$this->salle->contains($salle)) {
+            $this->salle[] = $salle;
         }
 
         return $this;
     }
 
-    public function removeSessionMat(SessionMat $sessionMat): self
+    public function removeSalle(Salle $salle): self
     {
-        if ($this->sessionMats->contains($sessionMat)) {
-            $this->sessionMats->removeElement($sessionMat);
-            $sessionMat->removeSession($this);
+        if ($this->salle->contains($salle)) {
+            $this->salle->removeElement($salle);
         }
 
         return $this;
     }
+
+    
+
+   
 
     
 }

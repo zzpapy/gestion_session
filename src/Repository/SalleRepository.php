@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\SessionMat;
+use App\Entity\Salle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method SessionMat|null find($id, $lockMode = null, $lockVersion = null)
- * @method SessionMat|null findOneBy(array $criteria, array $orderBy = null)
- * @method SessionMat[]    findAll()
- * @method SessionMat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Salle|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Salle|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Salle[]    findAll()
+ * @method Salle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SessionMatRepository extends ServiceEntityRepository
+class SalleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, SessionMat::class);
+        parent::__construct($registry, Salle::class);
     }
 
     // /**
-    //  * @return SessionMat[] Returns an array of SessionMat objects
+    //  * @return Salle[] Returns an array of Salle objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class SessionMatRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?SessionMat
+    public function findOneBySomeField($value): ?Salle
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

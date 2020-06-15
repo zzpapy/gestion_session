@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Salle;
 use App\Entity\Module;
 use App\Entity\Session;
+use App\Form\SalleType;
+use App\Entity\Materiel;
 use App\Form\ModuleType;
 use App\Entity\Categorie;
 use App\Entity\Programme;
+use App\Form\MaterielType;
 use App\Form\CategorieType;
 use App\Form\ProgrammeType;
 use App\Form\Programme1Type;
@@ -143,6 +147,57 @@ class ProgrammeController extends AbstractController
         return $this->render('session/ModifDuree.html.twig', [
             
             'formProgramme' => $formProgramme->createView(),
+        ]);
+    }
+
+     /**
+     * @Route("/admin/newMat", name="newMat")
+     */
+    public function newMat(Request $request, Materiel $materiel = null,SessionRepository $sessionRep): Response
+    {
+        if(!$materiel){
+            $materiel = new Materiel();
+        }
+        $session = $sessionRep->findOneBy(["id" => $request->get("id_session")]);
+        // dd($session);
+        $formmateriel = $this->createForm(MaterielType::class, $materiel);
+        $formmateriel->handleRequest($request);
+        if($formmateriel->isSubmitted() && $formmateriel->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($materiel);
+            $em->flush();
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('list_mat/newMat.html.twig', [
+            
+            'formmateriel' => $formmateriel->createView(),
+        ]);
+    }
+     /**
+      * @Route("/admin/edit/{id}", name="editSalle")
+     * @Route("/admin/newSalle", name="newSalle")
+     */
+    public function newSalle(Request $request, Salle $salle = null,SessionRepository $sessionRep): Response
+    {
+        if(!$salle){
+            $salle = new Salle();
+        }
+        $session = $sessionRep->findOneBy(["id" => $request->get("id_session")]);
+        
+        $formSalle = $this->createForm(SalleType::class, $salle);
+        if(null !== $request->get("id")){
+            $formSalle->remove("salle");
+        }
+        $formSalle->handleRequest($request);
+        if($formSalle->isSubmitted() && $formSalle->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($salle);
+            $em->flush();
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('list_mat/newSalle.html.twig', [
+            
+            'formSalle' => $formSalle->createView(),
         ]);
     }
     /**

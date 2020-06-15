@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ListMatController!{% endblock %}
+
+{% block body %}
+{{form_start(formSalle)}}
+{{form_row(formSalle.numero)}}
+{{form_row(formSalle.places)}}
+<div id="programmes"
+    data-prototype="{{ form_widget(formSalle.materiels.vars.prototype)|e }}"
+    data-widget-tags="{{ '<div class="programmeForm"></div>'|e }}"
+    data-widget-counter="{{ formSalle.materiels|length }}">
+    {% for programme in formSalle.materiels %}
+        <div class="programmeForm">
+            {{ form_errors(programme) }}
+            {{ form_widget(programme) }}
+        </div>
+    {% endfor %}
+    <button id='addButton'>Ajouter du matériel</button>
+</div>
+{{form_end(formSalle)}}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function putDeleteButton($form) {
+            let $deleteButton = $('<button type="button">Supprimer</button>')
+            $form.append($deleteButton)
+            $deleteButton.on('click', function() {
+                $form.remove()
+            })
+        }
+        $(document).ready(function(){
+            $collectionForms = $('#programmes');
+            $collectionForms.find('.programmeForm').each(function() {
+                putDeleteButton($(this));
+            });
+            let $addButton = $("#addButton")
+            $addButton.on("click", (event) => {
+                event.preventDefault()
+                let $newProgrammeForm = $("#programmes").data("prototype")
+                let counter = $("#programmes").children().length
+                $newProgrammeForm = $($newProgrammeForm.replace(/__name__/g, counter))
+                putDeleteButton($newProgrammeForm)
+                $("#programmes").append(
+                    $($("#programmes").data("widget-tags")).html($newProgrammeForm)
+                )
+                $("#programmes").append($addButton)
+            })
+        })
+    </script>
+{% endblock %}

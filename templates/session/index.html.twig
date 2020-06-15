@@ -11,6 +11,7 @@
         <div  class="title_sess alert alert-dark"> 
             
             <h4>{{thisSession.nom}} <a class="" href="{{path('ModifSession',{id:thisSession.id})}}"><i class="ml-2 far fa-edit"></i></a></h4>
+       
             <a class="" href="{{path('vacances',{id:thisSession.id})}}">Ajouter des vacances</a>
             {% for vacance in vacances %}
             {% set diffVac = vacance.dateDebut.diff(vacance.dateFin) %}
@@ -28,6 +29,7 @@
                     {% set comp = "succes" %}
                     
                 {% endif %}
+                
                 <div class="flex align-middle" >
                     <p class="text-center alert alert-dark">Du {{thisSession.dateDebut| date("d/m/Y")}} au {{thisSession.dateFin| date("d/m/Y")}} soit {{difference.y}} ans {{difference.m}} mois et {{difference.d}} jours
                     <span class="">nb places : {{thisSession.nbPlaces}} -<span class={{comp}}> places restantes : {{places}} </span></span></p>
@@ -41,6 +43,33 @@
                 {% else %}
                     <p> Le programme de formation est complet</p>             
                 {% endif %}
+                <table class="table text-center ">
+                    <thead class="thead-light">
+                        {% set duree = 0 %}                  
+                        <th scope="col">salle</th>
+                        <th scope="col">materiel</th>
+                        <th scope="col"></th>
+                    </thead>                       
+                    <tbody>                       
+                        {% for salle in thisSession.salle %}
+                        <tr>
+                            <td>
+                            <a href="{{path('editSalle',{id:salle.id})}}">
+                                {{salle.numero}}
+                            </a>
+                            </td>
+                            
+                        </tr>
+                        {% for materiel in salle.materiels %}
+                        <tr>
+                            <td></td>
+                            <td>{{materiel.nom}}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endfor %}
+                        
+                    </tbody>
+                </table>                           
             </div>
         </div>
         <h4>Programme
