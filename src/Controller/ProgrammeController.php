@@ -174,7 +174,7 @@ class ProgrammeController extends AbstractController
         ]);
     }
      /**
-      * @Route("/admin/edit/{id}", name="editSalle")
+      * @Route("/admin/edit{id<\d+>}", name="editSalle")
      * @Route("/admin/newSalle", name="newSalle")
      */
     public function newSalle(Request $request, Salle $salle = null,SessionRepository $sessionRep): Response
@@ -183,7 +183,7 @@ class ProgrammeController extends AbstractController
             $salle = new Salle();
         }
         $session = $sessionRep->findOneBy(["id" => $request->get("id_session")]);
-        
+        dd($request->request);
         $formSalle = $this->createForm(SalleType::class, $salle);
         if(null !== $request->get("id")){
             $formSalle->remove("salle");

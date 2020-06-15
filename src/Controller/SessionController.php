@@ -147,7 +147,6 @@ class SessionController extends AbstractController
             }
         }
         ksort($tab);
-        dump($tab);
         $tps_session = 0;
         foreach ($session->getProgrammes() as $value) {
             $tps = $value->getDuree();

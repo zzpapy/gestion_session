@@ -7,10 +7,10 @@
 {{form_row(formSalle.numero)}}
 {{form_row(formSalle.places)}}
 <div id="programmes"
-    data-prototype="{{ form_widget(formSalle.materiels.vars.prototype)|e }}"
+    data-prototype="{{ form_widget(formSalle.salleMateriels.vars.prototype)|e }}"
     data-widget-tags="{{ '<div class="programmeForm"></div>'|e }}"
-    data-widget-counter="{{ formSalle.materiels|length }}">
-    {% for programme in formSalle.materiels %}
+    data-widget-counter="{{ formSalle.salleMateriels|length }}">
+    {% for programme in formSalle.salleMateriels %}
         <div class="programmeForm">
             {{ form_errors(programme) }}
             {{ form_widget(programme) }}

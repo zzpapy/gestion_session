@@ -54,10 +54,7 @@ class Session
      */
     private $vacances;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Salle::class, inversedBy="sessions",cascade={"persist"})
-     */
-    private $salle;
+   
 
     
    
@@ -236,36 +233,4 @@ class Session
         }
         return $this->nom." du : ".$this->date_debut->format('d-m-Y')." au : ".$this->date_fin->format('d-m-Y')." nb places : ".$nb;
     }
-
-    /**
-     * @return Collection|Salle[]
-     */
-    public function getSalle(): Collection
-    {
-        return $this->salle;
-    }
-
-    public function addSalle(Salle $salle): self
-    {
-        if (!$this->salle->contains($salle)) {
-            $this->salle[] = $salle;
-        }
-
-        return $this;
-    }
-
-    public function removeSalle(Salle $salle): self
-    {
-        if ($this->salle->contains($salle)) {
-            $this->salle->removeElement($salle);
-        }
-
-        return $this;
-    }
-
-    
-
-   
-
-    
 }
